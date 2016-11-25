@@ -1,13 +1,15 @@
 <template>
-  <div>{{msg}}</div>
+	
 </template>
-
 <script>
 export default {
   // name: 'hello',
+  components: {
+
+  },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      
     }
   }
 }
