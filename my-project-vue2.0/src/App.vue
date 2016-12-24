@@ -1,28 +1,32 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
+    <!-- <home></home> -->
+    <router-view></router-view>
+    <!-- hello -->
   </div>
 </template>
 
 <script>
 import Hello from './components/Hello'
-
+import Home from './pages/Home'
 export default {
   name: 'app',
   components: {
-    Hello
+    Hello,Home
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+@import './assets/init.css'
+/*公共样式*/
+.wrapper{
+  overflow :hidden; 
+  /*display :relative;*/
+}
+/*App样式*/
+#app{
+  width:100%;
+  height: 100%;
 }
 </style>
