@@ -1,12 +1,12 @@
 <template>
-  <div class="header">
+  <div class="header ztc wrapper">
     <span>{{title}}</span>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'home',
+  name: 'nav-header',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
@@ -26,9 +26,11 @@ export default {
 .header{
 	/*height: 200px;*/
 	width: 100%;
-	height: 2.5rem;
-	background: #2b8ff7;
-	font-size: 1.0rem;
+	height: 5rem;
+	line-height: 5rem;
+	/*background: #2b8ff7;*/
+	font-size: 2.5rem;
 	text-align: center;
+  color: #fff
 }
 </style>
