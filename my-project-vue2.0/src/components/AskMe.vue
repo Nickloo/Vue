@@ -58,7 +58,7 @@ export default {
 	background: #eee;
 }
 .user_name{
-	font-size: 1.8rem;
+	font-size: 2.5rem;
 	margin-left: 2rem;
 }
 .con-box{

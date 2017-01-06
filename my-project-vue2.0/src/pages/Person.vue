@@ -2,7 +2,7 @@
   <div class="body wrapper">
   	<nav-header title="个人"></nav-header>
     <div class="top-card text-center">
-    	<div class="per-logo">
+    	<div class="per-logo wrapper">
     		<img class="fullsrc" :src="per_logo" alt="">
     	</div>
     	<div class="per-name">{{user_name}}</div>

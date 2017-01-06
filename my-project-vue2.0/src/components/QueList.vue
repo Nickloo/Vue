@@ -84,12 +84,12 @@ export default {
 }
 .user-name{
 	float:left;
-	font-size: 2rem;
+	font-size: 2.5rem;
 	margin-left:2rem;
 }
 .content{
 	margin-top:1rem; 
-	font-size: 1.5rem;
+	/*font-size: 1.6rem;*/
 	height: 6.7rem;
 }
 .answer{
