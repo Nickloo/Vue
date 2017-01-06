@@ -5,7 +5,7 @@
 	  	<div class="user-logo">
 	    	<img class="fullsrc" :src="data.user_logo">
 	    </div>
-	    <span class="user_name">{{data.user_name}}</span>
+	    <span class="user_name title-font">{{data.user_name}}</span>
 	  </div>
 	  <div class="con-box over">
 	  	{{data.que_con}}
@@ -58,9 +58,8 @@ export default {
 	background: #eee;
 }
 .user_name{
-	font-size: 0.9rem;
 	margin-left: 1rem;
-	font-weight: 600
+	font-weight: 600;
 }
 .con-box{
 	margin-top: 0.5rem;

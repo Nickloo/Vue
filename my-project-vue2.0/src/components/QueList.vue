@@ -4,9 +4,9 @@
 	  	<div class="user-logo wrapper" >
 	    	<img :src="item.user_logo" style="height:100%;width:100%">
 	    </div>
-	    <div class="user-name">{{item.user_name}}</div>
+	    <div class="user-name title-font">{{item.user_name}}</div>
 	</div>
-	<div class="content over">
+	<div class="content over padding-10">
 	    	{{item.que_content}}
 	</div>
 	<div class="answer ztc wrapper">
@@ -79,18 +79,19 @@ export default {
 }
 .user-logo{
 	float:left;
-	/*margin-left: 1.0rem;*/
 	background:#eee
 }
 .user-name{
 	float:left;
-	font-size: 1rem;
 	margin-left:1rem;
 }
 .content{
 	margin-top:0.5rem; 
 	font-size: 0.75rem;
 	height: 3.5rem;
+	/*padding-left: 0.5rem;
+	padding-right: 0.5rem;*/
+	/*margin-left:2rem;*/
 }
 .answer{
 	margin-top:0.5rem; 
@@ -99,7 +100,6 @@ export default {
 	width:100%;
 	border-radius: 0.75rem;
 	overflow: hidden;
-	
 }
 .play{
 	margin-left:1rem;

@@ -32,6 +32,9 @@ div{
 .padding-20{
   padding:0 1.0rem;
 }
+.padding-10{
+  padding:0 0.5rem;
+}
 .float-left{
   float: left;
 }
@@ -47,6 +50,9 @@ div{
 .wrapper{
   overflow:hidden; 
   /*display :relative;*/
+}
+.title-font{
+  font-size: 1.0rem
 }
 .ztc{
   background: #2b8ff7;
