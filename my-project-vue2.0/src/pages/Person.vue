@@ -1,8 +1,8 @@
 <template>
-  <div class="body wrapper">
+  <div class="body wrapper body-top">
   	<nav-header title="个人"></nav-header>
     <div class="top-card text-center">
-    	<div class="per-logo">
+    	<div class="per-logo" @click="goMsg">
     		<img class="fullsrc" :src="per_logo" alt="">
     	</div>
     	<div class="per-name">{{user_name}}</div>
@@ -37,7 +37,7 @@
       <ask-me v-if="index == 0" :data="ask_data"></ask-me>
     </div>
     <ask-card v-if="index == 1"></ask-card>
-    <div class="bom"></div>
+    <!-- <div class="bom"></div> -->
   </div>
 </template>
 
@@ -62,19 +62,19 @@ export default {
       ask_datas:[
         {
           user_name:'张三',
-          user_logo:'http://img5.duitang.com/uploads/item/201508/19/20150819011950_zEJuN.jpeg',
+          user_logo:'http://www.zhiyinmusic.cn/cimg/bd118987818.jpg',
           que_con:'正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。',
           que_id:'1'
         },
         {
           user_name:'李四',
-          user_logo:'http://img5.duitang.com/uploads/item/201508/19/20150819011950_zEJuN.jpeg',
+          user_logo:'http://www.zhiyinmusic.cn/cimg/bd118987818.jpg',
           que_con:'正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。',
           que_id:'2'
         },
         {
           user_name:'王五',
-          user_logo:'http://img5.duitang.com/uploads/item/201508/19/20150819011950_zEJuN.jpeg',
+          user_logo:'http://www.zhiyinmusic.cn/cimg/bd118987818.jpg',
           que_con:'正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。',
           que_id:'3'
         }
@@ -85,7 +85,10 @@ export default {
   	changPage(id){
   		this.index=id
   		// this.$router.push('/home')
-  	}
+  	},
+    goMsg(){
+      this.$router.push('/setmsg')
+    }
   }
 }
 </script>
@@ -94,44 +97,44 @@ export default {
 <style scoped>
 .top-card{
 	overflow: hidden;
-	height: 26rem;
+	height: 13rem;
 	background: #fff;
-	padding-top:2.5rem;
+	padding-top:1.25rem;
 }
 .per-logo{
-	height:10.0rem;
-	width: 10.0rem;
-	border-radius: 10.0rem;
+	height:5.0rem;
+	width: 5.0rem;
+	/*border-radius: 10.0rem;*/
 	background: #eee;
 	margin:0 auto;
 }
 .per-name{
-	font-size: 2rem;
-	margin-top: 1.0rem
+	font-size: 1rem;
+	margin-top: 0.5rem
 }
 .card-bom{
-	padding-top: 0.5rem;
+	padding-top: 0.25rem;
 	width:100%;
 	/*background: blue;*/
-	height: 7rem;
-	margin-top:5rem;
+	height: 3.5rem;
+	margin-top:2.5rem;
 }
 .sel-box{
 	float: left;
 	height: 100%;
 	width: 25%;
 	text-align:center;
-	font-size: 1.8rem;
+	font-size: 0.9rem;
 	/*background: red*/
 }
 .bom-card{
 	/*overflow: hidden;*/
 	width:100%;
-	margin-top: 2.5rem;
-	height: 5rem;
-	line-height: 5rem;
+	margin-top: 1.25rem;
+	height: 2.5rem;
+	line-height: 2.5rem;
 	background: #fff;
-	font-size: 1.8rem
+	font-size: 0.9rem
 }
 .sel-page{
 	float:left;

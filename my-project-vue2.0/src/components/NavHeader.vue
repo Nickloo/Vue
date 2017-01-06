@@ -1,5 +1,6 @@
 <template>
   <div class="header ztc wrapper">
+    <span class="back" @click="$router.go(-1)" v-if="back">返回</span>
     <span>{{title}}</span>
   </div>
 </template>
@@ -16,7 +17,13 @@ export default {
   	title:{
   		type:String,
   		default:'',
-  	}
+  	},
+    back:{
+      type:Boolean,
+      default(){
+        return false
+      }
+    }
   }
 }
 </script>
@@ -26,11 +33,20 @@ export default {
 .header{
 	/*height: 200px;*/
 	width: 100%;
-	height: 5rem;
-	line-height: 5rem;
+	height: 2rem;
+	line-height: 2rem;
 	/*background: #2b8ff7;*/
-	font-size: 2.5rem;
+	font-size: 1.25rem;
 	text-align: center;
-  color: #fff
+  color: #fff;
+  position: fixed;
+  top:0;
+  z-index: 1000;
+  /*margin-bottom: 5rem;*/
+}
+.back{
+  position: absolute;
+  left: 1rem;
+  font-size:16px
 }
 </style>

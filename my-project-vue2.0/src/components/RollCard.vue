@@ -35,7 +35,7 @@ export default {
 		    direction: 'horizontal',
 		    loop: true,
 		    slidesPerView:1,
-		    // autoplay: 3000,
+		    autoplay: 3000,
 		    pagination: '.swiper-pagination',
 	})
   }
@@ -46,7 +46,7 @@ export default {
 <style scoped>
 @import '../assets/swiper/swiper.min.css';
 .body{
-	height: 20rem;
+	height: 10rem;
 	background: red;
 }
 
@@ -56,7 +56,7 @@ export default {
 }
 .swiper-container{
 	position: relative;
-	height: 20rem;
+	height: 10rem;
 	padding-bottom: 0;
 	text-align: center;
 }

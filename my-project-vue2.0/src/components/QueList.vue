@@ -12,7 +12,7 @@
 	<div class="answer ztc wrapper">
 		<i class="iconfont play" v-if="!play" @click="player">&#xe601;</i>
 		<i class="iconfont play" v-if="play" @click="player">&#xe600;</i>
-		<span style="float:right;margin-right:2rem;font-size:2rem">12:00</span>
+		<span style="float:right;margin-right:1rem;font-size:0.9rem;color:#fff">12:00</span>
 	</div>
 	<div class="bottom">
 		<span class="fav">{{item.fav_num}}人觉得很赞</span>
@@ -67,14 +67,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .body{
-	height: 21.0rem;
+	height: 10.5rem;
 	background: #fff;
-	margin-top: 0.5rem;
-	padding: 2rem;
+	margin-top: 0.25rem;
+	padding: 1rem;
 }
 .top{
-	height: 5rem;
-	line-height: 5rem;
+	height: 2.5rem;
+	line-height: 2.5rem;
 	width:100%;
 }
 .user-logo{
@@ -84,41 +84,41 @@ export default {
 }
 .user-name{
 	float:left;
-	font-size: 2rem;
-	margin-left:2rem;
+	font-size: 1rem;
+	margin-left:1rem;
 }
 .content{
-	margin-top:1rem; 
-	font-size: 1.5rem;
-	height: 6.7rem;
+	margin-top:0.5rem; 
+	font-size: 0.75rem;
+	height: 3.5rem;
 }
 .answer{
-	margin-top:1rem; 
-	height:5.0rem;
-	line-height: 5.0rem;
+	margin-top:0.5rem; 
+	height:2.0rem;
+	line-height: 2.0rem;
 	width:100%;
-	border-radius: 1.5rem;
+	border-radius: 0.75rem;
 	overflow: hidden;
 	
 }
 .play{
-	margin-left:2rem;
-	margin-top: 1rem;
-	font-size: 2.5rem;
+	margin-left:1rem;
+	margin-top: 0.5rem;
+	font-size: 1.25rem;
 	color:#fff;
 }
 .bottom{
 	width: 100%;
 	/*height: 100%;*/
-	margin-top: 1rem
+	margin-top: 0.5rem
 }
 .fav{
 	float:left;
-	margin-left: 1.5rem;
+	margin-left: 0.75rem;
 }
 .fav-logo{
 	float:right;
-	margin-right: 1rem;
-	font-size: 1.6rem;
+	margin-right: 0.5rem;
+	font-size: 0.8rem;
 }
 </style>

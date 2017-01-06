@@ -1,11 +1,11 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper body-top">
     <nav-header title="首页"></nav-header>
     <roll-card :data="roll_datas"></roll-card>
     <div class="que-list" v-for="itme in queDatas">
     	<que-list :item="itme"></que-list>
     </div>
-	<div class="bom"></div>
+	<!-- <div class="bom"></div> -->
     <!-- <h1>123</h1> -->
     <!-- hello -->
   </div>
@@ -24,30 +24,30 @@ export default {
     return {
       queDatas:[
       	{
-  			user_name:'Tom',
-  			user_logo:'http://www.zhiyinmusic.cn/cimg/bd17324430.jpg',
-  			que_content:'组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 is 特性扩展。',
-  			que_id:'1',
-  			fav_num:'1',
-  		},
-  		{
-  			user_name:'Lisa',
-  			user_logo:'http://imgsrc.baidu.com/forum/w=580/sign=8da0626cbc8f8c54e3d3c5270a2b2dee/f2df44391f30e9249a6838b344086e061f95f7b9.jpg',
-  			que_content:'组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 is 特性扩展。',
-  			que_id:'1',
-  			fav_num:'1',
-  		},
-  		{
-  			user_name:'Jay',
-  			user_logo:'http://v1.qzone.cc/avatar/201408/13/15/44/53eb1770a14ef514.jpg%21200x200.jpg',
-  			que_content:'组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 is 特性扩展。',
-  			que_id:'1',
-  			fav_num:'1',
-  		}
+    			user_name:'Tom',
+    			user_logo:'http://www.zhiyinmusic.cn/cimg/bd17324430.jpg',
+    			que_content:'组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 is 特性扩展。',
+    			que_id:'1',
+    			fav_num:'1',
+    		  },
+  		  {
+    			user_name:'Lisa',
+    			user_logo:'http://www.zhiyinmusic.cn/cimg/bd14132626.jpg',
+    			que_content:'组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 is 特性扩展。',
+    			que_id:'1',
+    			fav_num:'1',
+    		},
+    		{
+    			user_name:'Jay',
+    			user_logo:'http://www.zhiyinmusic.cn/cimg/bd118987818.jpg',
+    			que_content:'组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 is 特性扩展。',
+    			que_id:'1',
+    			fav_num:'1',
+    		}
       ],
       roll_datas:[
         {
-          imgurl:"http://imgsrc.baidu.com/forum/pic/item/968aad8fd8f152b6d439c92e.jpg",
+          imgurl:"http://pic.58pic.com/58pic/13/72/07/55Z58PICKka_1024.jpg",
           contitle:"first"
         },
         {

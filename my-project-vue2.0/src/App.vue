@@ -3,7 +3,9 @@
     <!-- <home></home> -->
     <router-view></router-view>
     <!-- <hello></hello> -->
+    <div class="bom"></div>
     <nav-bottom></nav-bottom>
+
     <!-- hello -->
   </div>
 </template>
@@ -23,6 +25,25 @@ export default {
 <style>
 /*@import './assets/init.css'*/
 /*公共样式*/
+/*顶部*/
+div{
+  position: relative;
+}
+.padding-20{
+  padding:0 1.0rem;
+}
+.float-left{
+  float: left;
+}
+.float-right{
+  float: right;
+}
+.main{
+  background: #fff
+}
+.body-top{
+  margin-top: 2rem
+}
 .wrapper{
   overflow:hidden; 
   /*display :relative;*/
@@ -31,14 +52,14 @@ export default {
   background: #2b8ff7;
 }
 .user-logo{
-  height: 5rem;
-  width: 5rem;
-  border-radius: 5rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 2.5rem;
   overflow: hidden;
 }
 .bom{
   overflow: hidden;
-  margin-bottom: 6rem
+  margin-bottom: 3rem
 }
 .text-center{
   text-align:center;
@@ -69,7 +90,14 @@ a {
       text-decoration: none;
     }
   }
-  a{
-    color: #000
-  }
+a{
+  color: #000
+}
+input,button,select,textarea{
+  outline:none
+}
+body{
+  position: relative;
+}
+
 </style>

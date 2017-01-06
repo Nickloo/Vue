@@ -5,4 +5,6 @@ export default [
   {path: '/home', component: require('./pages/Home.vue')},
   {path: '/person', component: require('./pages/Person.vue')},
   {path: '/consult', component: require('./pages/Consult.vue')},
+  {path: '/setmsg', component: require('./pages/UserSet.vue')},
+  {path: '/quecon', component: require('./pages/QueCon.vue')},
 ]

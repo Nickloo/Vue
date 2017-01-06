@@ -1,6 +1,6 @@
 <template>
   <div class="que-box wrapper">
-  <router-link to="/question">
+  <router-link to="/quecon">
 	  <div class="top-box">
 	  	<div class="user-logo">
 	    	<img class="fullsrc" :src="data.user_logo">
@@ -42,28 +42,29 @@ export default {
 <style scoped>
 .que-box{
 	width: 100%;
-	height: 15.0rem;
+	height: 7.5rem;
 	background: #fff;
-	margin-bottom: 0.5rem;
+	margin-bottom: 0.25rem;
 }
 .top-box{
 	overflow: hidden;
-	height: 5rem;
-	line-height: 5rem;
-	margin-top: 1rem;
-	padding:0 2rem;
+	height: 2.5rem;
+	line-height: 2.5rem;
+	margin-top: 0.5rem;
+	padding:0 1rem;
 }
 .user-logo{
 	float:left;
 	background: #eee;
 }
 .user_name{
-	font-size: 1.8rem;
-	margin-left: 2rem;
+	font-size: 0.9rem;
+	margin-left: 1rem;
+	font-weight: 600
 }
 .con-box{
-	margin-top: 1rem;
-	padding: 0 2rem
+	margin-top: 0.5rem;
+	padding: 0 1rem
 }
 .over{
 	-webkit-line-clamp: 3;

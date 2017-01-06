@@ -42,10 +42,10 @@ export default {
 .bottom-body{
 	position: fixed;
 	bottom:0;
-	margin-top: 0.5rem;
-	height: 5.0rem;
+	margin-top: 0.25rem;
+	height: 2.5rem;
 	width:100%;
-	line-height: 5rem;
+	line-height: 2.5rem;
   color: #fff
 }
 .bottom{
@@ -55,7 +55,7 @@ export default {
 	text-align: center;
 }
 .logo{
-	font-size: 2.5rem;
+	font-size: 1.25rem;
   color: #fff
 }
 .home{

@@ -42,14 +42,14 @@ input::-webkit-input-placeholder {text-align:right}
 .inputbox-body{
 	overflow: hidden;
 	width: 100%;
-	height: 10.0rem;
+	height: 2.5rem;
 	background-color: #fff;
-	font-size: 1.8rem;
+	font-size: 0.9rem;
 }
 .inputbox-title{
 	float: left;
 	line-height: 2.5rem;
-	color: #d4d4d4;
+	color: #eee;
 }
 .item-input{
 	margin-left: 0.25rem;
@@ -58,8 +58,9 @@ input::-webkit-input-placeholder {text-align:right}
 	overflow :hidden
 }
 .inputbox-text{
+	font-size: 0.9rem;
 	float: left;
-	color: #d4d4d4;
+	color: #000;
 	height: 2.5rem;
 	padding-left: 0.5rem;
 	border:0;
