@@ -41,6 +41,7 @@ export default {
   color: #fff;
   position: fixed;
   top:0;
+  /*bottom: 2rem;*/
   z-index: 1000;
   /*margin-bottom: 5rem;*/
 }

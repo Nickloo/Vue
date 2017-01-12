@@ -7,6 +7,9 @@
 <script>
 export default {
   name: 'home',
+  components:{
+  	
+  },
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
@@ -17,7 +20,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.body{
-	height: 0.5rem
-}
+
 </style>

@@ -1,11 +1,13 @@
 <template>
-  <div class="inputbox-body">
-  	<span class="inputbox-title" :style="{color:TitleColor}">{{title}}</span>
-  	<div class="item-input">
-  	<input type="text" class="inputbox-text" :placeholder="placeholder" :name="name" :style="{color:TextColor}" v-model="model"></input>
-
-  	</div>	
+<div class="main wrapper" :style="{padding:padding}">
+	<div class="inputbox-body wrapper">
+  		<span class="inputbox-title" :style="{color:TitleColor}">{{title}}</span>
+	  	<div class="item-input">
+	  		<input v-if="type==='text'" type="text" class="inputbox-text" :placeholder="placeholder" :name="name" :style="{color:TextColor}" v-model="model"></input>
+	  		<input v-if="type==='password'" type="password" class="inputbox-text" :placeholder="placeholder" :name="name" :style="{color:TextColor}"></input>
+	  	</div>	
   </div>
+</div>
 </template>
 
 <script>
@@ -25,8 +27,10 @@ export default {
 		name:{type:String},//输入框name
 		TitleColor:{type:String},//标题颜色
 		TextColor:{type:String},//输入字体颜色
-		model:{type:String},
-		value:{type:String}
+		imodel:{type:String},
+		value:{type:String},
+		type:{type:String,default:'text'},//输入框类型
+		padding:{type:String,default:'0'},//输入框padding
 	},
 	methods:{
 		handleClick(){
@@ -40,7 +44,7 @@ export default {
 <style scoped>
 input::-webkit-input-placeholder {text-align:right}
 .inputbox-body{
-	overflow: hidden;
+	/*overflow: hidden;*/
 	width: 100%;
 	height: 2.5rem;
 	background-color: #fff;
@@ -53,7 +57,7 @@ input::-webkit-input-placeholder {text-align:right}
 }
 .item-input{
 	margin-left: 0.25rem;
-	mix-width:100%;
+	/*mix-width:100%;*/
 	display:block;
 	overflow :hidden
 }
