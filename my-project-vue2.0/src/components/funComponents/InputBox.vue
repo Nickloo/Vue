@@ -38,7 +38,8 @@ export default {
 		
 		if(this.titleId){
 			let title = document.getElementById( this.titleId );
-			title.style.letterSpacing=this.letterSpacing
+			title.style.letterSpacing=this.letterSpacing;
+			title.style.wordSpacing="0.0rem"
 		}
 	},
 	methods:{

@@ -28,8 +28,8 @@ export default {
   },
   methods:{
   	register(){
-  		let password=this.password
-  		let psd_check=this.psd_check
+  		let password=$("input[name='password']").val();
+  		let psd_check=$("input[name='psd_check']").val();
   		if(password===psd_check){
   			this.$router.push("/home")
   		} 		
