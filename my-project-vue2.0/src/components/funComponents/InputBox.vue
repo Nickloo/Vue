@@ -1,9 +1,9 @@
 <template>
 <div class="main wrapper" :style="{padding:padding}">
 	<div class="inputbox-body wrapper">
-  		<span class="inputbox-title" :style="{color:TitleColor}">{{title}}</span>
+  		<span :id="titleId" class="inputbox-title" :style="{color:TitleColor}">{{title}}</span>
 	  	<div class="item-input">
-	  		<input v-if="type==='text'" type="text" class="inputbox-text" :placeholder="placeholder" :name="name" :style="{color:TextColor}" v-model="model"></input>
+	  		<input v-if="type==='text'" type="text" class="inputbox-text" :placeholder="placeholder" :name="name" :style="{color:TextColor}"></input>
 	  		<input v-if="type==='password'" type="password" class="inputbox-text" :placeholder="placeholder" :name="name" :style="{color:TextColor}"></input>
 	  	</div>	
   </div>
@@ -19,6 +19,7 @@ export default {
     }
   },
   props:{
+  		titleId:{type:String,default:null},
 		title:{type:String},//输入框的标题
 		TitleSize:{type:String},
 		btnname:{type:String,default:''},//右侧是否有按钮如果有则写上
@@ -27,10 +28,18 @@ export default {
 		name:{type:String},//输入框name
 		TitleColor:{type:String},//标题颜色
 		TextColor:{type:String},//输入字体颜色
-		imodel:{type:String},
+		// imodel:{type:String,default:'imodel'},
 		value:{type:String},
 		type:{type:String,default:'text'},//输入框类型
 		padding:{type:String,default:'0'},//输入框padding
+		letterSpacing:{type:String,default:'0rem'},//字间距
+	},
+	mounted(){
+		
+		if(this.titleId){
+			let title = document.getElementById( this.titleId );
+			title.style.letterSpacing=this.letterSpacing
+		}
 	},
 	methods:{
 		handleClick(){
