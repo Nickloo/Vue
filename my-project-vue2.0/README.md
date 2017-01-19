@@ -1,6 +1,7 @@
 # my-project-vue2.0
 
 > A Vue.js project
+## 1rem===20px
 
 ## Build Setup
 

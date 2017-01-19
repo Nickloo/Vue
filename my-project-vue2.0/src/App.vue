@@ -4,7 +4,7 @@
     <router-view></router-view>
     <!-- <hello></hello> -->
     <div class="bom"></div>
-    <nav-bottom v-if="!islogin"></nav-bottom>
+    <nav-bottom v-if="is_bom"></nav-bottom>
     <!-- hello -->
   </div>
 </template>
@@ -21,7 +21,7 @@ export default {
   },
   data(){
     return{
-      islogin:true
+      is_bom:true
     }
   },
   beforeUpdate(){
@@ -29,18 +29,18 @@ export default {
   },
   updated(){
     let pathname = window.location.pathname
-    if(pathname==="/login"||pathname==="/register"){
-      this.islogin=true
+    if(pathname==="/home"||pathname==="/consult"||pathname==="/person"){
+      this.is_bom=true
     }else{
-      this.islogin=false
+      this.is_bom=false
     }
   },
   mounted(){
     let pathname = window.location.pathname
-    if(pathname==="/login"||pathname==="/register"){
-      this.islogin=true
+    if(pathname==="/home"||pathname==="/consult"||pathname==="/person"){
+      this.is_bom=true
     }else{
-      this.islogin=false
+      this.is_bom=false
     }
   },
 }
@@ -55,6 +55,9 @@ div{
 }
 body{
   position: relative;
+}
+.padding-bodytop{
+  padding-top: 2.0rem
 }
 .top-1{
   margin-top: 0.05rem
@@ -92,6 +95,7 @@ body{
 }
 .main{
   background: #fff;
+  overflow: hidden;
 }
 .width-max{
   width: 100%;
@@ -128,11 +132,19 @@ body{
 .ztc{
   background: #2b8ff7;
 }
+/*头像样式*/
 .user-logo{
   height: 2.5rem;
   width: 2.5rem;
   border-radius: 2.5rem;
   overflow: hidden;
+  background: #eee;
+  float: left;
+}
+/*带有头像的上部*/
+.logo-top{
+  height: 2.5rem;
+  line-height: 2.5rem
 }
 .bom{
   overflow: hidden;

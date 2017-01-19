@@ -1,6 +1,6 @@
 <template>
   <div class="body body-top">
-  <nav-header title="个人资料"></nav-header>
+  <nav-header back="true" title="个人资料"></nav-header>
     <form action="post">
     	<input-box title="昵称" title-color="black" ></input-box>
       <!-- <input-box title="爱好" title-color="black" class="padding-20"></input-box>

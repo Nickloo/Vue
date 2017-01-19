@@ -31,6 +31,16 @@ export default {
   },
   methods:{
   	login(){
+      let user_name = $("input[name='user_name']").val();
+      let password = $("input[name='password']").val();
+      if(user_name===""){
+        alert("请输入用户名")
+        return false
+      }
+      if(password===""){
+        alert("请输入密码")
+        return false
+      }
   		this.$router.push('/home')
   	},
   	register(){

@@ -1,6 +1,6 @@
 <template>
   <div class="wrapper body que-list" >
-  	<div class="top wrapper">
+  	<div class="logo-top wrapper">
 	  	<div class="user-logo wrapper" >
 	    	<img :src="item.user_logo" style="height:100%;width:100%">
 	    </div>
@@ -71,15 +71,6 @@ export default {
 	background: #fff;
 	margin-top: 0.25rem;
 	padding: 1rem;
-}
-.top{
-	height: 2.5rem;
-	line-height: 2.5rem;
-	width:100%;
-}
-.user-logo{
-	float:left;
-	background:#eee
 }
 .user-name{
 	float:left;

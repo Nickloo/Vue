@@ -9,4 +9,5 @@ export default [
   {path: '/setmsg', component: require('./pages/UserSet.vue')},
   {path: '/quecon', component: require('./pages/QueCon.vue')},
   {path: '/register', component: require('./pages/Register.vue')},
+  {path: '/fans_list', component: require('./pages/FansList.vue')},
 ]

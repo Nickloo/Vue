@@ -9,7 +9,9 @@
     	<div class="card-bom">
     		<div class="sel-box">
     			<div>{{fans_num}}</div>
-    			<div style="margin-top:1rem">粉丝</div>
+          <router-link to="/fans_list">
+            <div style="margin-top:1rem">粉丝</div>
+          </router-link>    			
     		</div>
     		<div class="sel-box">
     			<div>{{fav_num}}</div>
