@@ -8,14 +8,16 @@
     	<div class="per-name">{{user_name}}</div>
     	<div class="card-bom">
     		<div class="sel-box">
-    			<div>{{fans_num}}</div>
-          <router-link to="/fans_list">
+          <router-link to="/person/fans_list">
+    			  <div>{{fans_num}}</div>
             <div style="margin-top:1rem">粉丝</div>
           </router-link>    			
     		</div>
     		<div class="sel-box">
+          <router-link to="/person/follows">
     			<div>{{fav_num}}</div>
     			<div style="margin-top:1rem">关注</div>
+          </router-link>
     		</div>
     		<div class="sel-box">
     			<div>{{listen_num}}</div>
@@ -35,8 +37,13 @@
     		提问
     	</div>
     </div>
-    <div class="ask-me" v-for="ask_data in ask_datas">
+    <div class="ask-me" v-for="ask_data in ask_datas" v-if="identity===1">
       <ask-me v-if="index == 0" :data="ask_data"></ask-me>
+    </div>
+    <div class="apply fullsrc" v-if="identity!=1">
+      <button class="apply-button">
+        申请成为答者
+      </button>
     </div>
     <ask-card v-if="index == 1"></ask-card>
     <!-- <div class="bom"></div> -->
@@ -55,6 +62,7 @@ export default {
   data () {
     return {
       user_name: 'Nickloong',
+      identity:0,
       per_logo:"http://www.zhiyinmusic.cn/cimg/bd17324430.jpg",
       fans_num:2,
       fav_num:3,
@@ -145,5 +153,13 @@ export default {
 }
 .active{
 	border-bottom: 0.1rem solid blue
+}
+.apply{
+  width: 100%;
+}
+.apply-button{
+  /*width: 60%;*/
+  padding:0 0.5rem;
+  margin:0 auto;
 }
 </style>

@@ -12,7 +12,9 @@
 	<div class="answer ztc wrapper">
 		<i class="iconfont play" v-if="!play" @click="player">&#xe601;</i>
 		<i class="iconfont play" v-if="play" @click="player">&#xe600;</i>
-		<span style="float:right;margin-right:1rem;font-size:0.9rem;color:#fff">12:00</span>
+		<span style="float:right;margin-right:1rem;font-size:0.9rem;color:#fff">
+		<audio></audio>
+		{{anws_time}}</span>
 	</div>
 	<div class="bottom">
 		<span class="fav">{{item.fav_num}}人觉得很赞</span>
@@ -27,7 +29,8 @@ export default {
   data () {
     return {
     	play:false,
-    	favColor:''
+    	favColor:'',
+    	anws_time:'1:00'
     }
   },
   props:{

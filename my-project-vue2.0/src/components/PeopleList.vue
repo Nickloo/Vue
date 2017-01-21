@@ -1,11 +1,10 @@
 <template>
-  <div class="padding-bodytop">
-    <nav-header title="我的粉丝" :back="true"></nav-header>
-    <!-- <router-link to="/person" v-for="data in datas">
+  <div>
+    <router-link to="/person" v-for="data in datas">
     	<div class="padding-20 fans-card main">
     		<div class="logo-top" style="margin-top:0.5rem">
     			<div class="user-logo">
-    				<img class="fullsrc" src="" alt="">
+    				<img class="fullsrc" :src="data.user_logo" alt="">
     			</div>
     			<span class="fans-name">{{data.fans_name}}</span>
     		</div>
@@ -13,37 +12,28 @@
     			{{data.fans_profile}}
     		</div>
     	</div>
-    </router-link> -->
-    <people-list :datas="datas"></people-list>
+    </router-link>
   </div>
 </template>
 
 <script>
-import NavHeader from '../components/NavHeader'
-import PeopleList from '../components/PeopleList'
 export default {
-  name: 'fans_list',
+  name: 'people_list',
   components:{
-  	NavHeader,PeopleList
+  	
   },
   data () {
     return {
-      datas:[
-      	{
-      		fans_name:"Tom",
-      		fans_profile:"wod",
-          user_logo:""	
-      	},
-      	{
-      		fans_name:"Tom",
-      		fans_profile:"wod",	
-      	},
-      	{
-      		fans_name:"Tom",
-      		fans_profile:"wod",	
-      	}
-      ]
+     
     }
+  },
+  props:{
+  	datas:{
+  		type:Array,
+  		// default(){
+  		// 	return[]
+  		// }
+  	}
   }
 }
 </script>
