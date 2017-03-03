@@ -62,11 +62,10 @@ body{
 .top-1{
   margin-top: 0.05rem
 }
-.top-bar{
+/*.top-bar{
   margin-top: 3rem
-}
+}*/
 .button{
-  /*float: left;*/
   height: 1.8rem;
   width: 3.8rem;
   line-height: 1.8rem;
@@ -90,19 +89,16 @@ body{
 .div-center{
   margin:0 auto;
 }
-.float-left{
-  float: left;
-}
-.main{
+/*.main{
   background: #fff;
   overflow: hidden;
-}
+}*/
 .width-max{
   width: 100%;
 }
 /*距离上部NavHeader*/
 .top-bar{
-  margin-top: 2.0rem
+  margin-top: 3.0rem
 }
 .padding-20{
   padding:0 1.0rem;
@@ -159,11 +155,10 @@ body{
 }
 /*文本溢出省略号*/
 .over{
-  overflow : hidden;
-  text-overflow: ellipsis;
   display: -webkit-box;
-  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }
 /*App样式*/
 #app{
@@ -188,5 +183,7 @@ input,button,select,textarea{
 body{
   position: relative;
 }
-
+input,textarea:focus{
+    border:0;
+}
 </style>

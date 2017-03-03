@@ -1,13 +1,15 @@
 <template>
   <div class="body body-top">
   <nav-header back="true" title="个人资料"></nav-header>
-    <form action="post">
-    	<input-box title="昵称" title-color="black" ></input-box>
-      <!-- <input-box title="爱好" title-color="black" class="padding-20"></input-box>
-      <input-box title="邮箱" title-color="black" class="padding-20"></input-box>
-      <input-box title="专业" title-color="black" class="padding-20"></input-box>
-      <input-box title="擅长" title-color="black" class="padding-20"></input-box>
-    </form> -->
+  <div class="top-bar"></div>
+  <form action="post" class="padding-20 main">
+  	<input-box title="昵称" title-color="black" ></input-box>
+    <input-box title="学校" title-color="black" ></input-box>
+    <input-box title="专业" title-color="black" ></input-box>
+    <input-box title="爱好" title-color="black" ></input-box>
+    <input-box title="擅长" title-color="black" ></input-box>
+    <input-box title="邮箱" title-color="black" ></input-box>
+  </form>
   </div>
 </template>
 

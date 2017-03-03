@@ -15,11 +15,11 @@ export default {
   name: 'inputbox',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      // msg: 'Welcome to Your Vue.js App'
     }
   },
   props:{
-  		titleId:{type:String,default:null},
+  		titleId:{type:String,default:'asd'},
 		title:{type:String},//输入框的标题
 		TitleSize:{type:String},
 		btnname:{type:String,default:''},//右侧是否有按钮如果有则写上
@@ -52,7 +52,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-input::-webkit-input-placeholder {text-align:right}
+/*input::-webkit-input-placeholder {text-align:right}*/
 .inputbox-body{
 	/*overflow: hidden;*/
 	width: 100%;

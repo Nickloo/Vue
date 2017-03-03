@@ -26,7 +26,8 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      index:''
+      index:'',
+      pathname:''
     }
   },
   methods:{
@@ -35,7 +36,7 @@ export default {
     }
   },
   updated(){
-    // let pathname = window.location.pathname
+    // this.pathname = window.location.pathname
     // if(pathname==="/home"){
     //   this.index=1
     // }else if(pathname==="/consult"){
@@ -45,15 +46,19 @@ export default {
     // }
   },
   mounted(){
-    let pathname = window.location.pathname
-    if(pathname==="/home"){
+    this.pathname = window.location.pathname
+    // let pathname = window.location.pathname
+    if(this.pathname==="/home"){
       this.index=1
-    }else if(pathname==="/consult"){
+    }else if(this.pathname==="/consult"){
       this.index=2
-    }else if(pathname==="/person"){
+    }else if(this.pathname==="/person"){
       this.index=3
     }
   },
+  activated(){
+    this.pathname = window.location.pathname
+  }
 }
 </script>
 

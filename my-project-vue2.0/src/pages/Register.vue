@@ -2,8 +2,8 @@
   <div class="body">
   	<nav-header title="注册" :back="true"></nav-header>
   	<form class="top-bar">
-  		<input-box titleId="user_name" letter-spacing="0.5rem" name="user_name" padding="0 1rem" title="用户名" title-color="black"></input-box>
-	    <input-box class="top-1" titleId="password"  letter-spacing="1.8rem" name="password"  padding="0 1rem" type="password" title="密码"  title-color="black"></input-box>
+  		<input-box titleId="user_name" letter-spacing="0.4rem" name="user_name" padding="0 1rem" title="用户名" title-color="black"></input-box>
+	    <input-box class="top-1" titleId="password"  letter-spacing="1rem" name="password"  padding="0 1rem" type="password" title="密码"  title-color="black"></input-box>
 	    <input-box class="top-1" titleId="psd_check"  name="psd_check"  padding="0 1rem" type="password" title="确认密码"  title-color="black"></input-box>
 	    <!-- <input type="text" v-model="password"> -->
   	</form>

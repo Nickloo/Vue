@@ -3,8 +3,8 @@
     <nav-header title="登陆"></nav-header>
     <div class="top-bar"></div>
     <div class="msg-box wrapper padding-20 main width-max">
-    	<input-box title="用户名" title-color="black" name="user_name"></input-box>
-    	<input-box title="密码" title-color="black" type="password" name="password"></input-box>
+    	<input-box titleId="user_name" title="用户名" title-color="black" name="user_name"></input-box>
+    	<input-box title="密码" titleId="password" letter-spacing="0.4rem" title-color="black" type="password" name="password"></input-box>
     </div>
     <div class="btn-box wrapper">
 	    <div class="float-left" style="width:50%">

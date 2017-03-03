@@ -82,7 +82,7 @@ export default {
 .content{
 	margin-top:0.5rem; 
 	font-size: 0.75rem;
-	height: 3.5rem;
+	height: 4.1rem;
 	/*padding-left: 0.5rem;
 	padding-right: 0.5rem;*/
 	/*margin-left:2rem;*/

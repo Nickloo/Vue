@@ -40,11 +40,11 @@
     <div class="ask-me" v-for="ask_data in ask_datas" v-if="identity===1">
       <ask-me v-if="index == 0" :data="ask_data"></ask-me>
     </div>
-    <div class="apply fullsrc" v-if="identity!=1">
-      <button class="apply-button">
+    <!-- <div class="apply fullsrc" v-if="identity!=1&&index == 0">
+      <button class="apply-button" @click="test">
         申请成为答者
       </button>
-    </div>
+    </div> -->
     <ask-card v-if="index == 1"></ask-card>
     <!-- <div class="bom"></div> -->
   </div>
@@ -98,6 +98,26 @@ export default {
   	},
     goMsg(){
       this.$router.push('/setmsg')
+    },
+    test(){
+      $.ajax({
+        url: '127.0.0.1:1337/home',
+        type:'POST', 
+        dataType: 'json',
+        cache: true,
+        data:{
+          art_id: this.$route.params.art_id
+        },
+        // async:false,
+        success: function(data) {
+          // console.log(data)
+          this.data = data.data
+          this.tags = data.data.tags.split(";")
+        }.bind(this),
+        error: function(xhr, status, err) {
+          console.error(lunboArr, status, err.toString());
+        }.bind(this)
+      });
     }
   }
 }
