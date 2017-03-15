@@ -56,7 +56,7 @@ export default {
       this.index=3
     }
   },
-  activated(){
+  before(){
     this.pathname = window.location.pathname
   }
 }

@@ -155,10 +155,15 @@ body{
 }
 /*文本溢出省略号*/
 .over{
+  overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  overflow: hidden;
+  -webkit-line-clamp: 4; 
+  /*white-space: nowrap;*/
+}
+/*50%宽度*/
+.width-50{
+  width: 50%
 }
 /*App样式*/
 #app{
@@ -183,7 +188,13 @@ input,button,select,textarea{
 body{
   position: relative;
 }
-input,textarea:focus{
+input:focus{
     border:0;
+}
+div{
+  /*width: 100%*/
+}
+textarea{
+  border: 0
 }
 </style>

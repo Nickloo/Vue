@@ -1,13 +1,18 @@
 <template>
   <div class="body body-top">
-  <nav-header back="true" title="个人资料"></nav-header>
+  <nav-header back="true" title="设置个人资料"></nav-header>
   <div class="top-bar"></div>
   <form action="post" class="padding-20 main">
   	<input-box title="昵称" title-color="black" ></input-box>
+    <div class="border-2"></div>
     <input-box title="学校" title-color="black" ></input-box>
+    <div class="border-2"></div>
     <input-box title="专业" title-color="black" ></input-box>
+    <div class="border-2"></div>
     <input-box title="爱好" title-color="black" ></input-box>
+    <div class="border-2"></div>
     <input-box title="擅长" title-color="black" ></input-box>
+    <div class="border-2"></div>
     <input-box title="邮箱" title-color="black" ></input-box>
   </form>
   </div>
@@ -32,5 +37,10 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .body{
+}
+.border-2{
+  height: 0.1rem;
+  width: 100%;
+  background: #eee;
 }
 </style>

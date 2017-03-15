@@ -13,9 +13,12 @@
 		<i class="iconfont play" v-if="!play" @click="player">&#xe601;</i>
 		<i class="iconfont play" v-if="play" @click="player">&#xe600;</i>
 		<span style="float:right;margin-right:1rem;font-size:0.9rem;color:#fff">
-		<audio></audio>
+		<!-- <audio src="./ext"></audio> -->
+
 		{{anws_time}}</span>
 	</div>
+	<!-- <embed src="../assets/ext"> -->
+	<!-- <img src="../assets/logo.png" alt=""> -->
 	<div class="bottom">
 		<span class="fav">{{item.fav_num}}人觉得很赞</span>
 		<i class="iconfont fav-logo" :style="{color:favColor}" @click="fav">&#xe668;</i>
@@ -82,7 +85,7 @@ export default {
 .content{
 	margin-top:0.5rem; 
 	font-size: 0.75rem;
-	height: 4.1rem;
+	/*height: 4.1rem;*/
 	/*padding-left: 0.5rem;
 	padding-right: 0.5rem;*/
 	/*margin-left:2rem;*/

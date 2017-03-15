@@ -28,12 +28,12 @@ Vue.filter('str2arr', function (val) {
 		return val.split(/[' ',;；]/)
 })
 //去掉img标签
-Vue.filter('passImg', function (val) {
-	if(val)
-		var reTag = /<img(?:.|\s)*?>/g;
-		console.log(val.replace(reTag,''))
-		return val.replace(reTag,'');
-})
+// Vue.filter('passImg', function (val) {
+// 	if(val)
+// 		var reTag = /<img(?:.|\s)*?>/g;
+// 		console.log(val.replace(reTag,''))
+// 		return val.replace(reTag,'');
+// })
 
 // 去掉所有html标签
 Vue.filter('passAll', (v)=>v&&v.replace(/<[^>]+>/g,""))

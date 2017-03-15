@@ -1,8 +1,10 @@
 <template>
-  <div class="header ztc wrapper">
-    <span class="back" @click="$router.go(-1)" v-if="back">返回</span>
-    <span>{{title}}</span>
-  </div>
+  <header>
+    <div class="header ztc wrapper">
+      <span class="back" @click="$router.go(-1)" v-if="back">返回</span>
+      <span>{{title}}</span>
+    </div>
+  </header>
 </template>
 
 <script>

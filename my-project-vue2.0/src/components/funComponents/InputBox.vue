@@ -1,7 +1,7 @@
 <template>
 <div class="main wrapper" :style="{padding:padding}">
 	<div class="inputbox-body wrapper">
-  		<span :id="titleId" class="inputbox-title" :style="{color:TitleColor}">{{title}}</span>
+  		<div :id="titleId" class="inputbox-title" :style="{color:TitleColor}">{{title}}</div>
 	  	<div class="item-input">
 	  		<input v-if="type==='text'" type="text" class="inputbox-text" :placeholder="placeholder" :name="name" :style="{color:TextColor}"></input>
 	  		<input v-if="type==='password'" type="password" class="inputbox-text" :placeholder="placeholder" :name="name" :style="{color:TextColor}"></input>
@@ -19,7 +19,7 @@ export default {
     }
   },
   props:{
-  		titleId:{type:String,default:'asd'},
+  		titleId:{type:String,default:null},
 		title:{type:String},//输入框的标题
 		TitleSize:{type:String},
 		btnname:{type:String,default:''},//右侧是否有按钮如果有则写上
@@ -63,7 +63,9 @@ export default {
 .inputbox-title{
 	float: left;
 	line-height: 2.5rem;
+	height: 2.5rem;
 	color: #eee;
+	margin-right: 0.5rem
 }
 .item-input{
 	margin-left: 0.25rem;
@@ -76,7 +78,7 @@ export default {
 	float: left;
 	color: #000;
 	height: 2.5rem;
-	padding-left: 0.5rem;
+	/*padding-left: 0.5rem;*/
 	border:0;
 	width: 100%;
 }

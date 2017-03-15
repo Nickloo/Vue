@@ -62,7 +62,7 @@ export default {
 	float: right
 }
 .introduct{
-	height: 1.8rem;
+	/*height: 1.8rem;*/
 	overflow: hidden;
 	margin-top: 0.5rem;
 	-webkit-line-clamp: 2;
