@@ -1,0 +1,88 @@
+<template>
+  <div class="body">
+    <nav-header title="专栏"></nav-header>
+    <div class="top-bar"></div>
+    <router-link :to="{name:'consult',params:{id:item.id}}" 
+    id="column-box" class="width-25 column-box float-left wrapper" 
+    :style="{height:box_height}" v-for="item in datas">
+    	<div class="column-card">
+    		<div class="fullsrc room">
+    			{{item.title}}
+    		</div>
+    		
+    	</div>
+    </router-link>
+  </div>
+</template>
+
+<script>
+import NavHeader from '../components/NavHeader'
+export default {
+  name: 'column',
+  components:{
+  	NavHeader
+  },
+  data () {
+    return {
+      box_height:'',
+      box_width:'',
+      datas:[
+      	{
+      		id:'1',
+      		title:'学习'
+      	},
+      	{
+      		id:'2',
+      		title:'生活'
+      	},
+      	{
+      		id:'1',
+      		title:'兴趣'
+      	},
+      	{
+      		id:'2',
+      		title:'科目'
+      	},
+      	{
+      		id:'1',
+      		title:'学习'
+      	},
+      	{
+      		id:'2',
+      		title:'生活'
+      	},
+      ]
+    }
+  },
+  mounted(){
+  	var column_box = document.getElementById('column-box');
+  	var column_box_cla = document.getElementsByClassName('column-box')
+  	var col_width = column_box.offsetWidth;
+  	this.box_height = col_width-20+"px";
+  	this.box_width = this.box_height;
+  	// column_box_cla.style.['line-height']=this.box_height;
+  	console.log('**********',this.box_height);
+
+  }
+}
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+.column-box{
+	overflow: hidden;
+	/*height: 5.0rem*/
+	/*background: red;*/
+	/*margin-bottom: 0.5rem;*/
+	/*border-radius: 0.5rem;*/
+	/*padding:10px;*/
+}
+.column-card{
+	padding:0.5rem 0.5rem 0 0.5rem;
+	/*background: blue;*/
+	height: 100%
+}
+.room{
+	background: #fff;
+}
+</style>

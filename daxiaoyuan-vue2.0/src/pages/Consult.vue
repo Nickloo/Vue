@@ -90,6 +90,7 @@ export default {
     }
   },
   mounted(){
+    this.index = window.localStorage.consult_sta;
   	if(this.index==1){
   		this.title='答 人'
   	}else{
@@ -98,7 +99,8 @@ export default {
   },
   methods:{
   	changList(id){
-  		this.index=id
+  		this.index=id;
+      window.localStorage.consult_sta=id;
   		if(this.index==1){
   			this.title='答 人'
 	  	}else{

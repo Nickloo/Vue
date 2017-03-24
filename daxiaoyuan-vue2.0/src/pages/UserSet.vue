@@ -1,6 +1,6 @@
 <template>
   <div class="body body-top">
-  <nav-header back="true" title="设置个人资料"></nav-header>
+  <nav-header :back="true" title="设置个人资料"></nav-header>
   <div class="top-bar"></div>
   <form action="post" class="padding-20 main">
   	<input-box title="昵称" title-color="black" ></input-box>

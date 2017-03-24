@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import routes from './routes.js'
 import VueRouter from 'vue-router'
-// import VueResource from 'vue-resource'
+import VueResource from 'vue-resource'
 // import Element from 'element-ui'
 /* eslint-disable no-new */
 // new Vue({
@@ -21,7 +21,7 @@ import VueRouter from 'vue-router'
 // }
 
 Vue.use(VueRouter);
-// Vue.use(VueResource);
+Vue.use(VueResource);
 // filter
 Vue.filter('str2arr', function (val) {
 	if(val)

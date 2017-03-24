@@ -1,6 +1,6 @@
 <template>
   <div class="login-body wrapper">
-    <nav-header title="登陆"></nav-header>
+    <nav-header title="用户登陆"></nav-header>
     <div class="top-bar"></div>
     <div class="msg-box wrapper padding-20 main width-max">
     	<input-box titleId="user_name" title="用户名" title-color="black" name="user_name"></input-box>

@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <!-- <home></home> -->
-    <router-view></router-view>
+    <keep-alive>
+      <router-view></router-view>
+    </keep-alive>
+    
     <!-- <hello></hello> -->
     <div class="bom"></div>
     <nav-bottom v-if="is_bom"></nav-bottom>
@@ -29,7 +32,7 @@ export default {
   },
   updated(){
     let pathname = window.location.pathname
-    if(pathname==="/home"||pathname==="/consult"||pathname==="/person"){
+    if(pathname==="/home"||pathname==="/column"||pathname==="/person"){
       this.is_bom=true
     }else{
       this.is_bom=false
@@ -37,11 +40,14 @@ export default {
   },
   mounted(){
     let pathname = window.location.pathname
-    if(pathname==="/home"||pathname==="/consult"||pathname==="/person"){
+    if(pathname==="/home"||pathname==="/column"||pathname==="/person"){
       this.is_bom=true
     }else{
       this.is_bom=false
     }
+    var status = window.localStorage;
+    status.consult_sta = 1;
+    global.URL = "127.0.0.1:1337";
   },
 }
 </script>
@@ -61,6 +67,9 @@ body{
 }
 .top-1{
   margin-top: 0.05rem
+}
+.top-10{
+  margin-top: 0.5rem
 }
 /*.top-bar{
   margin-top: 3rem
@@ -164,6 +173,10 @@ body{
 /*50%宽度*/
 .width-50{
   width: 50%
+}
+/*25%宽度*/
+.width-25{
+  width: 25%
 }
 /*App样式*/
 #app{

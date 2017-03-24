@@ -46,7 +46,7 @@ export default {
 <style scoped>
 @import '../assets/swiper/swiper.min.css';
 .body{
-	height: 10rem;
+	/*height: 9rem;*/
 	background: red;
 }
 
@@ -56,7 +56,7 @@ export default {
 }
 .swiper-container{
 	position: relative;
-	height: 10rem;
+	height: 8rem;
 	padding-bottom: 0;
 	text-align: center;
 }

@@ -6,7 +6,7 @@
   		</router-link>
   	</div>
   	<div class="bottom">
-  		<router-link to="/consult">
+  		<router-link to="/column">
   			<i class="iconfont logo" :class="{active:index==2}" @click="changPage(2)">&#xe699;</i>
   		</router-link>
   	</div>
@@ -50,7 +50,7 @@ export default {
     // let pathname = window.location.pathname
     if(this.pathname==="/home"){
       this.index=1
-    }else if(this.pathname==="/consult"){
+    }else if(this.pathname==="/column"){
       this.index=2
     }else if(this.pathname==="/person"){
       this.index=3
