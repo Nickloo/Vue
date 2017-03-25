@@ -14,7 +14,7 @@
 //   {path: '/consult/darenmsg:userId',component: require('./pages/DarenMsg.vue')},
 //   {path: '/test', component: require('./test.vue')},
 // ]
-var routers = [
+var routes = [
   {path: '/login', component: require('./pages/Login.vue')},
   {path: '/home', component: require('./pages/Home.vue')},
   {path: '/person', component: require('./pages/Person.vue')},
@@ -29,4 +29,4 @@ var routers = [
   {path: '/column', component: require('./pages/Column.vue')},
   {path: "*", redirect: '/login' },
 ]
-export default routers
+export default routes

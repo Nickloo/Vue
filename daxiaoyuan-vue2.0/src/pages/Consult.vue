@@ -1,10 +1,10 @@
 <template>
   <div class="body">
 	  <!-- <nav-header :title="title"></nav-header> -->
-	  <div class="select-box wrapper">
+	  <header class="select-box wrapper">
 	  	<div class="select-btn text-center" :class="{active:index==1}" @click="changList(1)">答 主</div>
 	  	<div class="select-btn text-center" :class="{active:index==2}" @click="changList(2)">问 答</div>
-	  </div>
+	  </header>
 	  <div class="daren" v-for="data in darenDatas" v-if="index==1">
 	  	<daren-list :data="data"></daren-list>
 	  </div>

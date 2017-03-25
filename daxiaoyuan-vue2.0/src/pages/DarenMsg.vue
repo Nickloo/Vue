@@ -9,7 +9,7 @@
 	</div>
 	<div class="drmsg-tag">他的回答</div>
 	<div class="daren-que main" v-for="item in datas">
-		<que-list :isbot="false" :item="item" :is-over="false"></que-list>
+		<que-list :isbot="false" :item="item" :is-over="true"></que-list>
 	</div>
   </div>
 </template>
@@ -33,6 +33,7 @@ export default {
     			que_content:'组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。',
     			que_id:'1',
     			fav_num:'1',
+          ans_type:1
     		},
   		  	{
     			user_name:'Lisa',
@@ -40,6 +41,7 @@ export default {
     			que_content:'组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 is 特性扩展。',
     			que_id:'1',
     			fav_num:'1',
+          ans_type:2
     		},
     		{
     			user_name:'Jay',
@@ -47,6 +49,7 @@ export default {
     			que_content:'组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 is 特性扩展。',
     			que_id:'1',
     			fav_num:'1',
+          ans_type:1
     		}
     	]
     }

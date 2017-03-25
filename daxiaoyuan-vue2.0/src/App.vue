@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <!-- <home></home> -->
-    <keep-alive>
+    <!-- <keep-alive> -->
       <router-view></router-view>
-    </keep-alive>
+    <!-- </keep-alive> -->
     
     <!-- <hello></hello> -->
     <div class="bom"></div>
@@ -74,6 +74,10 @@ body{
 /*.top-bar{
   margin-top: 3rem
 }*/
+.border-bottom{
+  width: 100%;
+  border-bottom: solid black 0.05rem;
+}
 .button{
   height: 1.8rem;
   width: 3.8rem;
@@ -167,7 +171,7 @@ body{
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 4; 
+  -webkit-line-clamp: 2; 
   /*white-space: nowrap;*/
 }
 /*50%宽度*/

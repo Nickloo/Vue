@@ -1,5 +1,5 @@
 <template>
-  <div class="bottom-body wrapper ztc">
+  <nav class="bottom-body wrapper ztc">
   	<div class="bottom">
   		<router-link to="/home">
   			<i class="iconfont logo" :class="{active:index==1}" @click="changPage(1)">&#xe602;</i>
@@ -17,7 +17,7 @@
   	</div>
     
     
-  </div>
+  </nav>
 </template>
 
 <script>
