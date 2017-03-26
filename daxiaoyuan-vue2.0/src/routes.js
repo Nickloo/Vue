@@ -27,6 +27,7 @@ var routes = [
   {path: '/consult/darenmsg:userId',name:'darenmsg',component: require('./pages/DarenMsg.vue')},
   {path: '/test', component: require('./test.vue')},
   {path: '/column', component: require('./pages/Column.vue')},
+  {path: '/wenda:id',name:'wenda', component: require('./pages/WendaCon.vue')},
   {path: "*", redirect: '/login' },
 ]
 export default routes

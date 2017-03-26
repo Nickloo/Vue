@@ -1,15 +1,22 @@
 <template>
   <div class="wrapper body que-list" >
+  <router-link :to="{name:'wenda',params:{id:item.que_id}}">
   	<div class="logo-top wrapper">
 	  	<div class="user-logo wrapper" >
 	    	<img :src="item.user_logo" style="height:100%;width:100%">
 	    </div>
-	    <div class="user-name title-font">{{item.user_name}}</div>
+	    <div class="user-name title-font">{{item.user_name}} 的提问</div>
 	</div>
 	<div class="content padding-10" :class="{over:isOver}">
 	    	{{item.que_content}}
 	</div>
 	<div class="border-bottom" style="margin-top:0.5rem"></div>
+	<div class="logo-top wrapper">
+	  	<div class="user-logo wrapper" >
+	    	<img :src="item.ans_ulogo" style="height:100%;width:100%">
+	    </div>
+	    <div class="user-name title-font">{{item.ans_uname}} 的回答</div>
+	</div>
 	<!-- 语音回答 -->
 	<article class="ztc wrapper voice-ans" v-if="item.ans_type==1">
 		<i class="iconfont play" v-if="!play" @click="player">&#xe601;</i>
@@ -28,6 +35,7 @@
 		<span class="fav">{{item.fav_num}}人觉得很赞</span>
 		<i class="iconfont fav-logo" :style="{color:favColor}" @click="fav">&#xe668;</i>
 	</div>
+  </router-link>
   </div>
 </template>
 
@@ -101,6 +109,13 @@ export default {
 	/*padding-left: 0.5rem;
 	padding-right: 0.5rem;*/
 	/*margin-left:2rem;*/
+}
+.logo-bot{
+
+}
+.border-bottom{
+	margin-bottom: 0.5rem;
+	border-color: #2b8ff7
 }
 .voice-ans{
 	margin-top:0.5rem; 
