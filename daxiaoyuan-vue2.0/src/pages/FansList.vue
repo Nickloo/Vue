@@ -12,6 +12,7 @@
     		<div class="profile">
     			{{data.fans_profile}}
     		</div>
+				123
     	</div>
     </router-link> -->
     <people-list :datas="datas"></people-list>
