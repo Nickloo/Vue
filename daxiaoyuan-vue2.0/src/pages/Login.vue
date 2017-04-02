@@ -11,7 +11,7 @@
 	    	<div class="div-center button ztc" @click="register">注册</div>
 	    </div>
 	    <div class="float-left" style="width:50%">
-	    	<div class="div-center button ztc" @click="login">登陆</div>
+	    	<div class="div-center button ztc" @click="loginN">登陆</div>
 	    </div>
     </div>    
   </div>
@@ -41,11 +41,39 @@ export default {
         alert("请输入密码")
         return false
       }
+
   		this.$router.push('/home')
   	},
   	register(){
   		this.$router.push('/register')
-  	}
+  	},
+    loginN() {
+        // 获取已有账号密码
+        // this.$http.get('/api/login/getAccount')
+        //   .then((response) => {
+        //     // 响应成功回调
+        //     console.log(response.data)
+        //     let params = { 
+        //       account : '123123',
+        //       password : '111111'
+        //     };
+        //     // 创建一个账号密码
+        //     // return this.$http.post('/api/login/createAccount',params);
+        //   })
+        //   .then((response) => {
+        //     console.log(response)
+        //   })
+        //   .catch((reject) => {
+        //     console.log(reject)
+        //   });
+        let params = {
+          user_name:$("input[name='user_name']").val(),
+          password:$("input[name='password']").val()
+        }
+        console.log(params)
+        this.$http.post('/api/login/createAccount',params);
+    }      
+
   }
 }
 </script>
