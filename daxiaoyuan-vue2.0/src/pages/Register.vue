@@ -1,7 +1,7 @@
 <template>
   <div class="body">
   	<nav-header title="注册" :back="true"></nav-header>
-  	<form class="top-bar" id="editform" action="http://127.0.0.1:1337/" method="post">
+  	<form class="top-bar" id="editform">
   		<input-box titleId="user_name" letter-spacing="0.4rem" name="user_name" padding="0 1rem" title="用户名" title-color="black"></input-box>
 	    <input-box class="top-1" titleId="password"  letter-spacing="1rem" name="password"  padding="0 1rem" type="password" title="密码"  title-color="black"></input-box>
 	    <input-box class="top-1" titleId="psd_check"  name="psd_check"  padding="0 1rem" type="password" title="确认密码"  title-color="black"></input-box>
@@ -51,22 +51,24 @@ export default {
         return false
       }
   		if(password===psd_check){
+
         $.ajax({
-            url: 'http://127.0.0.1:1337/',
+            url: '/api/register',
             type:'post', 
-            dataType: 'jsonp',
+            dataType: 'json',
             crossDomain: true,
             cache: true,
             data: $('#editform').serialize(),//序列化
             success: function(data) {
-              // console.log( data);
+              console.log(data);
               // global.user_name = this.user.user_name  
               // window.history.go(-1)
               alert('注册成功')
               this.$router.push("/home")
             }.bind(this),
             error: function(xhr, status, err) {
-              // console.error(err.toString())
+              console.error("注册失败/n");
+              console.log(err)
             }.bind(this)
           });
   			

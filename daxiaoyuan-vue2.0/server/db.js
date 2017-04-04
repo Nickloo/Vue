@@ -9,6 +9,21 @@ let pool = mysql.createPool({
 	password:'123456'
 });
 // let sel_data;
+function  selectFun(username,callback){
+     //client为一个mysql连接对象
+	 pool.getConnection(function(err,connection){
+		connection.query('select password from user where username="'+username+'"',function(err,results,fields){
+			if(err) throw err;
+	
+			callback(results);
+		});
+	 })
+    //  client.query('select password from user where username="'+username+'"',function(err,results,fields){
+    //      if(err) throw err;
+ 
+    //      callback(results);
+    //  });
+ }
 //数据插入
 function Insert(table,data){
 	pool.getConnection(function(err,connection){
@@ -61,46 +76,7 @@ function Select(data,table,where,sel_data,callback){
 }
 
 function Register(username,password){
-	pool.getConnection(function(err,connection){
-				if(err) console.log('数据库链接失败');
-				else{
-					connection.query('select '+'username'+' from '+'user'+' where ?',{username:username},function(err,result){
-						if(err) console.log('查询数据失败');
-						else{
-							if(result.length!=0){
-								console.log('用户已存在');
-								pool.end();
-							}
-							else{
-								Insert('user',{username:username,password:password});
-								console.log('注册成功')
-							}
-							setTimeout(function(){
-								console.log(typeof(result));
-								console.log(result);
-							},100)							
-						}
-					})
-				}
-	})
-
-	// async.series([
-	// 	function(callback) {  
- //            Select('*','user',{username:'小明'},function(data){  
- //                    callback(null,1);  
- //            });  
- //        },
- //        function(callback) {  
- //            console.log('1222222222222') 
- //        },
-	// ],function(error,result){
-	// 		if(error) {  
- //                console.log("error: ",error,"msg: ",result);  
- //            }  
- //            else {  
- //                console.log("方法执行完毕"+result);  
- //            }
-	// })
+	console.log("add()")
 }
 function add(result){
 	result=1+1;
@@ -114,4 +90,4 @@ function Login(username,password){
 // Insert('user',{username:'test',firstname:'李'});
 // Register('小xiao','123456')
 // exports.database = database
-exports.function = {Insert,Register,Select,Login}
+module.exports = {Insert,Register,Select,Login,selectFun}

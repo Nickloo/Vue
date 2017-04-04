@@ -2,10 +2,10 @@
   <div class="login-body wrapper">
     <nav-header title="用户登陆"></nav-header>
     <div class="top-bar"></div>
-    <div class="msg-box wrapper padding-20 main width-max">
+    <form id='loginForm' class="msg-box wrapper padding-20 main width-max">
     	<input-box titleId="user_name" title="用户名" title-color="black" name="user_name"></input-box>
     	<input-box title="密码" titleId="password" letter-spacing="0.4rem" title-color="black" type="password" name="password"></input-box>
-    </div>
+    </form>
     <div class="btn-box wrapper">
 	    <div class="float-left" style="width:50%">
 	    	<div class="div-center button ztc" @click="register">注册</div>
@@ -48,30 +48,36 @@ export default {
   		this.$router.push('/register')
   	},
     loginN() {
-        // 获取已有账号密码
-        // this.$http.get('/api/login/getAccount')
-        //   .then((response) => {
-        //     // 响应成功回调
-        //     console.log(response.data)
-        //     let params = { 
-        //       account : '123123',
-        //       password : '111111'
-        //     };
-        //     // 创建一个账号密码
-        //     // return this.$http.post('/api/login/createAccount',params);
-        //   })
-        //   .then((response) => {
-        //     console.log(response)
-        //   })
-        //   .catch((reject) => {
-        //     console.log(reject)
-        //   });
         let params = {
           user_name:$("input[name='user_name']").val(),
           password:$("input[name='password']").val()
         }
         console.log(params)
-        this.$http.post('/api/login/createAccount',params);
+        // this.$http.post('/api/login',params);
+        $.ajax({
+            url: '/api/login',
+            type:'post', 
+            dataType: 'json',
+            crossDomain: true,
+            cache: true,
+            data: $('#loginForm').serialize(),//序列化
+            success: function(data) {
+              console.log(data);
+              if(data.result.login === 'ok'){
+                alert('登陆成功')
+                this.$router.push("/home")
+              }else{
+                alert('用户名或密码错误')
+              }
+              // global.user_name = this.user.user_name  
+              // window.history.go(-1)
+             
+            }.bind(this),
+            error: function(xhr, status, err) {
+              console.error("登陆失败/n");
+              console.log(err)
+            }.bind(this)
+          });
     }      
 
   }

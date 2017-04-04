@@ -1,48 +1,44 @@
 "use strict";
 const models = require('./db');
 const express = require('express');
+// const response = require('response')
 const router = express.Router();
 
 /************** 创建(create) 读取(get) 更新(update) 删除(delete) **************/
 
-// 创建账号接口
-router.post('/api/login/createAccount',(req,res) => {
-    // 这里的req.body能够使用就在index.js中引入了const bodyParser = require('body-parser')
-    // let newAccount = new models.Login({
-    //     account : req.body.account,
-    //     password : req.body.password
-    // });
-    let data = {
-        user_name:req.body.user_name,
-        password:req.body.password
+router.post('/api/register',(req,res) => {
+    let adata = {
+        user_name : req.body.user_name,
+        password : req.body.password
     }
-    // 保存数据newAccount数据进mongoDB
-    // newAccount.save((err,data) => {
-    //     if (err) {
-    //         res.send(err);
-    //     } else {
-    //         res.send('createAccount successed');
-    //     }
-    // });
-    console.log(data)
+    models.Register(req.body.user_name,req.body.password)
+    // if(1===1){
+        res.apiSuccess('123')
+    // }
+    // res.apiError
+    
+    console.log(adata)
+})
+router.get('/api/getQuestion',(req,res) => {
+
 });
-// 获取已有账号接口
-router.get('/api/login/getAccount',(req,res) => {
-    // 通过模型去查找数据库
-    // models.Login.find((err,data) => {
-    //     if (err) {
-    //         res.send(err);
-    //     } else {
-    //         res.send(data);
-    //     }
-    // });
-    let data = {
-        account : "req.body.account",
-        password : "req.body.password"
-    }
-    res.send(data);
-    console.log('successed to send data')
-    console.log(data)
+router.post('/api/login',(req,res) => {
+    let username = req.body.user_name;
+    let password = req.body.password;
+    console.log(username)
+    // res.apiError()
+    models.selectFun(username,function(results){
+        if(results[0] === undefined){
+            // res.send('')
+            res.apiSuccess({login:'on'})
+        }else{
+            if(results[0].password === password){
+                res.apiSuccess({login:'ok'})
+            }else{
+                res.apiSuccess({login:'on'})
+            }
+        }
+    })
 });
 
 module.exports = router;
