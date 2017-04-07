@@ -63,8 +63,14 @@ export default {
               console.log(data);
               // global.user_name = this.user.user_name  
               // window.history.go(-1)
-              alert('注册成功')
-              this.$router.push("/home")
+              // alert('注册成功')
+              if(data.status === 'OK'){
+               alert('注册成功')
+                this.$router.push("/home")
+              }else{
+                alert('用户名已存在')
+              }
+              // this.$router.push("/home")
             }.bind(this),
             error: function(xhr, status, err) {
               console.error("注册失败/n");

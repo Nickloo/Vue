@@ -63,11 +63,11 @@ export default {
             data: $('#loginForm').serialize(),//序列化
             success: function(data) {
               console.log(data);
-              if(data.result.login === 'ok'){
+              if(data.status === 'OK'){
                 alert('登陆成功')
                 this.$router.push("/home")
               }else{
-                alert('用户名或密码错误')
+                alert(data.msg)
               }
               // global.user_name = this.user.user_name  
               // window.history.go(-1)
