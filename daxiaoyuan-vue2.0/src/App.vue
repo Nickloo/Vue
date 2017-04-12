@@ -47,7 +47,11 @@ export default {
     }
     var status = window.localStorage;
     status.consult_sta = 1;
+    // status.user = global.user;
     global.URL = "127.0.0.1:1337";
+    global.user = JSON.parse(status.user);
+    global.getMyque = 0;
+    
   },
 }
 </script>
@@ -71,7 +75,7 @@ body{
 .top-10{
   margin-top: 0.5rem
 }
-/*.top-bar{
+/*.top-bar{li
   margin-top: 3rem
 }*/
 .border-bottom{
@@ -118,6 +122,9 @@ body{
 }
 .padding-10{
   padding:0 0.5rem;
+}
+.padding-10-10{
+  padding:.5rem .5rem;
 }
 .float-left{
   float: left;
@@ -192,9 +199,6 @@ a {
     text-decoration: none;
     /** 去除阴影*/
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    &:hover, &:active {
-      text-decoration: none;
-    }
   }
 a{
   color: #000
@@ -208,10 +212,34 @@ body{
 input:focus{
     border:0;
 }
-div{
-  /*width: 100%*/
-}
 textarea{
   border: 0
 }
+select {
+  /*Chrome和Firefox里面的边框是不一样的，所以复写了一下*/
+  border: solid 1px #000;
+  /*很关键：将默认的select选择框样式清除*/
+  /*appearance:none;*/
+  -moz-appearance:none;
+  -webkit-appearance:none;
+  /*在选择框的最右侧中间显示小箭头图片*/
+  background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;
+  /*为下拉小箭头留出一点位置，避免被文字覆盖*/
+  padding-right: 14px;
+}
+button{
+  border:0rem
+}
+ul {
+    overflow: hidden;
+    margin: 0;
+    padding: 0;
+}
+li {
+    list-style: none;
+    margin:0
+}
+/*h1,h2,h3,h4{
+  margin:0
+}*/
 </style>

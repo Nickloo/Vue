@@ -6,7 +6,6 @@
 	    <input-box class="top-1" titleId="password"  letter-spacing="1rem" name="password"  padding="0 1rem" type="password" title="密码"  title-color="black"></input-box>
 	    <input-box class="top-1" titleId="psd_check"  name="psd_check"  padding="0 1rem" type="password" title="确认密码"  title-color="black"></input-box>
 	    <!-- <input type="text" v-model="password"> -->
-      <input type="submit" value="提交">
   	</form>
     <div>{{password}}</div>
     
@@ -61,16 +60,18 @@ export default {
             data: $('#editform').serialize(),//序列化
             success: function(data) {
               console.log(data);
-              // global.user_name = this.user.user_name  
-              // window.history.go(-1)
-              // alert('注册成功')
               if(data.status === 'OK'){
-               alert('注册成功')
-                this.$router.push("/home")
+                alert('注册成功')
+                window.localStorage.user = JSON.stringify(data.data[0]);
+                console.log(JSON.parse(window.localStorage.user));
+                if(confirm('直接进入个人设置？') === true){
+                    this.$router.push("/setmsg")
+                }else{
+                    this.$router.push("/home")
+                }
               }else{
                 alert('用户名已存在')
               }
-              // this.$router.push("/home")
             }.bind(this),
             error: function(xhr, status, err) {
               console.error("注册失败/n");

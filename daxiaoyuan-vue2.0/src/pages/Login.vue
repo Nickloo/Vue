@@ -64,6 +64,8 @@ export default {
             success: function(data) {
               console.log(data);
               if(data.status === 'OK'){
+                window.localStorage.user = JSON.stringify(data.data[0]);
+                // console.log(JSON.parse(window.localStorage.user));
                 alert('登陆成功')
                 this.$router.push("/home")
               }else{

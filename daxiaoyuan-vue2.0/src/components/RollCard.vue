@@ -1,5 +1,5 @@
 <template>
-  <div class="swiper-container part wrapper">
+  <div class="swiper-container part wrapper main">
 		<div class="swiper-wrapper ">
 		    <div class="swiper-slide fullscr" v-for="obj in data">
 		    	<a href="https://www.baidu.com" class="fullscr">

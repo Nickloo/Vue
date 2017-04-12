@@ -20,7 +20,7 @@
           </router-link>
     		</div>
     		<div class="sel-box">
-    			<div>{{listen_num}}</div>
+    			<div>{{listened_num}}</div>
     			<div style="margin-top:1rem">听过</div>
     		</div>
     		<div class="sel-box">
@@ -29,24 +29,42 @@
     		</div>
     	</div>
     </div>
-    <div class="bom-card">
+    <div class="bom-card" style="margin-bottom:0.2rem">
     	<div class="sel-page text-center" :class="{ active: index == 0 }" @click="changPage(0)">
     		向我提问
     	</div>
     	<div class="sel-page text-center" :class="{ active: index == 1 }" @click="changPage(1)">
-    		提问
+    		我的提问
     	</div>
     </div>
-    <div class="ask-me" v-for="ask_data in ask_datas" v-if="identity===1">
+    <!--<div class="ask-me" v-if="identy===0 && index === 0">-->
+      <!--<button>申请成为答人</button>-->
+    <!--</div>-->
+    <div class="ask-me" v-for="ask_data in ask_datas" v-if="index === 0 && identy ===0">
       <ask-me v-if="index == 0" :data="ask_data"></ask-me>
     </div>
-    <!-- <div class="apply fullsrc" v-if="identity!=1&&index == 0">
-      <button class="apply-button" @click="test">
-        申请成为答者
+    <div class="apply fullsrc" v-if="index === 0 && identy ===1">
+      <div class="tishi main text-center">
+        你还没有被采纳五个回答，还不能成为答人
+      </div>
+      <button class="apply-button ztc" @click="test">
+        申请成为答人
       </button>
-    </div> -->
-    <ask-card v-if="index == 1"></ask-card>
+    </div> 
+    <ask-card v-if="index === 1" ></ask-card>
+    <!--<ask-me v-if="index === 1" >{ path:'quecon/my_quecon', query: { que_id: item.que_id }}</ask-me>-->
+    <que-list></que-list>
+    
+      <div class="my-que main wrapper" v-if="index === 1" v-for = "item in my_queData">
+        <router-link :to="{name:'my_quecon',params:{que_id:item.que_id}}">
+            <h3>{{item.title}}</h3>
+            <time class="float-right">{{item.que_date}}</time>
+        </router-link>
+        
+      </div>
+    <h2 class="text-center main" v-if="index === 1 && my_queData.length === 0">你还没有进行过提问...</h2>
     <!-- <div class="bom"></div> -->
+    <!--<input type="hidden" v-model = '' value="">-->
   </div>
 </template>
 
@@ -54,70 +72,78 @@
 import NavHeader from '../components/NavHeader'
 import AskCard from '../components/AskCard'
 import AskMe from '../components/AskMe'
+import QueList from '../components/QueList'
 export default {
   name: 'person',
   components:{
-  	NavHeader,AskCard,AskMe
+  	NavHeader,AskCard,AskMe,QueList
   },
   data () {
     return {
-      user_name: 'Nickloong',
-      identity:0,
+      user_name: '',
+      identy:1,
       per_logo:"http://www.zhiyinmusic.cn/cimg/bd17324430.jpg",
       fans_num:2,
       fav_num:3,
-      listen_num:8,
+      listened_num:8,
       ans_num:2,
       index:0,
       ask_datas:[
-        {
-          user_name:'张三',
-          user_logo:'http://www.zhiyinmusic.cn/cimg/bd118987818.jpg',
-          que_con:'正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。',
-          que_id:'1'
-        },
-        {
-          user_name:'李四',
-          user_logo:'http://www.zhiyinmusic.cn/cimg/bd118987818.jpg',
-          que_con:'正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。',
-          que_id:'2'
-        },
-        {
-          user_name:'王五',
-          user_logo:'http://www.zhiyinmusic.cn/cimg/bd118987818.jpg',
-          que_con:'正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。',
-          que_id:'3'
-        }
+      ],
+      my_queData:[
+        
       ]
+     
+
     }
+  },
+  created(){
+    let user = JSON.parse(localStorage.user)
+    console.log(global.user)
+    this.user_name = user.username;
+    this.identy = user.identy;
+    this.fav_num = user.fav_num;
+    this.fans_num = user.fans_num;
+    this.listened_num = user.listened_num;
+    this.ans_num = user.answer_num;
+  },
+  mounted(){
+    this.my_queData = JSON.parse(window.localStorage.my_queData)
   },
   methods:{
   	changPage(id){
   		this.index=id
-  		// this.$router.push('/home')
+      if(this.index === 1 && global.getMyque === 0){
+        this.getMyQue()
+      }
   	},
     goMsg(){
       this.$router.push('/setmsg')
     },
     test(){
+      console.log('申请')
+    },
+    getMyQue:function(){
       $.ajax({
-        url: '127.0.0.1:1337/home',
-        type:'POST', 
-        dataType: 'json',
-        cache: true,
-        data:{
-          art_id: this.$route.params.art_id
-        },
-        // async:false,
-        success: function(data) {
-          // console.log(data)
-          this.data = data.data
-          this.tags = data.data.tags.split(";")
-        }.bind(this),
-        error: function(xhr, status, err) {
-          console.error(lunboArr, status, err.toString());
-        }.bind(this)
-      });
+						url: '/api/getQuestion/queCon',
+						type:'get', 
+						dataType: 'json',
+						cache: true,
+						data:{
+							user_id: JSON.parse(window.localStorage.user).userId,
+						},
+						success: function(data) {
+							if(data.status === 'OK'){
+								// this.my_queData = data.data;
+                window.localStorage.my_queData = JSON.stringify(data.data);
+                this.my_queData = JSON.parse(window.localStorage.my_queData);
+                global.getMyque = 1
+							}
+              
+						}.bind(this),
+						error: function(xhr, status, err) {
+						}.bind(this)
+					});
     }
   }
 }
@@ -127,9 +153,10 @@ export default {
 <style scoped>
 .top-card{
 	overflow: hidden;
-	height: 13rem;
+	/*// height: 13rem;*/
 	background: #fff;
 	padding-top:1.25rem;
+  padding-bottom:1.25rem;
 }
 .per-logo{
 	height:5.0rem;
@@ -179,7 +206,23 @@ export default {
 }
 .apply-button{
   /*width: 60%;*/
-  padding:0 0.5rem;
+  float:right;
+  padding:.3rem .8rem;
   margin:0 auto;
+  border-radius: 0.3rem;
+  font-weight: 600;
+  color:#fff;
 }
+.tishi{
+  margin-top:2rem;
+  height: 5rem;
+  line-height: 5rem;
+}
+.my-que{
+  margin-top: .15rem;
+  padding: .1rem .5rem ;
+}
+/*.my-que time{
+  
+}*/
 </style>

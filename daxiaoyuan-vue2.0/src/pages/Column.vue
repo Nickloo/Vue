@@ -2,7 +2,7 @@
   <div class="body">
     <nav-header title="专栏"></nav-header>
     <div class="top-bar"></div>
-    <router-link :to="{name:'consult',params:{id:item.id}}" 
+    <router-link :to="{name:'consult',params:{type:item.type,title:item.title}}" 
     id="column-box" class="width-25 column-box float-left wrapper" 
     :style="{height:box_height}" v-for="item in datas">
     	<div class="column-card">
@@ -28,38 +28,42 @@ export default {
       box_width:'',
       datas:[
       	{
-      		id:'1',
-      		title:'学习'
-      	},
-      	{
-      		id:'2',
-      		title:'生活'
-      	},
-      	{
-      		id:'1',
-      		title:'兴趣'
-      	},
-      	{
-      		id:'2',
-      		title:'科目'
-      	},
-      	{
-      		id:'1',
-      		title:'学习'
-      	},
-      	{
-      		id:'2',
-      		title:'生活'
+      		type:'all',
+      		title:'综合'
       	},
       ]
     }
   },
+	created(){
+		$.ajax({
+        url: '/api/getColumn',
+        type:'get', 
+        dataType: 'json',
+        crossDomain: true,
+        cache: true,
+        // data: $('#loginForm').serialize(),//序列化
+        success: function(data) {
+            console.log(data);
+            if(data.status === 'OK'){
+              this.datas=this.datas.concat(data.data)
+            }else{
+              alert(data.msg)
+            }
+             
+        }.bind(this),
+        error: function(xhr, status, err) {
+            console.log(err)
+        }.bind(this)
+    });
+	},
   mounted(){
   	var column_box = document.getElementById('column-box');
   	var column_box_cla = document.getElementsByClassName('column-box')
   	var col_width = column_box.offsetWidth;
   	this.box_height = col_width-20+"px";
   	this.box_width = this.box_height;
+
+		
   	// column_box_cla.style.['line-height']=this.box_height;
   	console.log('**********',this.box_height);
 

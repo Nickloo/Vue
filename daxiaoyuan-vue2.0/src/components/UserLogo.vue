@@ -23,7 +23,7 @@ export default {
   props:{
   	userName:{
   		type:String,
-  		default:'nick'
+  		default:''
   	},
   	userLogo:{
   		type:String,

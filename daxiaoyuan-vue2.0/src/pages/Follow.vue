@@ -1,17 +1,18 @@
 <template>
   <div class="padding-bodytop">
     <nav-header title="我的关注" :back="true"></nav-header>
-    <people-list :datas="datas"></people-list>
+    <daren-list ></daren-list>
   </div>
 </template>
 
 <script>
 import NavHeader from '../components/NavHeader'
 import PeopleList from '../components/PeopleList'
+import DarenList from '../components/DarenList'
 export default {
   name: 'follow',
   components:{
-  	NavHeader,PeopleList
+  	NavHeader,PeopleList,DarenList
   },
   data () {
     return {

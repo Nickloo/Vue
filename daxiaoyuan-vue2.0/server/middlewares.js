@@ -49,10 +49,11 @@ exports.extendAPIOutput = function (req, res, next) {
   }
 
   // 响应API成功结果
-  res.apiSuccess = function (data) {
+  res.apiSuccess = function (status,msg,data) {
     output({
-      status: 'OK',
-      result: data
+      status: status,
+      msg: msg,
+      data: data
     });
   };
 
@@ -65,23 +66,9 @@ exports.extendAPIOutput = function (req, res, next) {
       error_message: err.error_message || err.toString()
     });
   };
-  res.apiErrorT = function (message) {
-    output({
-      status: 'Error',
-      error_message:message.toString()
-    });
-    // console.log('cuowu')
-  };
-  // 输出XML格式数据
-//   res.xml = function (data) {
-//     res.setHeader('content-type', 'text/xml');
-//     res.end(js2xmlparser('data', data));
-//   };
-
   next();
 
 };
-
 
 // 统一处理API出错信息
 exports.apiErrorHandle = function (err, req, res, next) {

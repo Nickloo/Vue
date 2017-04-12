@@ -19,11 +19,19 @@ app.use(api);
 app.use(middlewares.apiErrorHandle);
 // 访问静态资源文件 这里是访问所有dist目录下的静态资源文件
 app.use(express.static(path.resolve(__dirname, '../dist')))
+app.use(express.static(path.join(__dirname, '../dist')));
 // 因为是单页应用 所有请求都走/dist/index.html
 app.get('*', function(req, res) {
     const html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8')
     res.send(html)
 })
+app.post('/test',(req,res) => {
+    res.header('Access-Control-Allow-Origin','*');
+    res.header('Access-Control-Allow-Headers','X-Requested-With, Content-Type');
+    console.log(req.body)
+    res.json({stauts:'ok'})
+})
+// app.use(express.static(path.join(__dirname, 'public')));
 // app.use(middlewares.extendAPIOutput);
 // 监听8088端口
 app.listen(8088);

@@ -2,19 +2,27 @@
   <div class="body-top">
     <nav-header title="问题详情" :back="true"></nav-header>
     <div class="que-box main">
-    	<p></p>
+    	<p>{{queData.content}}</p>
     </div>
+    <!--问题的回答-->
+    <div class="ans-list">
+      
+    </div>
+    <!--选择回答类型-->
     <div class="sel width-50">
-      <div class="sel-text width-50 text-center" :class="{active:index===1}" @click="changIndex(1)">文字回答</div>
-      <div class="sel-voice width-50 text-center" :class="{active:index===2}" @click="changIndex(2)">语音回答</div>
+      <div class="sel-text width-50 text-center" :class="{active:index===0}" @click="changIndex(0)">文字回答</div>
+      <div class="sel-voice width-50 text-center" :class="{active:index===1}" @click="changIndex(1)">语音回答</div>
     </div>
-    <div class="answ-box main" v-if="this.index==1">
-    	<textarea class="fullsrc" name="" id="" cols="30" rows="10"></textarea>
+    <!--文字回答-->
+    <div class="answ-box main" v-if="this.index==0">
+    	<textarea class="fullsrc" name="answer_con"></textarea>
     </div>
-    <div class="vioce-box main" v-if="this.index==2">
+    <!--语音回答-->
+    <div class="vioce-box main" v-if="this.index==1">
       这里是录音功能
     </div>
-	<button class="sub-btn">提交</button>
+	<button class="sub-btn" @click="submit">提交</button>
+  <!--<textarea class="" name="" id="" cols="30" rows="10"></textarea>-->
   </div>
 </template>
 
@@ -27,11 +35,38 @@ export default {
   },
   data () {
     return {
-      index:1
+      index:0,
+      que_id:'',
+      queData:{},
+      voice_src:'',
+      que_con:'',
+      que_title:''
     }
   },
   mounted(){
-    // alert('11111')
+    this.que_id = this.$route.params.que_id
+    console.log(this.$route.params.que_id+"###############")
+    $.ajax({
+        url: '/api/getQuestion/queCon',
+        type:'get', 
+        dataType: 'json',
+        crossDomain: true,
+        cache: true,
+        data: {que_id:this.$route.params.que_id},
+        success: function(data) {
+            console.log(data);
+            if(data.status === 'OK'){
+              this.queData = data.data;
+              this.que_title = data.data.title;
+              this.que_con = data.data.content;
+            }else{
+              alert(data.msg)
+            }
+        }.bind(this),
+        error: function(xhr, status, err) {
+            console.log(err)
+        }.bind(this)
+    });
    
   },
   methods:{
@@ -39,8 +74,43 @@ export default {
       this.index=id;
     },
     gradeChange(oSelec){
-        // var checkText=$("#pid").find("option:selected").text();
         alert(oSelec.value);
+    },
+    submit(){
+      console.log("提交"+JSON.parse(window.localStorage.user).userId)
+      if($("textarea[name='answer_con']").val() === '' && this.index === 0){
+        alert('回答内容不能为空');
+        return false
+      }else{
+        $.ajax({
+          url: '/api/answer',
+          type:'post', 
+          dataType: 'json',
+          crossDomain: true,
+          cache: true,
+          data: {
+            text_con:$("textarea[name='answer_con']").val(),
+            que_id:this.que_id,
+            user_id:JSON.parse(window.localStorage.user).userId,
+            is_voice:this.index,
+            voice_src:this.voice_src,
+            que_con:this.que_con,
+            que_title:this.que_title
+          },
+          success: function(data) {
+              console.log(data);
+              if(data.status === 'OK'){
+                alert('回答成功');
+                this.$router.go(-1)
+              }else{
+                alert(data.msg)
+              }
+          }.bind(this),
+          error: function(xhr, status, err) {
+              console.log(err)
+          }.bind(this)
+        });
+      }
     }
   }
 }
@@ -49,7 +119,8 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .que-box{
-	height: 10.0rem;
+	/*height: 10.0rem;*/
+  padding:.5rem .5rem;
   margin-bottom: 0.5rem
 }
 .sel{
@@ -73,7 +144,7 @@ export default {
   background: #2b8ff7; 
 }
 .answ-box{
-	height: 10.0rem;
+	height: 4.0rem;
 	margin-top: 0.5rem;
   padding:1.0rem 0.5rem;
 }

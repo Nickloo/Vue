@@ -1,16 +1,20 @@
 <template>
   <div class="que-box wrapper">
-  <router-link to="/quecon">
+  <router-link :to="{name:'quecon',params:{que_id:data.que_id}}">
 	  <div class="top-box">
 	  	<div class="user-logo">
 	    	<img class="fullsrc" :src="data.user_logo">
 	    </div>
-	    <span class="user_name title-font">{{data.user_name}}</span>
+	    <span class="user_name title-font">{{data.username}}</span>
 	  </div>
 	  <div class="con-box over">
-	  	{{data.que_con}}
+	  	{{data.title}}
 	  </div>
+		<!--<div class="con-box over">
+	  	{{data.content}}
+	  </div>-->
    </router-link>
+	 <div class="date">{{data.que_date}}</div>
   </div>
 </template>
 
@@ -41,17 +45,14 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .que-box{
-	width: 100%;
-	height: 7.5rem;
 	background: #fff;
 	margin-bottom: 0.25rem;
+	padding:1rem 1rem .5rem 1rem
 }
 .top-box{
 	overflow: hidden;
 	height: 2.5rem;
 	line-height: 2.5rem;
-	margin-top: 0.5rem;
-	padding:0 1rem;
 }
 .user-logo{
 	float:left;
@@ -63,9 +64,11 @@ export default {
 }
 .con-box{
 	margin-top: 0.5rem;
-	padding: 0 1rem
 }
 .over{
 	-webkit-line-clamp: 3;
+}
+.date{
+	float:right
 }
 </style>

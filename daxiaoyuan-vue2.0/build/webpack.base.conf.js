@@ -1,6 +1,8 @@
 var path = require('path')
 var config = require('../config')
 var utils = require('./utils')
+// 在开头引入webpack，后面的plugins那里需要
+var webpack = require('webpack')
 var projectRoot = path.resolve(__dirname, '../')
 
 var env = process.env.NODE_ENV
@@ -28,9 +30,17 @@ module.exports = {
       'src': path.resolve(__dirname, '../src'),
       'assets': path.resolve(__dirname, '../src/assets'),
       'components': path.resolve(__dirname, '../src/components'),
-      'pages':path.resolve(__dirname, '../src/pages')
+      'pages':path.resolve(__dirname, '../src/pages'),
+      'jquery': 'jquery' 
     }
   },
+  //引入jquery
+   plugins: [
+      new webpack.ProvidePlugin({
+          $: "jquery",
+          jQuery: "jquery"
+      })
+   ],
   resolveLoader: {
     fallback: [path.join(__dirname, '../node_modules')]
   },

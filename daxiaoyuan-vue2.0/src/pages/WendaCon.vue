@@ -2,12 +2,12 @@
   <div class="body wrapper">
     <nav-header title="问答详情" :back="true"></nav-header>
     <div class="que-con-box wrapper main top-bar"> 	
-	    <div class="logo-top">
+	    <!--<div class="logo-top">
 	    	<div class="user-logo">
 	    		<img src="132" alt="" class="fullsrc">
 	    	</div>
 	    	<div class="u-name float-left"> 的提问</div>
-	    </div>
+	    </div>-->
 	    <article class="ans_txt">
 	    		{{que_con}}最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加
 	    </article>

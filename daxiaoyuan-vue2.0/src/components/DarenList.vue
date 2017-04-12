@@ -1,11 +1,11 @@
 <template>
   <div class="body wrapper main">
 	<div class="top-box">
-		<router-link :to="{name:'darenmsg',params:{userId:testId}}" class="user-logo float-left">
+		<router-link :to="{name:'darenmsg',params:{userId:data.userId}}" class="user-logo float-left">
 	    	<img :src="data.user_logo" alt="" class="fullsrc">
 	    </router-link>
-	    <span class="user-name">{{data.user_name}}</span>
-	    <span class="fav-num">{{data.fav_num}}人关注</span>
+	    <span class="user-name">{{data.username}}</span>
+	    <span class="fans-num">{{data.fans_num}}人关注</span>
 	</div>
 	<div class="introduct over">
 		{{data.introduction}}
@@ -19,7 +19,7 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
-      testId:'123'
+      userId:'123'
     }
   },
   props:{
@@ -28,14 +28,18 @@ export default {
   		default(){
   			return{
   				user_logo:"http://www.zhiyinmusic.cn/cimg/bd17324430.jpg",
-  				user_name:"Tom",
+  				username:"Tom",
   				introduction:"正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。",
-  				fav_num:"2",
-  				id:'123'
+  				fans_num:"2",
+  				userId:'123'
   			}
   		}
   	}
-  }
+  },
+	mounted(){
+		console.log(this.data.userId+'************************')
+	//  this.userId = this.data.userId
+	}
 }
 </script>
 
@@ -59,7 +63,7 @@ export default {
 	font-size: 1rem;
 	font-weight: 600
 }
-.fav-num{
+.fans-num{
 	float: right
 }
 .introduct{
