@@ -1,16 +1,16 @@
 <template>
   <div>
     <router-link to="/person" v-for="data in datas">
-    	<div class="padding-20 fans-card main">
-    		<div class="logo-top" style="margin-top:0.5rem">
+    	<div class="padding-20-20 fans-card main">
+    		<div class="logo-top">
     			<div class="user-logo">
-    				<img class="fullsrc" :src="data.user_logo" alt="">
+    				<img class="fullsrc" :src="data.fans_logo" alt="">
     			</div>
     			<span class="fans-name">{{data.fans_name}}</span>
     		</div>
-    		<div class="profile">
-    			{{data.fans_profile}}
-    		</div>
+    		<!--<div class="profile">
+    			{{data.introduction}}
+    		</div>-->
     	</div>
     </router-link>
   </div>
@@ -41,7 +41,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .fans-card{
-	height: 6rem;
+	/*height: 6rem;*/
 	padding-bottom: 0.5rem;
 	margin-bottom:0.1rem 
 }

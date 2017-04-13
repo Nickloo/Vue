@@ -6,8 +6,8 @@
                 <img :src="userLogo" style="height:100%;width:100%">
             </div>
             <div class="ans-uname title-font">{{username}} 的回答</div>
-            <div class="best-ans float-right" v-if = "isBest === 1">最佳答案</div>
-            <div class="best-ans float-right" v-if = "isBest === 0">设为最佳答案</div>
+            <div class="best-ans float-right" v-if = "best === 1" @click="handlClick">最佳答案</div>
+            <div class="best-ans float-right" v-if = "best === 0 && control" @click="handlClick">设为最佳答案</div>
         </div>
     <!--</router-link>-->
 	<!-- 语音回答 -->
@@ -22,6 +22,7 @@
 	<article class="wrapper txt-ans content" v-if="isVoice==0">
 		{{textCon}}
 	</article>
+  <time v-if="date" style="float:right">{{date}}</time>
   </div>
 </template>
 
@@ -33,17 +34,69 @@ export default {
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      best:0
     }
   },
   props:{
+    control:'',
     username:'',
     userLogo:'',
     isVoice:'',
     anwsTime:'',
     textCon:'',
     voiceSrc:'',
-    isBest:{type:Number,default:1}
+    isBest:{type:Number,default(){
+      return 0
+    }},
+    date:null,
+    ansId:''
+  },
+  mounted(){
+    this.best = this.isBest
+  },
+  methods:{
+    handlClick(){
+      if(this.best === 0){
+        this.setBest(this.ansId)
+      }else{
+        // this.delBest(this.ansId)
+      }
+    },
+    setBest(ansId){
+      if(confirm("设置为最佳答案后此问题将不能再被回答，确定设置？") === true){
+        $.ajax({
+          url:'/api/setbest',
+          type:'post',
+          dataType:'json',
+          data:{ans_id:ansId},
+          success:(data) => {
+            if(data.status === 'OK'){
+              this.best = 1
+            }
+          },
+          error:(Error) => {
+            console.err(Error);
+          }
+        });
+      }
+    },
+    delBest(ansId){
+      $.ajax({
+        url:'/api/delbest',
+        type:'post',
+        dataType:'json',
+        data:{ansId:ansId},
+        success:(data) => {
+          if(data.status === 'OK'){
+            this.best = 0
+          }
+        },
+        error:(Error) => {
+          console.err(Error);
+        }
+      });
+    }
   }
 }
 </script>

@@ -69,14 +69,7 @@ export default {
   		type:Object,
   		default(){
   			return{
-  				// user_name:'Tom',
-  				// user_logo:'http://www.zhiyinmusic.cn/cimg/bd17324430.jpg',
-  				que_content:'组件（Component）是 Vue.js 最强大的功能之一。组件可以扩展 HTML 元素，封装可重用的代码。在较高层面上，组件是自定义元素， Vue.js 的编译器为它添加特殊功能。在有些情况下，组件也可以是原生 HTML 元素的形式，以 is 特性扩展。',
-  				que_id:'1',
-  				fav_num:'1',
-  				is_voice:1,
-  				voice_src:"",
-				text_con:''
+
   			}
   		}
   	},

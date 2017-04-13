@@ -32,73 +32,15 @@ export default {
       title:'',
 			type:'',
       ask_datas:[
-        {
-          username:'张三',
-          user_logo:'http://www.zhiyinmusic.cn/cimg/bd118987818.jpg',
-          que_con:'正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。',
-          que_id:'1'
-        },
-        {
-          username:'李四',
-          user_logo:'http://www.zhiyinmusic.cn/cimg/bd118987818.jpg',
-          que_con:'正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。',
-          que_id:'2'
-        },
-        {
-          username:'王五',
-          user_logo:'http://www.zhiyinmusic.cn/cimg/bd118987818.jpg',
-          que_con:'正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。',
-          que_id:'3'
-        }
       ],
       darenDatas:[
-      		{
-  				user_logo:"http://www.zhiyinmusic.cn/cimg/bd17324430.jpg",
-  				username:"Tom",
-  				introduction:"正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。",
-  				fans_num:"7"
-  			},
-  			{
-  				user_logo:"http://www.zhiyinmusic.cn/cimg/bd118987818.jpg",
-  				username:"Lisa",
-  				introduction:"正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。",
-  				fans_num:"2"
-  			},
-  			{
-  				user_logo:"http://www.zhiyinmusic.cn/cimg/bd118987818.jpg",
-  				username:"张三",
-  				introduction:"正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。",
-  				fans_num:"4"
-  			},
-  			{
-  				user_logo:"http://www.zhiyinmusic.cn/cimg/bd17324430.jpg",
-  				username:"李四",
-  				introduction:"正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。",
-  				fans_num:"9"
-  			},
-  			{
-  				user_logo:"http://www.zhiyinmusic.cn/cimg/bd17324430.jpg",
-  				username:"李四",
-  				introduction:"正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。",
-  				fans_num:"9"
-  			},
-  			{
-  				user_logo:"http://www.zhiyinmusic.cn/cimg/bd17324430.jpg",
-  				username:"李四",
-  				introduction:"正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。",
-  				fans_num:"9"
-  			}
       ]
     }
   },
   mounted(){
     this.index = window.localStorage.consult_sta;
-  	// if(this.index==1){
-  	// 	this.title='答 人'
-  	// }else{
-  	// 	this.title='问 答'
-  	// }
-		this.title = this.$route.params.title;
+		// this.title = this.$route.params.title;
+    this.type = this.$route.params.type;
 		//答人列表
 		$.ajax({
         url: '/api/getDarenMsg',
@@ -106,7 +48,7 @@ export default {
         dataType: 'json',
         crossDomain: true,
         cache: true,
-        // data: $('#loginForm').serialize(),//序列化
+        data: {type:this.type},//序列化
         success: function(data) {
           console.log(data);
           if(data.status === 'OK'){

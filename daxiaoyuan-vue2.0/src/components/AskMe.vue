@@ -31,10 +31,10 @@ export default {
   		type:Object,
   		default(){
   			return{
-  				user_name:'张三',
-  				user_logo:'http://img5.duitang.com/uploads/item/201508/19/20150819011950_zEJuN.jpeg',
-  				que_con:'正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。',
-  				que_id:'1'
+  				user_name:'',
+  				user_logo:'',
+  				que_con:'',
+  				que_id:''
   			}
   		}
   	}

@@ -25,10 +25,6 @@ export default {
       	{
       		fans_name:"Tom",
       		fans_profile:"wod",	
-      	},
-      	{
-      		fans_name:"Tom",
-      		fans_profile:"wod",	
       	}
     	]
     }

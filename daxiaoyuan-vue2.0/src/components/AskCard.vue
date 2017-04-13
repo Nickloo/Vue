@@ -110,24 +110,20 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .card-body{
-	/*width:100%;*/
-	/*height:10rem;*/
 	background: #fff;
 	padding:0 0.5rem;
 	padding-bottom:0.5rem
 }
-/*.input-box{
-	height: 2.5rem;
-	width:100%;
-	font-size: 0.9rem;
-	padding: 0 0.5rem
-}*/
 .sel-box{
-	letter-spacing:0.8rem;
 	border:0;
-	margin-left:0.5rem;
+	width: 4rem;
+	/*margin-left:0.5rem;*/
 	font-size: 0.8rem;
 	float:left;
+	/*background:*/
+	padding: .1rem.4rem;
+    border-radius: 6px;
+    text-align: center;
 }
 
 .text-box{
@@ -151,6 +147,5 @@ export default {
 .ask-btn{
 	width: 100%;
 	font-size: .8rem;
-	/*letter-spacing: 1rem*/
 }
 </style>

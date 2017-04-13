@@ -1,9 +1,3 @@
-// /**
-//  * 简单API服务器
-//  *
-//  * @author Zongmin Lei <leizongmin@gmail.com>
-//  */
-
 var path = require('path');
 var parseUrl = require('url').parse;
 // var redis = require('redis');
@@ -21,8 +15,6 @@ exports.ensureLogin = function (req, res, next) {
   req.loginUserId = 'glen';
   next();
 };
-
-
 // 解析请求Body部分
 var postBody = connect();
 postBody.use(bodyParser.json());

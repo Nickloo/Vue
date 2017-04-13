@@ -19,7 +19,9 @@ router.use(function timeLog(req,res,next) {
     }
     next();
 })
+//用户注册
 router.post('/api/register',(req,res) => {
+    console.log('/api/register');
     let username = req.body.user_name;
     let password = req.body.password
     let data = { 
@@ -37,7 +39,6 @@ router.post('/api/register',(req,res) => {
             dao.Insert('users',data,() => {
                 dao.select('users',{username:username},(results) => {
                     res.apiSuccess('OK','注册成功',results)
-                    console.log(results)
                 })
                 
             })
@@ -45,12 +46,13 @@ router.post('/api/register',(req,res) => {
     })
     console.log(data)
 })
+//获取用户信息
 router.get('/api/getUser',(req,res) => {
+    console.log('/api/getUser');
     let userId = req.query.userId;
-    console.log(userId)
+    console.log('userId:'+userId)
     dao.select('users',{userId:userId},(results) => {
         res.json({status:'OK',msg:'用户信息获取成功',data:results})
-        console.log(results)
     })
 });
 router.get('/api/getUser/darenMsg',(req,res) => {
@@ -251,6 +253,19 @@ router.get('/api/getQuestion/queCon',(req,res) => {
     }
     
 })
+//获取问题所有答案
+router.get('/api/getQueAns',(req,res) => {
+    console.log('/api/getQueAns')
+    let que_id = req.query.que_id;
+    if(que_id)
+    dao.selectAns({que_id:que_id},(ret) => {
+        console.log(ret)
+        res.apiSuccess('OK','信息获取成功',ret)
+    })
+    else{
+        res.apiSuccess('ON','que_id空',[])
+    }
+})
 //获取专栏信息
 router.get('/api/getColumn',(req,res) => {
     dao.selectAll('col_list',(results) => {
@@ -258,11 +273,18 @@ router.get('/api/getColumn',(req,res) => {
     })
 })
 //获取回答列表
+// router.get('/api/getAnswers',(req,res) => {
+//     dao.selectAll('col_list',(results) => {
+//         res.apiSuccess('OK','专栏信息获取成功',results)
+//     })
+// })
+//获取问题回答
 router.get('/api/getAnswers',(req,res) => {
     dao.selectAll('col_list',(results) => {
         res.apiSuccess('OK','专栏信息获取成功',results)
     })
 })
+
 //提交回答
 router.post('/api/answer',(req,res) => {
     console.log('/api/answer');
@@ -291,11 +313,15 @@ router.get('/api/getDarenMsg/person',(req,res) => {
     async.series({
         daren_msg: function(callback){
             dao.select('users',{userId:daren_id},(ret) => {
-                callback(null, {
-                    username:ret[0].username,
-                    user_logo:ret[0].user_logo,
-                    introduction:ret[0].introduction,
-                }); 
+                try {
+                    callback(null, {
+                        username:ret[0].username,
+                        user_logo:ret[0].user_logo,
+                        introduction:ret[0].introduction,
+                    });
+                } catch (error) {
+                    console.log('错误信息为：'+error)
+                }
             })
         },
         answer: function(callback){
@@ -331,6 +357,27 @@ router.get('/api/getDarenMsg/person',(req,res) => {
         res.apiSuccess('OK','数据获取成功',results)
     });
     
+})
+// 设置最佳答案
+router.post('/api/setbest',(req,res) => {
+    console.log('/api/setbest');
+    dao.upDate('answers',[{is_best:1},{ans_id:req.body.ans_id}],(ret) => {
+        res.apiSuccess('OK','设置成功',{})
+    })
+})
+// 取消最佳答案
+router.post('/api/delbest',(req,res) => {
+    console.log('/api/delbest');
+    dao.upDate('answers',[{is_best:0},{ans_id:req.body.ans_id}],(ret) => {
+        res.apiSuccess('OK','设置成功',{})
+    })
+})
+//获取粉丝列表
+router.get('/api/getfans',(req,res) => {
+    console.log('/api/getfans');
+    dao.selectFans({user_id:req.query.user_id},(ret) => {
+        res.apiSuccess('OK','获取粉丝信息成功',ret);
+    })
 })
 // api模板
 router.post('',(req,res) => {

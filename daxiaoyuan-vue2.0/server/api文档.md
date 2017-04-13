@@ -40,3 +40,8 @@ is_private（问题是否全体可见）0公共问题全体可见 1私人问题�
 提交问题答案 
 /api/answer POST text_con  que_id  user_id  is_voice  voice_src
 
+设置最佳答案
+/api/setbest
+取消最佳答案
+/api/delbest
+

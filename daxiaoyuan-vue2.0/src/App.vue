@@ -45,13 +45,12 @@ export default {
     }else{
       this.is_bom=false
     }
-    var status = window.localStorage;
+    let status = window.localStorage;
+    // status.user = '{}';
+    // status.my_queData = '[]';
     status.consult_sta = 1;
-    // status.user = global.user;
-    global.URL = "127.0.0.1:1337";
-    global.user = JSON.parse(status.user);
     global.getMyque = 0;
-    
+    global.user = JSON.parse(window.localStorage.user);
   },
 }
 </script>
@@ -125,6 +124,9 @@ body{
 }
 .padding-10-10{
   padding:.5rem .5rem;
+}
+.padding-20-20{
+  padding:1rem 1rem;
 }
 .float-left{
   float: left;

@@ -12,7 +12,6 @@ export default {
   name: 'nav-header',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
     }
   },
   props:{

@@ -48,38 +48,47 @@ export default {
   		this.$router.push('/register')
   	},
     loginN() {
-        let params = {
-          user_name:$("input[name='user_name']").val(),
-          password:$("input[name='password']").val()
+        let user_name = $("input[name='user_name']").val();
+        let password = $("input[name='password']").val();
+        if(user_name===""){
+          alert("请输入用户名")
+          return false
         }
-        console.log(params)
-        // this.$http.post('/api/login',params);
-        $.ajax({
-            url: '/api/login',
-            type:'post', 
-            dataType: 'json',
-            crossDomain: true,
-            cache: true,
-            data: $('#loginForm').serialize(),//序列化
-            success: function(data) {
-              console.log(data);
-              if(data.status === 'OK'){
-                window.localStorage.user = JSON.stringify(data.data[0]);
-                // console.log(JSON.parse(window.localStorage.user));
-                alert('登陆成功')
-                this.$router.push("/home")
-              }else{
-                alert(data.msg)
-              }
-              // global.user_name = this.user.user_name  
-              // window.history.go(-1)
-             
-            }.bind(this),
-            error: function(xhr, status, err) {
-              console.error("登陆失败/n");
-              console.log(err)
-            }.bind(this)
-          });
+        if(password===""){
+          alert("请输入密码")
+          return false
+        }else{
+          let params = {
+            user_name:$("input[name='user_name']").val(),
+            password:hex_md5($("input[name='password']").val())
+          }
+          console.log(params)
+          // this.$http.post('/api/login',params);
+          $.ajax({
+              url: '/api/login',
+              type:'post', 
+              dataType: 'json',
+              crossDomain: true,
+              cache: true,
+              data: params,//序列化
+              success: function(data) {
+                console.log(data);
+                if(data.status === 'OK'){
+                  window.localStorage.user = JSON.stringify(data.data[0]);
+                  // console.log(JSON.parse(window.localStorage.user));
+                  alert('登陆成功')
+                  this.$router.push("/home")
+                }else{
+                  alert(data.msg)
+                }
+              }.bind(this),
+              error: function(xhr, status, err) {
+                console.error("登陆失败/n");
+                console.log(err)
+              }.bind(this)
+            });
+        }
+        
     }      
 
   }

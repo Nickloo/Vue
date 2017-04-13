@@ -3,28 +3,28 @@
   	<nav-header title="个人"></nav-header>
     <div class="top-card text-center">
     	<div class="per-logo" @click="goMsg">
-    		<img class="fullsrc" :src="per_logo" alt="">
+    		<img class="fullsrc" :src="user.user_logo" alt="">
     	</div>
-    	<div class="per-name">{{user_name}}</div>
+    	<div class="per-name">{{user.username}}</div>
     	<div class="card-bom">
     		<div class="sel-box">
           <router-link to="/person/fans_list">
-    			  <div>{{fans_num}}</div>
+    			  <div>{{user.fans_num}}</div>
             <div style="margin-top:1rem">粉丝</div>
           </router-link>    			
     		</div>
     		<div class="sel-box">
           <router-link to="/person/follows">
-    			<div>{{fav_num}}</div>
+    			<div>{{user.fav_num}}</div>
     			<div style="margin-top:1rem">关注</div>
           </router-link>
     		</div>
     		<div class="sel-box">
-    			<div>{{listened_num}}</div>
+    			<div>{{user.listened_num}}</div>
     			<div style="margin-top:1rem">听过</div>
     		</div>
     		<div class="sel-box">
-    			<div>{{ans_num}}</div>
+    			<div>{{user.answer_num}}</div>
     			<div style="margin-top:1rem">回答</div>
     		</div>
     	</div>
@@ -80,13 +80,8 @@ export default {
   },
   data () {
     return {
-      user_name: '',
+      user:{},
       identy:1,
-      per_logo:"http://www.zhiyinmusic.cn/cimg/bd17324430.jpg",
-      fans_num:2,
-      fav_num:3,
-      listened_num:8,
-      ans_num:2,
       index:0,
       ask_datas:[
       ],
@@ -98,17 +93,12 @@ export default {
     }
   },
   created(){
-    let user = JSON.parse(localStorage.user)
-    console.log(global.user)
-    this.user_name = user.username;
-    this.identy = user.identy;
-    this.fav_num = user.fav_num;
-    this.fans_num = user.fans_num;
-    this.listened_num = user.listened_num;
-    this.ans_num = user.answer_num;
+    this.getMymsg();
+    // console.log(global.user)
   },
   mounted(){
-    this.my_queData = JSON.parse(window.localStorage.my_queData)
+    this.my_queData = JSON.parse(window.localStorage.my_queData);
+    this.identy = this.user.identy;
   },
   methods:{
   	changPage(id){
@@ -144,6 +134,22 @@ export default {
 						error: function(xhr, status, err) {
 						}.bind(this)
 					});
+    },
+    getMymsg(){
+      $.ajax({
+        url:'/api/getUser',
+        type:'get',
+        dataType:'json',
+        data:{
+          userId:JSON.parse(window.localStorage.user).userId
+        },
+        success:(data) => {
+          this.user = data.data[0];
+          // global.user = this.user;
+          window.localStorage.user = JSON.stringify(this.user)
+          console.log(data.data[0])
+        }
+      })
     }
   }
 }

@@ -17,17 +17,14 @@ export default {
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
     }
   },
   props:{
   	userName:{
   		type:String,
-  		default:''
   	},
   	userLogo:{
   		type:String,
-  		default:''
   	}
   }
 }

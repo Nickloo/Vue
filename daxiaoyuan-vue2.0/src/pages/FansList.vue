@@ -1,20 +1,6 @@
 <template>
   <div class="padding-bodytop">
     <nav-header title="我的粉丝" :back="true"></nav-header>
-    <!-- <router-link to="/person" v-for="data in datas">
-    	<div class="padding-20 fans-card main">
-    		<div class="logo-top" style="margin-top:0.5rem">
-    			<div class="user-logo">
-    				<img class="fullsrc" src="" alt="">
-    			</div>
-    			<span class="fans-name">{{data.fans_name}}</span>
-    		</div>
-    		<div class="profile">
-    			{{data.fans_profile}}
-    		</div>
-				123
-    	</div>
-    </router-link> -->
     <people-list :datas="datas"></people-list>
   </div>
 </template>
@@ -35,17 +21,31 @@ export default {
       		fans_profile:"wod",
           user_logo:""	
       	},
-      	{
-      		fans_name:"Tom",
-      		fans_profile:"wod",	
-      	},
-      	{
-      		fans_name:"Tom",
-      		fans_profile:"wod",	
-      	}
       ]
     }
-  }
+  },
+	mounted(){
+		this.getFan();
+	},
+	methods:{
+		getFan(){
+			$.ajax({
+				url:'/api/getfans',
+				type:'get',
+				dataType:'json',
+				data:{
+					user_id:JSON.parse(window.localStorage.user).userId
+				},
+				success:(data) => {
+					this.datas = data.data;
+					console.log(this.datas)
+				},
+				error:(Error) => {
+					console.error(Error)
+				}
+			})
+		}
+	}
 }
 </script>
 

@@ -25,7 +25,6 @@ export default {
   name: 'nav-bottom',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
       index:'',
       pathname:''
     }

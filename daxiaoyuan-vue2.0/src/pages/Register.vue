@@ -8,8 +8,7 @@
 	    <!-- <input type="text" v-model="password"> -->
   	</form>
     <div>{{password}}</div>
-    
-    <div class="button-bot ztc" style="width:" @click="register">确认注册</div>
+    <div class="button-bot ztc" @click="register">确认注册</div>
   </div>
 </template>
 
@@ -29,7 +28,7 @@ export default {
   },
   methods:{
   	register(){
-      let user_name=$("input[name='user_name']").val();
+      var user_name=$("input[name='user_name']").val();
   		let password=$("input[name='password']").val();
   		let psd_check=$("input[name='psd_check']").val();
       console.log(user_name+"********")
@@ -50,14 +49,16 @@ export default {
         return false
       }
   		if(password===psd_check){
-
         $.ajax({
             url: '/api/register',
             type:'post', 
             dataType: 'json',
             crossDomain: true,
             cache: true,
-            data: $('#editform').serialize(),//序列化
+            data: {
+              user_name:user_name,
+              password:hex_md5(password)
+            },//序列化
             success: function(data) {
               console.log(data);
               if(data.status === 'OK'){
@@ -78,7 +79,6 @@ export default {
               console.log(err)
             }.bind(this)
           });
-  			
   		} 		
   	},
     submit(){
