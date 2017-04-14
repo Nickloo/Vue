@@ -1,46 +1,13 @@
 <template>
   <div class="wrapper body que-list" v-if="item.is_best === 1">
   <router-link :to="{name:'wenda',params:{id:item.que_id}}">
-  	<!--<div class="logo-top wrapper">
-	  	<div class="user-logo wrapper" >
-	    	<img :src="item.user_logo" style="height:100%;width:100%">
-	    </div>
-	    <div class="user-name title-font">{{item.user_name}} 的提问</div>
-	</div>-->
 	<div class="content padding-10" :class="{over:isOver}">
 	    	{{item.que_con}}
 	</div>
 	<div class="border-bottom" style="margin-top:0.5rem"></div>
-	<!--<div class="logo-top wrapper">
-	  	<div class="user-logo wrapper" style="float:right">
-	    	<img :src="item.ans_ulogo" style="height:100%;width:100%">
-	    </div>
-	    <div class="ans-uname title-font">{{item.username}} 的回答</div>
-	</div>-->
-	
-	<!-- 文字回答 -->
-	<!--<article class="wrapper txt-ans content padding-10" v-if="item.is_voice==0">
-		{{item.text_con}}
-	</article>-->
 	</router-link>
-	<!-- 语音回答 -->
-	<!--<article class="ztc wrapper voice-ans" v-if="item.is_voice==1">
-		<i class="iconfont play" v-if="!play" @click="player">&#xe601;</i>
-		<i class="iconfont play" v-if="play" @click="player">&#xe600;</i>
-		<span style="float:right;margin-right:1rem;font-size:0.9rem;color:#fff">
-		 <audio src="./ext"></audio> 
-		{{anws_time}}</span>
-	</article>-->
-
-
-
-	<ans-list :username="item.username" :user-logo="item.ans_ulogo" :is-voice="item.is_voice"
+	<ans-list :username="username" :user-logo="item.ans_ulogo" :is-voice="item.is_voice"
 				:textCon="item.text_con"></ans-list>
-
-
-
-	<!-- <embed src="../assets/ext"> -->
-	<!-- <img src="../assets/logo.png" alt=""> -->
 	<div class="bottom" v-if="isbot">
 		<span class="fav">{{item.fav_num}}人觉得很赞</span>
 		<i class="iconfont fav-logo" :style="{color:favColor}" @click="fav">&#xe668;</i>
@@ -73,6 +40,7 @@ export default {
   			}
   		}
   	},
+	username:'',
   	is_fav:1,
   	isbot:{type:Boolean,default:true},
   	isOver:{type:Boolean,default:true},

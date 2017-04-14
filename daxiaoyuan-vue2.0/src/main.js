@@ -46,7 +46,20 @@ const router = new VueRouter({
 	mode:'history',
 	routes:routes
 })
-
+var store = {
+  debug: true,
+  state: {
+    message: 'Hello!'
+  },
+  setMessageAction (newValue) {
+    this.debug && console.log('setMessageAction triggered with', newValue)
+    this.state.message = newValue
+  },
+  clearMessageAction () {
+    this.debug && console.log('clearMessageAction triggered')
+    this.state.message = 'clearMessageAction triggered'
+  }
+}
 // router.beforeEach(function () {
 //   window.scrollTo(0, 0)
 // })
@@ -55,6 +68,7 @@ const router = new VueRouter({
 new Vue({
   el:'#app',
   router,
+  store,
   render: h => h(App)
 })
 // var router = new Router()

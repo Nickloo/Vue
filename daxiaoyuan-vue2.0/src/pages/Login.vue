@@ -74,10 +74,10 @@ export default {
               success: function(data) {
                 console.log(data);
                 if(data.status === 'OK'){
-                  window.localStorage.user = JSON.stringify(data.data[0]);
-                  // console.log(JSON.parse(window.localStorage.user));
+                  window.localStorage.userId = data.data;
+                  global.userId = data.data;
                   alert('登陆成功')
-                  this.$router.push("/home")
+                  this.$router.push('/home')
                 }else{
                   alert(data.msg)
                 }

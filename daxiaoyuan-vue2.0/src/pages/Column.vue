@@ -9,7 +9,6 @@
     		<div class="fullsrc room">
     			{{item.title}}
     		</div>
-    		
     	</div>
     </router-link>
   </div>
@@ -41,7 +40,6 @@ export default {
         dataType: 'json',
         crossDomain: true,
         cache: true,
-        // data: $('#loginForm').serialize(),//序列化
         success: function(data) {
             console.log(data);
             if(data.status === 'OK'){
@@ -49,7 +47,6 @@ export default {
             }else{
               alert(data.msg)
             }
-             
         }.bind(this),
         error: function(xhr, status, err) {
             console.log(err)
@@ -62,8 +59,6 @@ export default {
   	var col_width = column_box.offsetWidth;
   	this.box_height = col_width-20+"px";
   	this.box_width = this.box_height;
-
-		
   	// column_box_cla.style.['line-height']=this.box_height;
   	console.log('**********',this.box_height);
 

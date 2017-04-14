@@ -16,15 +16,15 @@
 // ]
 var routes = [
   {path: '/login', component: require('./pages/Login.vue')},//登陆页面
-  {path: '/home', component: require('./pages/Home.vue')},//主页面
-  {path: '/person', component: require('./pages/Person.vue')},//用户页面
-  {path: '/consult:type:title',name:'consult', component: require('./pages/Consult.vue')},//咨询页面
+  {path: '/home',name:'home', component: require('./pages/Home.vue')},//主页面
+  {path: '/person',name:'person', component: require('./pages/Person.vue')},//用户页面
+  {path: '/consult/:type',name:'consult', component: require('./pages/Consult.vue')},//咨询页面
   {path: '/setmsg', component: require('./pages/UserSet.vue')},//用户资料设置页面
-  {path: '/quecon:que_id',name:'quecon', component: require('./pages/QueCon.vue')},//问题详情页面
-  {path: '/my_quecon:que_id',name:'my_quecon', component: require('./pages/MyQuecon.vue')},//我的问题详情页面
+  {path: '/quecon/:que_id',name:'quecon', component: require('./pages/QueCon.vue')},//问题详情页面
+  {path: '/my_quecon/:que_id',name:'my_quecon', component: require('./pages/MyQuecon.vue')},//我的问题详情页面
   {path: '/register', component: require('./pages/Register.vue')},//注册页面
-  {path: '/person/fans_list', component: require('./pages/FansList.vue')},//粉丝页面
-  {path: '/person/follows', component: require('./pages/Follow.vue')},//关注页面
+  {path: '/fans_list', component: require('./pages/FansList.vue')},//粉丝页面
+  {path: '/follows', component: require('./pages/Follow.vue')},//关注页面
   {path: '/consult/darenmsg:userId',name:'darenmsg',component: require('./pages/DarenMsg.vue')},//答人信息页面
   {path: '/test', component: require('./test.vue')},//测试
   {path: '/column', component: require('./pages/Column.vue')},//板块页面

@@ -1,7 +1,7 @@
 <template>
   <nav class="bottom-body wrapper ztc">
   	<div class="bottom">
-  		<router-link to="/home">
+  		<router-link :to="{name:'home'}">
   			<i class="iconfont logo" :class="{active:index==1}" @click="changPage(1)">&#xe602;</i>
   		</router-link>
   	</div>
@@ -15,49 +15,38 @@
   			<i class="iconfont logo" :class="{active:index==3}" @click="changPage(3)">&#xe607;</i>
   		</router-link>
   	</div>
-    
-    
   </nav>
 </template>
-
 <script>
 export default {
   name: 'nav-bottom',
   data () {
     return {
       index:'',
-      pathname:''
     }
   },
   methods:{
     changPage(id){
       this.index=id
+    },
+    getPath(){
+      if(this.$route.path==="/home"){
+        this.index=1
+      }else if(this.$route.path==="/column"){
+        this.index=2
+      }else if(this.$route.path==="/person"){
+        this.index=3
+      }
     }
-  },
-  updated(){
-    // this.pathname = window.location.pathname
-    // if(pathname==="/home"){
-    //   this.index=1
-    // }else if(pathname==="/consult"){
-    //   this.index=2
-    // }else if(pathname==="/person"){
-    //   this.index=3
-    // }
   },
   mounted(){
-    this.pathname = window.location.pathname
-    // let pathname = window.location.pathname
-    if(this.pathname==="/home"){
-      this.index=1
-    }else if(this.pathname==="/column"){
-      this.index=2
-    }else if(this.pathname==="/person"){
-      this.index=3
+    this.getPath();
+  },
+  watch:{
+    $route:function(){
+      this.getPath();
     }
   },
-  before(){
-    this.pathname = window.location.pathname
-  }
 }
 </script>
 
@@ -81,12 +70,6 @@ export default {
 .logo{
 	font-size: 1.25rem;
   color: #fff
-}
-.home{
-	
-}
-.person{
-
 }
 .active{
   color: blue

@@ -8,13 +8,13 @@
     	<div class="per-name">{{user.username}}</div>
     	<div class="card-bom">
     		<div class="sel-box">
-          <router-link to="/person/fans_list">
+          <router-link to="/fans_list">
     			  <div>{{user.fans_num}}</div>
             <div style="margin-top:1rem">粉丝</div>
           </router-link>    			
     		</div>
     		<div class="sel-box">
-          <router-link to="/person/follows">
+          <router-link to="/follows">
     			<div>{{user.fav_num}}</div>
     			<div style="margin-top:1rem">关注</div>
           </router-link>
@@ -93,17 +93,18 @@ export default {
     }
   },
   created(){
-    this.getMymsg();
+    
     // console.log(global.user)
   },
   mounted(){
-    this.my_queData = JSON.parse(window.localStorage.my_queData);
+    // this.my_queData = JSON.parse(window.localStorage.my_queData);
+    this.getMymsg();
     this.identy = this.user.identy;
   },
   methods:{
   	changPage(id){
   		this.index=id
-      if(this.index === 1 && global.getMyque === 0){
+      if(this.index === 1){
         this.getMyQue()
       }
   	},
@@ -120,16 +121,13 @@ export default {
 						dataType: 'json',
 						cache: true,
 						data:{
-							user_id: JSON.parse(window.localStorage.user).userId,
+							user_id:window.localStorage.userId,
 						},
 						success: function(data) {
 							if(data.status === 'OK'){
-								// this.my_queData = data.data;
-                window.localStorage.my_queData = JSON.stringify(data.data);
-                this.my_queData = JSON.parse(window.localStorage.my_queData);
+                this.my_queData = data.data;
                 global.getMyque = 1
 							}
-              
 						}.bind(this),
 						error: function(xhr, status, err) {
 						}.bind(this)
@@ -141,7 +139,7 @@ export default {
         type:'get',
         dataType:'json',
         data:{
-          userId:JSON.parse(window.localStorage.user).userId
+          userId:window.localStorage.userId
         },
         success:(data) => {
           this.user = data.data[0];

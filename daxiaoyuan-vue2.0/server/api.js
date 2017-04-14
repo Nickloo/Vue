@@ -1,13 +1,11 @@
 "use strict";
 const dao = require('./db');
 const express = require('express');
-// const response = require('response')
 const async = require('async')
 const router = express.Router();
 
 const cookieParser = require('cookie-parser');
 const session = require('cookie-session');
-/************** 创建(create) 读取(get) 更新(update) 删除(delete) **************/
 router.use(cookieParser())
 router.use(session({
     secret: 'blog'
@@ -40,7 +38,6 @@ router.post('/api/register',(req,res) => {
                 dao.select('users',{username:username},(results) => {
                     res.apiSuccess('OK','注册成功',results)
                 })
-                
             })
         }
     })
@@ -50,15 +47,18 @@ router.post('/api/register',(req,res) => {
 router.get('/api/getUser',(req,res) => {
     console.log('/api/getUser');
     let userId = req.query.userId;
-    console.log('userId:'+userId)
-    dao.select('users',{userId:userId},(results) => {
+    console.log('userId:'+userId);
+    let sql = "select * from users where userId = "+userId;
+    dao.selectCustom(sql,(results) => {
         res.json({status:'OK',msg:'用户信息获取成功',data:results})
     })
 });
+//获取答人信息
 router.get('/api/getUser/darenMsg',(req,res) => {
     let daren_id = req.query.daren_id;
-    console.log(daren_id)
-    dao.select('users',{userId:daren_id},(results) => {
+    console.log(daren_id);
+    let sql = "select username,userId,user_logo,fav_num,fans_num,introduction from users where userId = "+daren_id
+    dao.select(sql,(results) => {
         let darenData = {
 
         }
@@ -66,6 +66,7 @@ router.get('/api/getUser/darenMsg',(req,res) => {
         console.log(results)
     })
 });
+//用户登陆
 router.route('/api/login').get((req,res) => {
     if(req.session.islogin){
         res.locals.islogin=req.session.islogin;
@@ -76,14 +77,15 @@ router.route('/api/login').get((req,res) => {
 }).post((req,res) => {
     let username = req.body.user_name;
     let password = req.body.password;
-    console.log(username)
-    dao.select('users',{username:username},(results) => {
+    let sql = "select password,userId from users where username = '"+username+"';"
+    console.log(typeof(username))
+    dao.selectCustom(sql,(results) => {
         console.log(results[0])
         if(results.length === 0){
             res.json({status:'NO',msg:'用户名不存在'})
         }else{
             if(results[0].password === password){
-                res.apiSuccess('OK','登陆成功',results)
+                res.apiSuccess('OK','登陆成功',results[0].userId)
                 // res.json({status:'OK',msg:'登陆成功',data:results})
             }else{
                 res.json({status:'NO',msg:'密码错误'})

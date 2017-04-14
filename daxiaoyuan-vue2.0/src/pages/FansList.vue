@@ -33,6 +33,9 @@ export default {
 				url:'/api/getfans',
 				type:'get',
 				dataType:'json',
+				crossDomain: true,
+        cache: true,
+				async:true,
 				data:{
 					user_id:JSON.parse(window.localStorage.user).userId
 				},
@@ -42,7 +45,8 @@ export default {
 				},
 				error:(Error) => {
 					console.error(Error)
-				}
+				},
+				
 			})
 		}
 	}

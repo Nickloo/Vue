@@ -46,12 +46,18 @@ export default {
       this.is_bom=false
     }
     let status = window.localStorage;
-    // status.user = '{}';
-    // status.my_queData = '[]';
     status.consult_sta = 1;
     global.getMyque = 0;
-    global.user = JSON.parse(window.localStorage.user);
+    // global.user = JSON.parse(status.user);
   },
+  watch:{
+    $route:function(){
+      if(this.$route.path !='/login' || this.$route.path != '/register'){
+        global.userId = window.localStorage.userId;
+        console.log(this.$route.path,global.userId)
+      }
+    }
+  }
 }
 </script>
 

@@ -138,17 +138,17 @@ function selectFans(user_id,callback){
 		try {
 			connection.query('select fans_id from fanslist where ?',user_id,(err,results,fields) => {
 				for(let i=0;i<results.length;++i){
-					pool.getConnection((err,con) => {
-						con.query('select * from users where ?',{userId:results[i].fans_id},(err,ret) => {
+					// pool.getConnection((err,con) => {
+						connection.query('select * from users where ?',{userId:results[i].fans_id},(err,ret) => {
 							results[i].fans_name = ret[0].username;
 							results[i].fans_logo = ret[0].user_logo;
 							results[i].introduction = ret[0].introduction;
 							if(i === results.length-1){
 								callback(results);
-								con.release()
+								// con.release()
 							}
 						});
-					});
+					// });
 				}
 			});
 		} catch (error) {
@@ -239,8 +239,8 @@ function selectAns(que_id,callback){
 			else{
 				for(let i=0;i<results.length;++i){
 					console.log('i:',i);
-					pool.getConnection((err,con) => {
-						con.query('select * from users where ?',{userId:results[i].user_id},(err,ret) => {
+					// pool.getConnection((err,con) => {
+						connection.query('select * from users where ?',{userId:results[i].user_id},(err,ret) => {
 							console.log('select * from users where ?');
 							results[i].username = ret[0].username;
 							results[i].user_logo = ret[0].user_logo;
@@ -249,10 +249,10 @@ function selectAns(que_id,callback){
 							// i++;
 							if(i === results.length-1){
 								callback(results);
-								con.release();
+								// con.release();
 							} 
 						});
-					});
+					// });
 				}
 			}
 		});

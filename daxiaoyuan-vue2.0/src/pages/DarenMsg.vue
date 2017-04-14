@@ -9,12 +9,11 @@
 		</div>
 		<div class="drmsg-tag">他被确认的回答</div>
 		<div class="daren-que main" v-for="item in datas.answer">
-			<que-list :isbot="true" :item="item" :is-over="true"></que-list>
+			<que-list :isbot="true" :item="item" :is-over="true" :username="daren_name"></que-list>
 		</div>
 		<div class="fallows text-center ztc" @click="fallow">{{fal_btn}}</div>
   </div>
 </template>
-
 <script>
 import NavHeader from '../components/NavHeader'
 import QueList from '../components/QueList'

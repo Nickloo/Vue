@@ -2,10 +2,10 @@
   <div class="body body-top">
   <nav-header :back="true" title="设置个人资料"></nav-header>
   <form action="post" class="padding-20 main" id="usermsg">
-    <div class="per-logo">
-    		<img class="fullsrc" :src="test_logo">
+    <div class="per-logo" @click="selImg">
+    		<img class="fullsrc" :src="test_logo" id="user-logo">
     </div>
-    <input type="file" hidden>
+    <input type="file"  id="imgFile" hidden v-on:change="changImg($event)">
     <input type="hidden" :value="usermsg.userId" name="userId">
   	<input-box title="昵称" title-color="black" name="username" :placeholder="usermsg.username"></input-box>
     <div class="border-2"></div>
@@ -19,6 +19,7 @@
     <div class="border-2"></div>
     <input-box title="邮箱" type="email" title-color="black" name="email" :placeholder="usermsg.email"></input-box>
   </form>
+  <div>{{test_logo}}</div>
   <div class="submit text-center ztc" @click="updata()">保存</div>
   </div>
 </template>
@@ -35,14 +36,52 @@ export default {
     return {
       msg: 'Welcome to Your Vue.js App',
       usermsg:{},
-      test_logo:'http://10.255.24.108:8088/public/images/timg.jpg'
+      test_logo:'',
     }
   },
   mounted(){
-    this.usermsg = JSON.parse(window.localStorage.user);
-    // console.log(this.usermsg)
+    $.ajax({
+      url:'/api/getUser',
+      type:'get',
+      dataType:'json',
+      data:{userId:window.localStorage.userId},
+      cache: true,
+      success:(data)=>{
+        this.usermsg = data.data[0]
+      },
+      error:(xhr, status, err)=>{
+        console.error(xhr, status, err.toString())
+      }
+    })
   },
   methods:{
+    changImg(event){
+		    var files = event.target.files, file;
+		    if (files && files.length > 0) {
+		        // 获取目前上传的文件
+		        file = files[0];// 文件大小校验的动作
+		        if(file.size > 1024 * 1024 * 2) {
+		            alert('图片大小不能超过 2MB!');
+		            return false;
+		        }
+		        // 获取 window 的 URL 工具
+		        var URL = window.URL || window.webkitURL;
+		        // 通过 file 生成目标 url
+		        var imgURL = URL.createObjectURL(file);
+		        //用attr将img的src属性改成获得的url
+		        $("#user-logo").attr("src",imgURL);
+		        // 使用下面这句可以在内存中释放对此 url 的伺服，跑了之后那个 URL 就无效了
+		        // URL.revokeObjectURL(imgURL);
+		    }
+		},
+    selImg(){
+      console.log('click img');
+      let file = document.getElementById('imgFile');
+      file.click()
+    },
+    imgClick(){
+      this.test_logo = document.getElementById('imgFile').value;
+    },
     del() { 
       var msg = "信息保存成功是否返回？ \n\n请确认！"; 
       if (confirm(msg)==true){ 
@@ -63,18 +102,13 @@ export default {
           if(data.status === 'OK'){
             // alert('保存成功')
             if(confirm('保存成功是否返回上一页') === true){
-              this.$router.push('/home')
+              this.$router.push('/person')
             }
-            window.localStorage.user = JSON.stringify(data.data[0]);
-            
-            // let test = del()
-            // global.user.data.data[0]
           }
           console.log(data)
-          
         }.bind(this),
         error: function(xhr, status, err) {
-          console.error(lunboArr, status, err.toString());
+          console.error(xhr, status, err.toString());
         }.bind(this)
       });
     }

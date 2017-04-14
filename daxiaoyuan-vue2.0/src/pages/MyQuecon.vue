@@ -18,7 +18,7 @@
     </div>
     <div class="ans-list main wrapper padding-20-20" v-for="item in ansData">
       <ans-list :username="item.username" :user-logo="item.user_logo" :is-voice="item.is_voice"
-				:textCon="item.text_con" :date="item.ans_date" :is-best="item.is_best" :ans-id="item.ans_id"></ans-list>
+				:textCon="item.text_con" :date="item.ans_date" :is-best="item.is_best" :ans-id="item.ans_id" :control="true"></ans-list>
     </div>
   </div>
 </template>
