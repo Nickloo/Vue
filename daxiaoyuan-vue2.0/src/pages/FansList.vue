@@ -16,11 +16,6 @@ export default {
   data () {
     return {
       datas:[
-      	{
-      		fans_name:"Tom",
-      		fans_profile:"wod",
-          user_logo:""	
-      	},
       ]
     }
   },
@@ -35,7 +30,6 @@ export default {
 				dataType:'json',
 				crossDomain: true,
         cache: true,
-				async:true,
 				data:{
 					user_id:JSON.parse(window.localStorage.user).userId
 				},

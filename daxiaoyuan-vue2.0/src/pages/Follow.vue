@@ -1,7 +1,10 @@
 <template>
   <div class="padding-bodytop">
     <nav-header title="我的关注" :back="true"></nav-header>
-    <daren-list ></daren-list>
+    <div class="daren wrapper" v-for="item in datas">
+      <daren-list :data="item"></daren-list>
+    </div>
+    
   </div>
 </template>
 
@@ -17,17 +20,25 @@ export default {
   data () {
     return {
     	datas:[
-    		{
-      		fans_name:"Tom",
-      		fans_profile:"wod",
-          user_logo:""	
-      	},
-      	{
-      		fans_name:"Tom",
-      		fans_profile:"wod",	
-      	}
     	]
     }
+  },
+  mounted(){
+    $.ajax({
+      url:'/api/getFollows',
+      type:'get',
+      dataType:'json',
+      crossDomain:'true',
+      data:{
+        userId:window.localStorage.userId
+      },
+      success:(data) => {
+        this.datas = data.data
+      },
+      error:(Error) => {
+        console.log(Error.toString())
+      }
+    })
   }
 }
 </script>

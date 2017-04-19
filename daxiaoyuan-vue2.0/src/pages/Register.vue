@@ -63,10 +63,12 @@ export default {
               console.log(data);
               if(data.status === 'OK'){
                 alert('注册成功')
-                window.localStorage.user = JSON.stringify(data.data[0]);
-                console.log(JSON.parse(window.localStorage.user));
+                window.localStorage.userId = data.data;
+                console.log('userid is :',window.localStorage.userId)
+                // window.localStorage.user = JSON.stringify(data.data[0]);
+                // console.log(JSON.parse(window.localStorage.user));
                 if(confirm('直接进入个人设置？') === true){
-                    this.$router.push("/setmsg")
+                    this.$router.push({name:'setmsg',params:{userId:data.data}})
                 }else{
                     this.$router.push("/home")
                 }

@@ -10,6 +10,7 @@
     <nav-bottom v-if="is_bom"></nav-bottom>
     <!-- hello -->
   </div>
+  
 </template>
 
 <script>
@@ -38,7 +39,11 @@ export default {
       this.is_bom=false
     }
   },
+  methods:{
+    
+  },
   mounted(){
+    global.test = "55555reradsa"
     let pathname = window.location.pathname
     if(pathname==="/home"||pathname==="/column"||pathname==="/person"){
       this.is_bom=true

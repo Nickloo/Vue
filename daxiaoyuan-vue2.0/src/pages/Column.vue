@@ -16,6 +16,7 @@
 
 <script>
 import NavHeader from '../components/NavHeader'
+import { Loading } from 'element-ui';
 export default {
   name: 'column',
   components:{
@@ -34,6 +35,12 @@ export default {
     }
   },
 	created(){
+    let loadingInstance = Loading.service({
+      text:'疯狂加载中。。。'
+    });
+    setTimeout(() => {
+      
+    })
 		$.ajax({
         url: '/api/getColumn',
         type:'get', 
@@ -44,6 +51,7 @@ export default {
             console.log(data);
             if(data.status === 'OK'){
               this.datas=this.datas.concat(data.data)
+              loadingInstance.close();
             }else{
               alert(data.msg)
             }

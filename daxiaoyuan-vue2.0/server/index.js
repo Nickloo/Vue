@@ -8,9 +8,15 @@ const path = require('path');
 const bodyParser = require('body-parser')
 // 引入Express
 const express = require('express');
+//引入socket
+const socket = require('socket.io')
+const http = require('http')
 const middlewares = require('./middlewares');
-const app = express();
-
+const socketio = require('./utils/io.js')
+let app = express();
+let server = http.createServer(app);
+let io = socket.listen(server);//引入socket.io模块并绑定到服务器
+let users = []
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(middlewares.extendAPIOutput);
@@ -25,14 +31,17 @@ app.get('*', function(req, res) {
     const html = fs.readFileSync(path.resolve(__dirname, '../dist/index.html'), 'utf-8')
     res.send(html)
 })
-app.post('/test',(req,res) => {
-    res.header('Access-Control-Allow-Origin','*');
-    res.header('Access-Control-Allow-Headers','X-Requested-With, Content-Type');
-    console.log(req.body)
-    res.json({stauts:'ok'})
-})
+let PORT = process.env.PORT || 8088;
 // app.use(express.static(path.join(__dirname, 'public')));
 // app.use(middlewares.extendAPIOutput);
 // 监听8088端口
-app.listen(8088);
+server.listen(PORT);
 console.log('success listen…………');
+socketio(io);
+// io.on('connection',function(socket){
+//     //接受并处理客户端发送的foo事件
+//     socket.on('login',function(data){
+//         console.log('login userid is '+data);
+//         users.push(data)
+//     });
+// })

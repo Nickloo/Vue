@@ -2,6 +2,7 @@
   <div class="body-top">
     <nav-header title="问题详情" :back="true"></nav-header>
     <div class="que-box main">
+      <h3>{{queData.title}}</h3>
     	<p>{{queData.content}}</p>
     </div>
     <!--问题的回答-->
@@ -15,7 +16,13 @@
     </div>
     <!--文字回答-->
     <div class="answ-box main" v-if="this.index==0">
-    	<textarea class="fullsrc" name="answer_con"></textarea>
+    	<el-input
+        type="textarea"
+        :rows="8"
+        :placeholder="placeholder"
+        v-model="answer_con"
+        :disabled="can_ans">
+      </el-input>
     </div>
     <!--语音回答-->
     <div class="vioce-box main" v-if="this.index==1">
@@ -29,7 +36,7 @@
 <script>
 import NavHeader from '../components/NavHeader'
 export default {
-  name: 'home',
+  name: 'que-con',
   components:{
   	NavHeader
   },
@@ -40,10 +47,15 @@ export default {
       queData:{},
       voice_src:'',
       que_con:'',
-      que_title:''
+      que_title:'',
+      answer_con:'',
+      que_userId:'',
+      can_ans:false,
+      placeholder:'请输入内容。。。'
     }
   },
   mounted(){
+    
     this.que_id = this.$route.params.que_id
     console.log(this.$route.params.que_id+"###############")
     $.ajax({
@@ -59,6 +71,12 @@ export default {
               this.queData = data.data;
               this.que_title = data.data.title;
               this.que_con = data.data.content;
+              this.que_userId = data.data.user_id;
+              console.log('que_userId:',this.que_userId);
+              if(window.localStorage.userId === JSON.stringify(this.que_userId)){
+                this.can_ans = true;
+                this.placeholder = "这是你自己的问题。。。。。。"
+              }
             }else{
               alert(data.msg)
             }
@@ -78,7 +96,10 @@ export default {
     },
     submit(){
       console.log("提交"+JSON.parse(window.localStorage.user).userId)
-      if($("textarea[name='answer_con']").val() === '' && this.index === 0){
+      if(window.localStorage.userId === JSON.stringify(this.que_userId)){
+        alert('不能回答自己的提问');
+        return false;
+      }else if(this.answer_con === '' && this.index === 0){
         alert('回答内容不能为空');
         return false
       }else{
@@ -89,7 +110,7 @@ export default {
           crossDomain: true,
           cache: true,
           data: {
-            text_con:$("textarea[name='answer_con']").val(),
+            ans_con:this.answer_con,
             que_id:this.que_id,
             user_id:JSON.parse(window.localStorage.user).userId,
             is_voice:this.index,
@@ -144,7 +165,7 @@ export default {
   background: #2b8ff7; 
 }
 .answ-box{
-	height: 4.0rem;
+	/*height: 4.0rem;*/
 	margin-top: 0.5rem;
   padding:1.0rem 0.5rem;
 }

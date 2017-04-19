@@ -12,7 +12,11 @@
 	  <div class="ask-me" v-for="ask_data in ask_datas"  v-if="index==2">
       <ask-me :data="ask_data"></ask-me>
     </div>
-	  <div class="bom"></div>
+    <div class="get-more" v-if="index==2">
+      <el-button type="primary" :loading="isload" size="mini" class="que-loading"  @click="getQue()">
+        {{btn_msg}}
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -34,21 +38,43 @@ export default {
       ask_datas:[
       ],
       darenDatas:[
-      ]
+      ],
+      page:1,
+      btn_msg:'加载更多',
+      isload:true
     }
   },
   mounted(){
-    this.index = window.localStorage.consult_sta;
-		// this.title = this.$route.params.title;
+    // this.index = window.localStorage.consult_sta;
     this.type = this.$route.params.type;
-		//答人列表
-		$.ajax({
+    if(this.index === 1){
+      this.getDarenMsg()
+    }else{
+      this.ask_datas=[]
+      this.getQue();
+    }
+  },
+  methods:{
+  	changList(id){
+  		this.index=id;
+      this.page = 1;
+      this.ask_datas=[];
+      window.localStorage.consult_sta=id;
+      if(this.index === 1){
+        this.getDarenMsg()
+      }else{
+        this.page = 1;
+        this.getQue();
+      }
+  	},
+    getDarenMsg(){
+      $.ajax({
         url: '/api/getDarenMsg',
         type:'get', 
         dataType: 'json',
         crossDomain: true,
         cache: true,
-        data: {type:this.type},//序列化
+        data: {type:this.type},
         success: function(data) {
           console.log(data);
           if(data.status === 'OK'){
@@ -56,46 +82,51 @@ export default {
 						console.log('********************')
 						console.log(this.darenDatas)
           }else{
-            alert(data.msg)
+            alert("没有更多信息")
           }
         }.bind(this),
         error: function(xhr, status, err) {
           console.log(err)
         }.bind(this)
-  	});
-		//问题
-		$.ajax({
+  	  });
+    },
+    getQue(){
+      console.log('^^^^^^^^^^^^^^^^'+this.page)
+      this.isload = true;
+      this.btn_msg = "疯狂加载中"
+      $.ajax({
         url: '/api/getQuestion',
         type:'get', 
         dataType: 'json',
         crossDomain: true,
         cache: true,
-        // data: $('#loginForm').serialize(),//序列化
-        success: function(data) {
-          console.log(data);
-          if(data.status === 'OK'){
-            this.ask_datas = data.data
-						console.log('********************')
-						console.log(this.ask_datas)
-          }else{
-            alert(data.msg)
-          }
-        }.bind(this),
-        error: function(xhr, status, err) {
-          console.log(err)
-        }.bind(this)
-  	});
-  },
-  methods:{
-  	changList(id){
-  		this.index=id;
-      window.localStorage.consult_sta=id;
-  		// if(this.index==1){
-  		// 	this.title='答 人'
-	  	// }else{
-	  	// 	this.title='问 答'
-	  	// }
-  	}
+        data:{
+          type:this.type,
+          page:this.page
+        },
+        success:(data) => {
+          setTimeout(()=>{
+            if(data.status === 'OK'){
+              this.ask_datas=this.ask_datas.concat(data.data);
+              if(data.data.length < 5){
+                this.isload = false;
+                this.btn_msg = "没有更多了。。。"
+              }else{
+                this.isload = false;
+                this.btn_msg = "加载更多";
+              }
+              this.page++;
+            }else{
+              console.log(data.msg)
+            }
+          },0)
+          
+        },
+        error:(err) => {
+          console.error(err)
+        }
+      });
+    }
   }
 }
 </script>
@@ -125,5 +156,15 @@ export default {
 	color: #fff;
 	font-weight: 600;
 	background: #2b8ff7;
+}
+.get-more{
+  width:50%;
+  /*position: relative;*/
+  margin:0 auto;
+}
+.que-loading{
+  width: 100%;
+  /*margin:auto 0;*/
+  /*margin-left: 50%;*/
 }
 </style>

@@ -5,7 +5,16 @@ import App from './App'
 import routes from './routes.js'
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
+import Vuex from 'vuex'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-default/index.css'
 import $ from 'jquery'
+// import * as io from 'socket.io-client'
+import VueSocketio from 'vue-socket.io'
+import store from './store.js'
+// Vue.use(VueSocketio, store);
+Vue.use(VueSocketio, 'http://localhost:8088'); 
+Vue.use(ElementUI);
 // import Element from 'element-ui'
 /* eslint-disable no-new */
 // new Vue({
@@ -23,6 +32,7 @@ import $ from 'jquery'
 
 Vue.use(VueRouter);
 Vue.use(VueResource);
+Vue.use(Vuex)
 // filter
 Vue.filter('str2arr', function (val) {
 	if(val)
@@ -36,6 +46,7 @@ Vue.filter('str2arr', function (val) {
 // 		return val.replace(reTag,'');
 // })
 
+
 // 去掉所有html标签
 Vue.filter('passAll', (v)=>v&&v.replace(/<[^>]+>/g,""))
 
@@ -46,20 +57,7 @@ const router = new VueRouter({
 	mode:'history',
 	routes:routes
 })
-var store = {
-  debug: true,
-  state: {
-    message: 'Hello!'
-  },
-  setMessageAction (newValue) {
-    this.debug && console.log('setMessageAction triggered with', newValue)
-    this.state.message = newValue
-  },
-  clearMessageAction () {
-    this.debug && console.log('clearMessageAction triggered')
-    this.state.message = 'clearMessageAction triggered'
-  }
-}
+
 // router.beforeEach(function () {
 //   window.scrollTo(0, 0)
 // })
@@ -69,6 +67,14 @@ new Vue({
   el:'#app',
   router,
   store,
+  sockets:{
+    connect: function(){
+      console.log('socket connected');
+    },
+    customEmit: function(val){
+      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+    }
+  },
   render: h => h(App)
 })
 // var router = new Router()

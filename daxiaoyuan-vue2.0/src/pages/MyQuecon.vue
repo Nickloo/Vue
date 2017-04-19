@@ -3,7 +3,7 @@
     <nav-header title="我的提问"  :back="true"></nav-header>
     <!--<selection>asdfasf</selection>-->
     <div class="que-card main wrapper padding-10-10">
-      <user-logo :user-name="user.username" :user-logo="user.user_logo"></user-logo>
+      <!--<user-logo :user-name="user.username" :user-logo="user.user_logo"></user-logo>-->
       <ul>
         <li>
           <h3>{{queData.title}}</h3>
@@ -22,7 +22,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import NavHeader from '../components/NavHeader'
 import UserLogo from '../components/UserLogo'

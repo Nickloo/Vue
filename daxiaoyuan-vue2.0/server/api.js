@@ -1,14 +1,13 @@
 "use strict";
 const dao = require('./db');
 const express = require('express');
-const async = require('async')
+const async = require('async');
 const router = express.Router();
-
 const cookieParser = require('cookie-parser');
 const session = require('cookie-session');
 router.use(cookieParser())
 router.use(session({
-    secret: 'blog'
+    secret: 'users',
 }))
 router.use(function timeLog(req,res,next) {
     var _user = req.session.user;
@@ -36,12 +35,13 @@ router.post('/api/register',(req,res) => {
         }else{
             dao.Insert('users',data,() => {
                 dao.select('users',{username:username},(results) => {
-                    res.apiSuccess('OK','注册成功',results)
+                    res.apiSuccess('OK','注册成功',results[0].userId)
+                    console.log(results[0].userId)
                 })
             })
         }
     })
-    console.log(data)
+    // console.log(data)
 })
 //获取用户信息
 router.get('/api/getUser',(req,res) => {
@@ -63,7 +63,7 @@ router.get('/api/getUser/darenMsg',(req,res) => {
 
         }
         res.json({status:'OK',msg:'用户信息获取成功',data:darenData})
-        console.log(results)
+        // console.log(results)
     })
 });
 //用户登陆
@@ -103,8 +103,6 @@ router.post('/api/follows',(req,res) => {
     let listData = {
         fans_id:userId,
         user_id:fav_id,
-        fans_name:fans_name,
-        username:username,
     }
     console.log(userId+'      '+fav_id)
     // res.apiSuccess('OK','关注成功')
@@ -140,7 +138,8 @@ router.post('/api/delFav',(req,res) => {
 router.get('/api/getDarenMsg',(req,res) => {
     console.log('******************/api/getDarenMsg')
     // let identy = req.query.identy;
-    dao.select('users',{identy:1},(results) => {
+    let identy_type = req.query.type
+    dao.select('users',{identy_type:identy_type},(results) => {
         if(results[0] === undefined){
             res.apiSuccess('ON','获取信息失败',results)
         }else{
@@ -166,7 +165,7 @@ router.post('/api/setUser',(req,res) => {
         // res.apiSuccess('OK','信息保存成功')
         dao.select('users',{userId:userId},(results) => {
             res.json({status:'OK',msg:'信息保存成功',data:results})
-            console.log(results)
+            // console.log(results)
         })
     })
 })
@@ -191,9 +190,9 @@ router.post('/api/createQue',(req,res) => {
             }
         }
     }else{
-        console.log(que_data)
+        // console.log(que_data)
         dao.Insert('questions',que_data,(results) => {
-            res.json({status:'OK',msg:'问题保存成功'})
+            res.json({status:'OK',msg:'问题保存成功',data:results})
         })
     }
     
@@ -223,21 +222,36 @@ router.post('/api/answer/voice',(req,res) => {
 })
 //获取所有问题
 router.get('/api/getQuestion',(req,res) => {
+    let type = req.query.type;
+    // let page = 1;//where type = '"+type+"'
+    let page = req.query.page;
+    let start = page*5-5;
+    console.log(start+"#######")
     console.log('/api/getQuestion')
-    dao.select('questions',{is_private:0},(result) => {
-        // date = result.que_date
-        // result.que_date = moment().format(date);
-        res.apiSuccess('OK','问题获取成功',result)
-        console.log(result)
+    let sql = "select * from questions where type = '"+type+"' limit "+start+",5";
+    dao.selectCustom(sql,(ret) => {
+        if(ret){
+            res.apiSuccess('OK','问题获取成功',ret);
+            console.log(ret.length)
+        }else{
+            res.apiSuccess('ON')
+            // console.log(ret)
+        }
     })
+    // dao.select('questions',{type:type},(result) => {
+    //     // date = result.que_date
+    //     // result.que_date = moment().format(date);
+    //     res.apiSuccess('OK','问题获取成功',result)
+    //     // console.log(result)
+    // })
 })
 //获取单个问题
 router.get('/api/getQuestion/queCon',(req,res) => {
+    console.log('/api/getQuestion/queCon')
     let que_id = req.query.que_id;
     let user_id = req.query.user_id;
     console.log('que_id    '+que_id)
     console.log('user_id     '+user_id)
-    console.log('/api/getQuestion/queCon')
     if(que_id){
         console.log(que_id)
         // console.log('/api/getQuestion/queCon')
@@ -250,7 +264,7 @@ router.get('/api/getQuestion/queCon',(req,res) => {
         // console.log('/api/getQuestion/queCon')
         dao.select('questions',{user_id:user_id},(result) => {
             res.apiSuccess('OK','问题获取成功',result)
-            console.log(result)
+            // console.log(result)
         })
     }
     
@@ -270,28 +284,33 @@ router.get('/api/getQueAns',(req,res) => {
 })
 //获取专栏信息
 router.get('/api/getColumn',(req,res) => {
+    console.log('/api/getColumn')
     dao.selectAll('col_list',(results) => {
         res.apiSuccess('OK','专栏信息获取成功',results)
     })
 })
-//获取回答列表
-// router.get('/api/getAnswers',(req,res) => {
-//     dao.selectAll('col_list',(results) => {
-//         res.apiSuccess('OK','专栏信息获取成功',results)
-//     })
-// })
-//获取问题回答
-router.get('/api/getAnswers',(req,res) => {
-    dao.selectAll('col_list',(results) => {
-        res.apiSuccess('OK','专栏信息获取成功',results)
-    })
+//获取我的回答
+router.get('/api/getMyAns',(req,res) => {
+    let page = req.query.page;
+    let userId = req.query.userId;
+    let start = page*5-5;
+    console.log('/api/getMyAns  '+"page  "+page+"  userId   "+userId)
+    let sql = "select * from answers where user_id = '"+userId+"' limit "+start+",5";
+    if(page&&userId){
+        dao.selectCustom(sql,(ret) => {
+            res.apiSuccess('OK','success',ret)
+        })
+    }else{
+        console.error('err')
+    }
+    
 })
 
 //提交回答
 router.post('/api/answer',(req,res) => {
     console.log('/api/answer');
     let data = {
-        text_con:req.body.text_con,
+        ans_con:req.body.ans_con,
         que_id:req.body.que_id,
         user_id:req.body.user_id,
         is_voice:req.body.is_voice,
@@ -303,7 +322,7 @@ router.post('/api/answer',(req,res) => {
         console.log(result);
         res.apiSuccess('OK','回答提交成功',{})
     });
-    console.log(data);
+    // console.log(data);
 })
 // 获取答人准确信息
 router.get('/api/getDarenMsg/person',(req,res) => {
@@ -326,18 +345,7 @@ router.get('/api/getDarenMsg/person',(req,res) => {
                 }
             })
         },
-        answer: function(callback){
-            dao.select('answers',{user_id:daren_id},(ret) => {
-                let i = 0;
-                let len = ret.length
-                if(len === 0){
-                    console.log('************空空')
-                    callback(null, ret);
-                    return false
-                }
-                callback(null, ret);                      
-            })
-        },
+        
         question: function(callback){
             dao.select('questions',{best_userId:daren_id},(ret) => {
                 callback(null,ret)
@@ -360,12 +368,52 @@ router.get('/api/getDarenMsg/person',(req,res) => {
     });
     
 })
+//
+router.get('/api/getFollows',(req,res) => {
+    let userId = req.query.userId;
+    console.log('/api/getFollows'+userId)
+    dao.selectFollow(userId,(results) => {
+        res.apiSuccess('OK','获取关注信息成功',results)
+        console.log(results)
+    })
+})
 // 设置最佳答案
 router.post('/api/setbest',(req,res) => {
+    let que_id = '';
+    let ans_id = req.body.ans_id;
     console.log('/api/setbest');
-    dao.upDate('answers',[{is_best:1},{ans_id:req.body.ans_id}],(ret) => {
-        res.apiSuccess('OK','设置成功',{})
+    dao.select('answers',{ans_id:ans_id},(ret) => {
+        if(ret.length !== 0){
+            res.apiSuccess('ON','已有最佳答案')
+        }else{
+            dao.upDate('answers',[{is_best:1},{ans_id:ans_id}],(ret) => {
+                // dao.upDate('questions',[{}])
+                dao.selectCustom('select * from answers where ans_id = "'+ans_id+'"',(rets) => {
+                    que_id = rets[0].que_id;
+                    dao.upDate('questions',[{best_id:ans_id},{que_id:que_id}],() => {
+                        dao.select('questions',{que_id:que_id},(result) => {
+                            let clas_data = {
+                                ans_id:ans_id,
+                                que_id:que_id,
+                                que_title:result[0].title,
+                                ans_con:rets[0].text_con,
+                                answer_user_id:rets[0].user_id,
+                                que_user_id:result[0].user_id,
+                                is_voice:rets[0].is_voice,
+                                voice_src:rets[0].voice_src,
+                                date:new Date().toLocaleDateString()
+                            };
+                            res.apiSuccess('OK','设置成功',clas_data);
+                            dao.Insert('classics',clas_data,(re) => {
+                                console.log(clas_data);
+                            })
+                        })
+                    })
+                })
+            })
+        }
     })
+    
 })
 // 取消最佳答案
 router.post('/api/delbest',(req,res) => {
@@ -380,6 +428,60 @@ router.get('/api/getfans',(req,res) => {
     dao.selectFans({user_id:req.query.user_id},(ret) => {
         res.apiSuccess('OK','获取粉丝信息成功',ret);
     })
+})
+//获取最新咨询
+router.get('/api/getClassics',(req,res) => {
+    console.log('/api/getClassics******************')
+    dao.selectAll('classics',(ret) => {
+        let j = 0;
+        for(let i=0;i<ret.length;i++){
+            dao.select('users',{userId:ret[i].answer_user_id},(result) => {
+                ret[i].ans_username = result[0].username;
+                ret[i].ans_user_logo = result[0].user_logo;
+                j++
+                console.log('I:'+i);
+                console.log('J:'+j);
+                if(j===ret.length){
+                    res.apiSuccess('OK','获取信息成功',ret)
+                    console.log(i+'结束###########')
+                }
+            })
+        }
+    })
+})
+//获取个人最佳答案
+router.get('/api/getClassics/person',(req,res) => {
+    let answer_user_id = req.query.answer_user_id;
+    console.log('/api/getClassics/person******************'+answer_user_id)
+    dao.select('classics',{answer_user_id:answer_user_id},(ret) => {
+        dao.select('users',{userId:answer_user_id},(result) => {
+            let j=0;
+            for(let i=0;i<ret.length;i++){
+                ret[i].ans_username = result[0].username;
+                ret[i].ans_user_logo = result[0].user_logo;
+                j++;
+                if(j===ret.length){
+                    res.apiSuccess('OK','success',ret);
+                }
+            }
+        })
+    })
+})
+//获取单个最佳
+router.get('/api/getClassics/que',(req,res) => {
+    let que_id = req.query.que_id;
+    console.log('/api/getClassics/person******************')
+    dao.select('classics',{que_id:que_id},(ret) => {
+        dao.select('users',{userId:ret[0].answer_user_id},(result) => {
+            ret[0].ans_username = result[0].username;
+            ret[0].ans_user_logo = result[0].user_logo;
+            res.apiSuccess('OK','获取信息成功',ret[0])
+        })
+    })
+})
+//获取上周经典
+router.get('api/getLatest',(req,res) => {
+
 })
 // api模板
 router.post('',(req,res) => {

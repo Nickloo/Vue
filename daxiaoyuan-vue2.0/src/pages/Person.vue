@@ -1,6 +1,7 @@
 <template>
   <div class="body wrapper body-top">
   	<nav-header title="个人"></nav-header>
+    <i class="el-icon-message"></i>
     <div class="top-card text-center">
     	<div class="per-logo" @click="goMsg">
     		<img class="fullsrc" :src="user.user_logo" alt="">
@@ -24,8 +25,10 @@
     			<div style="margin-top:1rem">听过</div>
     		</div>
     		<div class="sel-box">
-    			<div>{{user.answer_num}}</div>
-    			<div style="margin-top:1rem">回答</div>
+          <router-link to="/my_answer">
+            <div>{{user.answer_num}}</div>
+    			  <div style="margin-top:1rem">回答</div>
+          </router-link>
     		</div>
     	</div>
     </div>
@@ -53,9 +56,9 @@
     </div> 
     <ask-card v-if="index === 1" ></ask-card>
     <!--<ask-me v-if="index === 1" >{ path:'quecon/my_quecon', query: { que_id: item.que_id }}</ask-me>-->
-    <que-list></que-list>
+    <!--<que-list v-if="index === 0"></que-list>-->
     
-      <div class="my-que main wrapper" v-if="index === 1" v-for = "item in my_queData">
+      <div class="my-que main wrapper" v-if="index === 1" v-for = "item in this.$store.state.my_queData">
         <router-link :to="{name:'my_quecon',params:{que_id:item.que_id}}">
             <h3>{{item.title}}</h3>
             <time class="float-right">{{item.que_date}}</time>
@@ -92,12 +95,7 @@ export default {
 
     }
   },
-  created(){
-    
-    // console.log(global.user)
-  },
   mounted(){
-    // this.my_queData = JSON.parse(window.localStorage.my_queData);
     this.getMymsg();
     this.identy = this.user.identy;
   },
@@ -109,12 +107,12 @@ export default {
       }
   	},
     goMsg(){
-      this.$router.push('/setmsg')
+      this.$router.push({name:'setmsg',params:{userId:window.localStorage.userId}})
     },
     test(){
       console.log('申请')
     },
-    getMyQue:function(){
+    getMyQue(){
       $.ajax({
 						url: '/api/getQuestion/queCon',
 						type:'get', 
@@ -126,6 +124,7 @@ export default {
 						success: function(data) {
 							if(data.status === 'OK'){
                 this.my_queData = data.data;
+                this.$store.setMyque(data.data)
                 global.getMyque = 1
 							}
 						}.bind(this),
@@ -143,9 +142,8 @@ export default {
         },
         success:(data) => {
           this.user = data.data[0];
-          // global.user = this.user;
-          window.localStorage.user = JSON.stringify(this.user)
-          console.log(data.data[0])
+          global.user = this.user;
+          window.localStorage.user = JSON.stringify(this.user);
         }
       })
     }
@@ -155,6 +153,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.el-icon-message{
+  position: absolute;
+  z-index: 100;
+  right: 1rem;
+  top:1rem;
+}
 .top-card{
 	overflow: hidden;
 	/*// height: 13rem;*/

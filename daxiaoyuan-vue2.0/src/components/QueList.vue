@@ -1,18 +1,17 @@
 <template>
-  <div class="wrapper body que-list" v-if="item.is_best === 1">
+  <div class="wrapper body que-list">
   <router-link :to="{name:'wenda',params:{id:item.que_id}}">
-	<div class="content padding-10" :class="{over:isOver}">
-	    	{{item.que_con}}
-	</div>
+	<h3 class="content padding-10" :class="{over:isOver}">
+	    	{{item.que_title}}
+	</h3>
 	<div class="border-bottom" style="margin-top:0.5rem"></div>
 	</router-link>
-	<ans-list :username="username" :user-logo="item.ans_ulogo" :is-voice="item.is_voice"
-				:textCon="item.text_con"></ans-list>
+	<ans-list :username="item.ans_username" :user-logo="item.ans_user_logo" :is-voice="item.is_voice"
+				:textCon="item.ans_con"></ans-list>
 	<div class="bottom" v-if="isbot">
 		<span class="fav">{{item.fav_num}}人觉得很赞</span>
 		<i class="iconfont fav-logo" :style="{color:favColor}" @click="fav">&#xe668;</i>
 	</div>
-	
   </div>
 </template>
 
@@ -28,7 +27,7 @@ export default {
     	play:false,
     	favColor:'',
     	anws_time:'1:00',
-    	isVoice:true
+    	isVoice:true,
     }
   },
   props:{
@@ -40,16 +39,18 @@ export default {
   			}
   		}
   	},
-	username:'',
   	is_fav:1,
-  	isbot:{type:Boolean,default:true},
+  	isbot:'',
   	isOver:{type:Boolean,default:true},
+  },
+  created(){
   },
   mounted(){
   	if(this.is_fav===0){
   		this.favColor="#000"
   	}else{
-  		this.favColor="red"  	}
+  		this.favColor="red"  	
+	}
   },
   methods:{
   	player(){
@@ -61,7 +62,10 @@ export default {
   		}else{
   			this.favColor="red"
   		}
-  	}
+  	},
+	getUser(){
+
+	}
   }
 }
 </script>

@@ -76,8 +76,10 @@ export default {
                 if(data.status === 'OK'){
                   window.localStorage.userId = data.data;
                   global.userId = data.data;
-                  alert('登陆成功')
-                  this.$router.push('/home')
+                  // this.$store.state.userId
+                  alert('登陆成功');
+                  this.$socket.emit('login', data.data);
+                  this.$router.push('/home');
                 }else{
                   alert(data.msg)
                 }

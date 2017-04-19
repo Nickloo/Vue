@@ -145,7 +145,6 @@ function selectFans(user_id,callback){
 							results[i].introduction = ret[0].introduction;
 							if(i === results.length-1){
 								callback(results);
-								// con.release()
 							}
 						});
 					// });
@@ -155,6 +154,29 @@ function selectFans(user_id,callback){
 			console.log('出现错误：'+error)
 			callback(error)
 		}
+		connection.release();
+	});
+}
+function selectFollow(userId,callback){
+	pool.getConnection((err,connection) => {
+		connection.query('select * from fanslist where ?',{fans_id:userId},(err,result) => {
+			if(err) console.error(err);
+			else{
+				let sqlStr = 'select username,userId,user_logo,introduction,fans_num from users where ?';
+				for(let i=0;i<result.length;i++){
+					connection.query(sqlStr,{userId:result[i].user_id},(err,ret) => {
+						result[i].username = ret[0].username;
+						result[i].user_logo = ret[0].user_logo;
+						result[i].introduction = ret[0].introduction;
+						result[i].fans_num = ret[0].fans_num;
+						result[i].userId = ret[0].userId;
+						if(i === result.length-1){
+							callback(result);
+						}
+					})
+				}
+			}
+		});
 		connection.release();
 	});
 }
@@ -237,22 +259,20 @@ function selectAns(que_id,callback){
 			console.log('select * from answers ');
 			if(err) console.log(err);
 			else{
+				let j = 0;
 				for(let i=0;i<results.length;++i){
 					console.log('i:',i);
-					// pool.getConnection((err,con) => {
 						connection.query('select * from users where ?',{userId:results[i].user_id},(err,ret) => {
 							console.log('select * from users where ?');
 							results[i].username = ret[0].username;
 							results[i].user_logo = ret[0].user_logo;
 							results[i].introduction = ret[0].introduction;
 							results[i].fans_num = ret[0].fans_num;
-							// i++;
-							if(i === results.length-1){
+							j++;
+							if(j === results.length){
 								callback(results);
-								// con.release();
 							} 
 						});
-					// });
 				}
 			}
 		});
@@ -260,4 +280,4 @@ function selectAns(que_id,callback){
 	});
 }
 // function 
-module.exports = {select,selectAll,selectCustom,selectFans,Insert,upDateFans,upDate,delFans,selectAns}
+module.exports = {select,selectAll,selectCustom,selectFans,selectFollow,Insert,upDateFans,upDate,delFans,selectAns}

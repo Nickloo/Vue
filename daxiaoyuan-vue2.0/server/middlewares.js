@@ -7,8 +7,6 @@ var multipart = require('connect-multiparty');
 var js2xmlparser = require('js2xmlparser');
 // var utils = require('./utils');
 // var database = require('./database');
-
-
 // 检查用户是否已登录
 exports.ensureLogin = function (req, res, next) {
   // 这里直接设置用户ID=glen

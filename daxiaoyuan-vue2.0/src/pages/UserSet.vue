@@ -1,6 +1,6 @@
 <template>
   <div class="body body-top">
-  <nav-header :back="true" title="设置个人资料"></nav-header>
+  <nav-header title="设置个人资料"></nav-header>
   <form action="post" class="padding-20 main" id="usermsg">
     <div class="per-logo" @click="selImg">
     		<img class="fullsrc" :src="test_logo" id="user-logo">
@@ -20,7 +20,7 @@
     <input-box title="邮箱" type="email" title-color="black" name="email" :placeholder="usermsg.email"></input-box>
   </form>
   <div>{{test_logo}}</div>
-  <div class="submit text-center ztc" @click="updata()">保存</div>
+  <div class="submit text-center ztc" @click="updata()">保存并返回</div>
   </div>
 </template>
 
@@ -44,7 +44,7 @@ export default {
       url:'/api/getUser',
       type:'get',
       dataType:'json',
-      data:{userId:window.localStorage.userId},
+      data:{userId:this.$route.params.userId},
       cache: true,
       success:(data)=>{
         this.usermsg = data.data[0]

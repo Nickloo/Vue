@@ -8,8 +8,8 @@
 			</div>
 		</div>
 		<div class="drmsg-tag">他被确认的回答</div>
-		<div class="daren-que main" v-for="item in datas.answer">
-			<que-list :isbot="true" :item="item" :is-over="true" :username="daren_name"></que-list>
+		<div class="daren-que main" v-for="item in ans_data">
+			<que-list :isbot="true" :item="item" ></que-list>
 		</div>
 		<div class="fallows text-center ztc" @click="fallow">{{fal_btn}}</div>
   </div>
@@ -31,13 +31,11 @@ export default {
 			introduction:'',
 			user_logo:'',
       datas:[
-
     	],
 			ans_data:[]
     }
   },
-  mounted(){
-		
+  created(){
   	console.log('************',this.$route.params.userId);
 		$.ajax({
         url: '/api/getDarenMsg/person',
@@ -62,6 +60,9 @@ export default {
         }.bind(this)
     });
   },
+	mounted(){
+		this.getAnslist();
+	},
 	methods:{
 		fallow(){
 			// alert('***********')
@@ -113,6 +114,22 @@ export default {
 					});
 				}
 			}
+		},
+		getAnslist(){
+			$.ajax({
+				url:'/api/getClassics/person',
+				type:'get',
+				dataType:'json',
+				data:{
+					answer_user_id:this.$route.params.userId
+				},
+				success:(data) => {
+					this.ans_data = data.data;
+				},
+				error:(err) => {
+					console.error(err.toString())
+				}
+			})
 		}
 	}
 }

@@ -6,7 +6,7 @@
                 <img :src="userLogo" style="height:100%;width:100%">
             </div>
             <div class="ans-uname title-font">{{username}} 的回答</div>
-            <div class="best-ans float-right" v-if = "best === 1" @click="handlClick">最佳答案</div>
+            <div class="best-ans float-right" v-if = "best === 1 && control" @click="handlClick">最佳答案</div>
             <div class="best-ans float-right" v-if = "best === 0 && control" @click="handlClick">设为最佳答案</div>
         </div>
     <!--</router-link>-->
