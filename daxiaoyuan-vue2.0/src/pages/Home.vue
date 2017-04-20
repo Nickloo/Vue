@@ -71,6 +71,9 @@ export default {
         dataType:'json',
         cache:'true',
         crossDomain:'true',
+        data:{
+          page:1
+        },
         success:(data) => {
           this.queDatasNew = data.data;
           console.log(data.data)
@@ -92,8 +95,5 @@ export default {
   margin:0 auto;
   border-radius: 0.5rem;
   margin-top: 0.5rem;
-}
-.selected{
-
 }
 </style>

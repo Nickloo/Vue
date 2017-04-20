@@ -6,7 +6,7 @@
     <!-- </keep-alive> -->
     
     <!-- <hello></hello> -->
-    <div class="bom"></div>
+    <div class="bom" v-if="is_bom"></div>
     <nav-bottom v-if="is_bom"></nav-bottom>
     <!-- hello -->
   </div>

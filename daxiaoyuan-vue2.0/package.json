@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "element-ui": "^1.2.8",
+    "jsonwebtoken": "^7.3.0",
+    "res.api": "^1.0.11",
     "vue": "^2.1.0",
     "vue-resource": "^1.0.3",
     "vue-router": "^2.1.1",

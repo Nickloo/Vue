@@ -1,5 +1,5 @@
 <template>
-  <div class="body body-top">
+  <div class="body-top">
   <nav-header title="设置个人资料"></nav-header>
   <form action="post" class="padding-20 main" id="usermsg">
     <div class="per-logo" @click="selImg">
@@ -44,10 +44,18 @@ export default {
       url:'/api/getUser',
       type:'get',
       dataType:'json',
-      data:{userId:this.$route.params.userId},
+      data:{
+        userId:this.$route.params.userId,
+        token:window.localStorage.token,
+      },
       cache: true,
       success:(data)=>{
-        this.usermsg = data.data[0]
+        if(data.status === 'OK'){
+          this.usermsg = data.data
+        }else{
+          this.$router.push('/login')
+        }
+        
       },
       error:(xhr, status, err)=>{
         console.error(xhr, status, err.toString())
@@ -121,7 +129,6 @@ export default {
 .per-logo{
 	height:5.0rem;
 	width: 5.0rem;
-	/*border-radius: 10.0rem;*/
 	background: #eee;
 	margin:0 auto;
 }

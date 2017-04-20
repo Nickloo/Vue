@@ -12,7 +12,7 @@
 	  <div class="ask-me" v-for="ask_data in ask_datas"  v-if="index==2">
       <ask-me :data="ask_data"></ask-me>
     </div>
-    <div class="get-more" v-if="index==2">
+    <div class="get-more">
       <el-button type="primary" :loading="isload" size="mini" class="que-loading"  @click="getQue()">
         {{btn_msg}}
       </el-button>
@@ -68,6 +68,8 @@ export default {
       }
   	},
     getDarenMsg(){
+      this.isload = true;
+      this.btn_msg = "疯狂加载中";
       $.ajax({
         url: '/api/getDarenMsg',
         type:'get', 
@@ -75,19 +77,23 @@ export default {
         crossDomain: true,
         cache: true,
         data: {type:this.type},
-        success: function(data) {
+        success: (data) => {
           console.log(data);
-          if(data.status === 'OK'){
-            this.darenDatas = data.data
-						console.log('********************')
-						console.log(this.darenDatas)
+          this.darenDatas = data.data
+					console.log('********************')
+					console.log(this.darenDatas);
+          if(data.data.length < 5){
+              this.isload = false;
+              this.btn_msg = "没有更多了。。。";
           }else{
-            alert("没有更多信息")
+              this.isload = false;
+              this.btn_msg = "加载更多";
           }
-        }.bind(this),
-        error: function(xhr, status, err) {
+          this.page++;
+        },
+        error:(xhr, status, err) => {
           console.log(err)
-        }.bind(this)
+        }
   	  });
     },
     getQue(){

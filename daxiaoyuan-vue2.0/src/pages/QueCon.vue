@@ -95,7 +95,7 @@ export default {
         alert(oSelec.value);
     },
     submit(){
-      console.log("提交"+JSON.parse(window.localStorage.user).userId)
+      console.log("提交"+window.localStorage.userId)
       if(window.localStorage.userId === JSON.stringify(this.que_userId)){
         alert('不能回答自己的提问');
         return false;
@@ -112,7 +112,7 @@ export default {
           data: {
             ans_con:this.answer_con,
             que_id:this.que_id,
-            user_id:JSON.parse(window.localStorage.user).userId,
+            user_id:window.localStorage.userId,
             is_voice:this.index,
             voice_src:this.voice_src,
             que_con:this.que_con,

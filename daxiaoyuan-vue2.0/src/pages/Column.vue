@@ -50,7 +50,8 @@ export default {
         success: function(data) {
             console.log(data);
             if(data.status === 'OK'){
-              this.datas=this.datas.concat(data.data)
+              this.datas=this.datas.concat(data.data);
+              this.datas.splice(0, 1);
               loadingInstance.close();
             }else{
               alert(data.msg)
@@ -63,11 +64,12 @@ export default {
 	},
   mounted(){
   	var column_box = document.getElementById('column-box');
-  	var column_box_cla = document.getElementsByClassName('column-box')
+  	// var column_box_cla = document.getElementsByClassName('column-box')
   	var col_width = column_box.offsetWidth;
+    // column_box.style.padding = col_width+"px";
   	this.box_height = col_width-20+"px";
   	this.box_width = this.box_height;
-  	// column_box_cla.style.['line-height']=this.box_height;
+  	// column_box_cla.style.padding = "5px";
   	console.log('**********',this.box_height);
 
   }

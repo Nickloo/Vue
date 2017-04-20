@@ -1,5 +1,5 @@
 <template>
-  <div class="body wrapper body-top">
+  <div class="body body-top">
   	<nav-header title="个人"></nav-header>
     <i class="el-icon-message"></i>
     <div class="top-card text-center">
@@ -40,34 +40,25 @@
     		我的提问
     	</div>
     </div>
-    <!--<div class="ask-me" v-if="identy===0 && index === 0">-->
-      <!--<button>申请成为答人</button>-->
-    <!--</div>-->
-    <div class="ask-me" v-for="ask_data in ask_datas" v-if="index === 0 && identy ===0">
+    <!--想我提问模块-->
+    <div class="ask-me" v-for="ask_data in ask_datas" v-if="index === 0 && identy === 1">
       <ask-me v-if="index == 0" :data="ask_data"></ask-me>
     </div>
-    <div class="apply fullsrc" v-if="index === 0 && identy ===1">
-      <div class="tishi main text-center">
-        你还没有被采纳五个回答，还不能成为答人
-      </div>
-      <button class="apply-button ztc" @click="test">
+    <div  v-if="index === 0 && identy === 0" >
+      <h3 class="text-center">只有答人能接受提问,赶快申请吧</h3>
+      <el-button class="apply-button" type="primary" @click="goApply()">
         申请成为答人
-      </button>
-    </div> 
+      </el-button>
+    </div>
+    <!--提问模块-->
     <ask-card v-if="index === 1" ></ask-card>
-    <!--<ask-me v-if="index === 1" >{ path:'quecon/my_quecon', query: { que_id: item.que_id }}</ask-me>-->
-    <!--<que-list v-if="index === 0"></que-list>-->
-    
-      <div class="my-que main wrapper" v-if="index === 1" v-for = "item in this.$store.state.my_queData">
+    <div class="my-que main wrapper" v-if="index === 1" v-for = "item in my_queData">
         <router-link :to="{name:'my_quecon',params:{que_id:item.que_id}}">
             <h3>{{item.title}}</h3>
             <time class="float-right">{{item.que_date}}</time>
         </router-link>
-        
-      </div>
+    </div>
     <h2 class="text-center main" v-if="index === 1 && my_queData.length === 0">你还没有进行过提问...</h2>
-    <!-- <div class="bom"></div> -->
-    <!--<input type="hidden" v-model = '' value="">-->
   </div>
 </template>
 
@@ -91,13 +82,10 @@ export default {
       my_queData:[
         
       ]
-     
-
     }
   },
   mounted(){
     this.getMymsg();
-    this.identy = this.user.identy;
   },
   methods:{
   	changPage(id){
@@ -109,8 +97,8 @@ export default {
     goMsg(){
       this.$router.push({name:'setmsg',params:{userId:window.localStorage.userId}})
     },
-    test(){
-      console.log('申请')
+    goApply(){
+      this.$router.push('/apply')
     },
     getMyQue(){
       $.ajax({
@@ -138,15 +126,27 @@ export default {
         type:'get',
         dataType:'json',
         data:{
-          userId:window.localStorage.userId
+          userId:window.localStorage.userId,
+          token:window.localStorage.token
         },
         success:(data) => {
-          this.user = data.data[0];
-          global.user = this.user;
-          window.localStorage.user = JSON.stringify(this.user);
+          if(data.status === "OK"){
+            this.user = data.data;
+            this.identy = this.user.identy;
+            global.user = this.user;
+          }else{
+            this.$router.push('/login')
+          }
+          
+        },
+        error:(err) => {
+          console.error(err)
         }
       })
     }
+  },
+  watch:{
+
   }
 }
 </script>
@@ -209,17 +209,10 @@ export default {
 .active{
 	border-bottom: 0.1rem solid blue
 }
-.apply{
-  width: 100%;
-}
 .apply-button{
-  /*width: 60%;*/
-  float:right;
-  padding:.3rem .8rem;
-  margin:0 auto;
+  display: block;
+  margin:2rem auto;
   border-radius: 0.3rem;
-  font-weight: 600;
-  color:#fff;
 }
 .tishi{
   margin-top:2rem;

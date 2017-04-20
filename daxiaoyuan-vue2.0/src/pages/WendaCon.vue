@@ -7,8 +7,8 @@
 	    		{{que_con}}
 	    </article>
     </div>
-		<div class="padding-20" style="margin-top:1rem">最佳答案</div>
-    <div class="ans-con-box wrapper main">
+		<div class="padding-20" style="margin-top:1rem" v-if="ans_userId">最佳答案</div>
+    <div class="ans-con-box wrapper main" v-if="ans_userId">
     	<div class="logo-top">
 	    	<router-link :to="{name:'darenmsg',params:{userId:ans_userId}}" class="user-logo">
 	    		<img :src="ans_user_logo" alt="" class="fullsrc">
@@ -110,9 +110,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.que-con-box{
-	/*padding:0.8rem 0.8rem;*/
-}
 .u-name{
 	margin-left: 1rem
 }

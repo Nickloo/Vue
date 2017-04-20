@@ -4,12 +4,10 @@
 		<el-button class="ask-btn text-center ztc" size="mini" type="primary" @click="open()">{{askBtnText}}</el-button>
 		<div v-if="is_ask === 1">
 			<!--<input-box placeholder="标题" name = 'title'></input-box>-->
-			<el-input v-model="input" placeholder="请输入内容" style="margin-top:.5rem"></el-input>
+			<el-input v-model="input" placeholder="请输入标题" style="margin-top:.5rem"></el-input>
 			<div style="margin:.3rem 0">
 				<el-tag type="gray" size="mini">问题类型</el-tag>
 				<el-select v-model="type" clearable placeholder="请选择" size="mini">
-					<el-option label="综合" value="all">
-					</el-option>
 					<el-option
 					v-for="item in datas"
 					:label="item.title"
@@ -79,7 +77,7 @@ export default {
 			}
 		},
 		submit(){
-			console.log('提交问题类型'+$("select[name='que_type']").val())
+			console.log('提交问题类型'+this.type)
 			if(this.input === ''){
 				alert('标题不能为空')
 				return false
@@ -97,11 +95,10 @@ export default {
 					crossDomain: true,
 					cache: true,
 					data:{
-						username:JSON.parse(window.localStorage.user).username,
 						title:this.input,
 						content:this.textarea,
 						que_date:new Date().toLocaleDateString(),
-						user_id:JSON.parse(window.localStorage.user).userId,
+						user_id:window.localStorage.userId,
 						is_private:0,
 						type:this.type
 					},
@@ -111,7 +108,7 @@ export default {
 							alert('问题提交成功')
 							this.open();
 							this.$store.PushQue({
-								username:JSON.parse(window.localStorage.user).username,
+								// username:JSON.parse(window.localStorage.user).username,
 								title:this.input,
 								content:this.textarea,
 								que_date:new Date().toLocaleDateString(),

@@ -29,7 +29,26 @@ var routes = [
   {path: '/consult/darenmsg/:userId',name:'darenmsg',component: require('./pages/DarenMsg.vue')},//答人信息页面
   {path: '/test', component: require('./test.vue')},//测试
   {path: '/column', component: require('./pages/Column.vue')},//板块页面
+  {path: '/404', component: require('./pages/404.vue')},//板块页面
   {path: '/wenda/:id',name:'wenda', component: require('./pages/WendaCon.vue')},//问答详情页面
-  {path: "*", redirect: '/login' },
+  {path: '/apply',name:'apply', component: require('./pages/ApplyDr.vue')},//申请成为答人
+  {path: '/adlogin', component: require('./pages/adminPages/AdLogin.vue')},//管理员登陆
+  {
+    path:'/admin',
+    component: function(resolve) {
+      require([
+        './pages/adminPages/Admin.vue'
+      ], resolve)
+    },
+    children:[
+        {
+            path:'/admin/users',
+            component:require('./pages/adminPages/Users.vue')
+        }
+    ]
+  },
+  {path: "/", redirect: '/login' },
+  {path: "*", redirect: '/404' },
+  
 ]
 export default routes

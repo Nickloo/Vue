@@ -9,7 +9,8 @@ const bodyParser = require('body-parser')
 // 引入Express
 const express = require('express');
 //引入socket
-const socket = require('socket.io')
+const socket = require('socket.io');
+const res_api = require('res.api');
 const http = require('http')
 const middlewares = require('./middlewares');
 const socketio = require('./utils/io.js')
@@ -20,6 +21,7 @@ let users = []
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(middlewares.extendAPIOutput);
+app.use(res_api);
 app.use(api);
 // app.use(middlewares.extendAPIOutput);
 app.use(middlewares.apiErrorHandle);

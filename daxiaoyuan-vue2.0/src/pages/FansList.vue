@@ -31,7 +31,7 @@ export default {
 				crossDomain: true,
         cache: true,
 				data:{
-					user_id:JSON.parse(window.localStorage.user).userId
+					user_id:window.localStorage.userId
 				},
 				success:(data) => {
 					this.datas = data.data;
@@ -47,7 +47,7 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" attribute to limit CSS to this component  only -->
 <style scoped>
 .fans-card{
 	height: 6rem;

@@ -72,9 +72,9 @@ export default {
               cache: true,
               data: params,//序列化
               success: function(data) {
-                console.log(data);
                 if(data.status === 'OK'){
-                  window.localStorage.userId = data.data;
+                  window.localStorage.userId = data.data.userId;
+                  window.localStorage.token = data.data.token;
                   global.userId = data.data;
                   // this.$store.state.userId
                   alert('登陆成功');
@@ -85,8 +85,7 @@ export default {
                 }
               }.bind(this),
               error: function(xhr, status, err) {
-                console.error("登陆失败/n");
-                console.log(err)
+                console.error(err);
               }.bind(this)
             });
         }

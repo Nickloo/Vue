@@ -279,5 +279,19 @@ function selectAns(que_id,callback){
 		connection.release();
 	});
 }
+function Delete(table,data,callback){
+	pool.getConnection(function(err,connection){
+		if(err) throw err;
+		else{
+			connection.query('delete from '+table+' where ?',data,function(err,results,field){
+				if(err) throw err;
+				else{
+					callback(field)
+				}
+			})
+			connection.release();
+		}
+	})
+}
 // function 
-module.exports = {select,selectAll,selectCustom,selectFans,selectFollow,Insert,upDateFans,upDate,delFans,selectAns}
+module.exports = {select,selectAll,selectCustom,selectFans,selectFollow,Insert,upDateFans,upDate,delFans,selectAns,Delete}
