@@ -6,13 +6,13 @@
                 管理员登陆
             </li>
             <li>
-                <tag style="color:#fff">用户名</tag>
+                <span style="color:#fff">用户名</span>
                 <el-input placeholder="用户名" v-model="username">
                 </el-input>
             </li>
             <li>
-                <tag style="color:#fff">管理密码</tag>
-                <el-input placeholder="管理密码" v-model="password">
+                <span style="color:#fff">管理密码</span>
+                <el-input type="password" placeholder="管理密码" v-model="password">
                 </el-input>
             </li>
             <li class="float-right">
@@ -25,7 +25,6 @@
 
 <script>
 export default {
-  name: 'ad-login',
   components:{
   	
   },
@@ -37,8 +36,31 @@ export default {
   },
   methods:{
     login(){
-        this.$router.push('/admin')
+        console.log(this.username+'      :'+this.password)
+        $.ajax({
+            url:'/api/login',
+            type:'post',
+            dataType:'json',
+            data:{
+                user_name:this.username,
+                password:hex_md5(this.password)
+            },
+            success:(data) => {
+                if(data.status === 'OK'){
+                    this.$router.push('/admin');
+                    window.localStorage.token = data.data.token;
+                    console.log(data.data.token)
+                }else{
+                    alert(data.msg)
+                }
+            },error:(err) => {
+                console.error(err)
+            }
+        })
     }
+  },
+  created(){
+    document.title = '答校园用户管理系统登陆'
   },
   mounted(){
       document.body.style.background = '#99A9BF'
@@ -46,7 +68,7 @@ export default {
 }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+<!-- Add "scoped" name attribute to limit CSS to this component only -->
 <style scoped>
 .body{
     padding:10% 20%;

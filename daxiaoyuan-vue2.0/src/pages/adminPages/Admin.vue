@@ -8,11 +8,11 @@
         <nav class="nav-menu">
           <el-menu default-active="2" class="el-menu-vertical-demo" theme="dark" router>
             <el-submenu index="1">
-              <template slot="title">用户管理</template>
-                <el-menu-item index="/admin/users">用户信息管理</el-menu-item>
-                <el-menu-item index="1-2">用户申请管理</el-menu-item>
+              <template slot="title" id="usermsg">用户管理</template>
+                <el-menu-item index="/admin/users" >用户信息管理</el-menu-item>
+                <el-menu-item index="/admin/userapply">用户申请管理</el-menu-item>
             </el-submenu>
-            <el-menu-item index="2">问答管理</el-menu-item>
+            <el-menu-item index="/admin/question">问答管理</el-menu-item>
           </el-menu>
         </nav>
         <div class="list-card float-right">
@@ -41,11 +41,15 @@ export default {
         console.log(key, keyPath);
       },
       logout(){
-        this.$router.push('/adlogin')
+        window.localStorage.token = '';
+        this.$router.push('/adlogin');
       }
   },
   created(){
     document.title = '答校园用户管理系统'
+  },
+  mounted(){
+    // document.getElementsById('usermsg').click()
   }
 }
 </script>
@@ -53,11 +57,11 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .container{
-  padding:0 0 0 20rem;
+  padding:0 0 0 10rem;
 }
 .nav-header{
   height: 3rem;
-  line-height: 3rem;
+  /*line-height: 3rem;*/
   padding: 0 1rem;
   background: #1F2D3D;
 }

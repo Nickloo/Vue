@@ -8,6 +8,7 @@ const session = require('cookie-session');
 const jwt = require('jsonwebtoken');
 const tokenUtil = require('./utils/tokenUtil.js');
 let superSecret = "nickloong$#.."
+let tokenM = new tokenUtil();
 router.use(cookieParser())
 router.use(session({
     secret: 'users',
@@ -38,14 +39,38 @@ router.post('/api/register',(req,res) => {
         }else{
             dao.Insert('users',data,() => {
                 dao.select('users',{username:username},(results) => {
-                    res.apiSuccess('OK','注册成功',results[0].userId)
-                    console.log(results[0].userId)
+                    let token = tokenM.createToken({username:username,userId:results[0].userId},superSecret);
+                    res.apiSuccess('OK','注册成功',{userId:results[0].userId,token})
+                    console.log({userId:results[0].userId,token})
                 })
             })
         }
     })
     // console.log(data)
 })
+//用户登陆
+router.route('/api/login').post((req,res) => {
+    console.log('/api/login')
+    // token.createToken
+    let username = req.body.user_name;
+    let password = req.body.password;
+    let sql = "select password,userId from users where username = '"+username+"';"
+    console.log(username+'      :'+password)
+    dao.selectCustom(sql,(results) => {
+        console.log(results[0])
+        if(results.length === 0){
+            res.json({status:'NO',msg:'用户名不存在'})
+        }else{
+            if(results[0].password === password){
+                let token = tokenM.createToken({username:username,userId:results[0].userId},superSecret);
+                res.apiSuccess('OK','登陆成功',{userId:results[0].userId,token:token})
+            }else{
+                res.json({status:'NO',msg:'密码错误'})
+            }
+        }
+        
+    })
+});
 //获取用户信息
 router.get('/api/getUser',(req,res) => {
     console.log('/api/getUser');
@@ -79,30 +104,6 @@ router.get('/api/getUser/darenMsg',(req,res) => {
         }
         res.json({status:'OK',msg:'用户信息获取成功',data:darenData})
         // console.log(results)
-    })
-});
-//用户登陆
-router.route('/api/login').post((req,res) => {
-    console.log('/api/login')
-    // token.createToken
-    let username = req.body.user_name;
-    let password = req.body.password;
-    let tokenM = new tokenUtil({username:username,password:password});
-    let sql = "select password,userId from users where username = '"+username+"';"
-    console.log(typeof(username))
-    dao.selectCustom(sql,(results) => {
-        console.log(results[0])
-        if(results.length === 0){
-            res.json({status:'NO',msg:'用户名不存在'})
-        }else{
-            if(results[0].password === password){
-                let token = tokenM.createToken({username:username,userId:results[0].userId},superSecret);
-                res.apiSuccess('OK','登陆成功',{userId:results[0].userId,token:token})
-            }else{
-                res.json({status:'NO',msg:'密码错误'})
-            }
-        }
-        
     })
 });
 //关注答人
@@ -164,18 +165,34 @@ router.post('/api/setUser',(req,res) => {
     let userId = req.body.userId;
     let username = req.body.username;
     let update = {};
-    for(var key in req.body){
+    console.log('userid is '+userId)
+    for(let key in req.body){
         if(req.body[key] != ''){
             update[key] = req.body[key];
         }
         console.log(update)
     }
-    console.log('userid is '+userId)
-    dao.upDate("users",[update,{userId:userId}],function(results){
-        dao.select('users',{userId:userId},(results) => {
-            res.json({status:'OK',msg:'信息保存成功',data:results})
-        })
-    })
+    setTimeout(() => {
+        if(req.body.username){
+            dao.select('users',{username:req.body.username},(ret) => {
+                if(ret.length !== 0){
+                    res.apiSuccess('ON','该用户名已存在');
+                }else{
+                    dao.upDate("users",[update,{userId:userId}],function(results){
+                        // dao.select('users',{userId:userId},(results) => {
+                            res.json({status:'OK',msg:'信息保存成功',data:results});
+                        // })
+                    })
+                }
+            })
+        }else{
+            dao.upDate("users",[update,{userId:userId}],function(results){
+                // dao.select('users',{userId:userId},(results) => {
+                    res.json({status:'OK',msg:'信息保存成功',data:results});
+                // })
+            })
+        }
+    },100);
 })
 //创建问题
 router.post('/api/createQue',(req,res) => {
@@ -532,10 +549,17 @@ router.post('',(req,res) => {
 router.get('/api/getAllUsers',(req,res) => {
     let token = req.query.token;
     console.log('/api/getAllUsers:'+token)
-    let sql = "select username,userId,user_logo,identy,school,profession,interest,good_skill,email,introduction from users";
-    dao.selectCustom(sql,(ret) => {
-        res.apiSuccess('OK','success',ret)
-    })
+    jwt.verify(token, superSecret, function(err, decoded) {
+      if (err) {
+        console.log('token error');
+        res.apiSuccess('NO','token错误',{})
+      } else {
+        let sql = "select username,userId,user_logo,identy,school,profession,interest,good_skill,email,introduction from users";
+        dao.selectAll('users',(ret) => {
+            res.apiSuccess('OK','success',ret);
+        })
+      }
+    });
 })
 //按要求查询用户信息；
 router.get('/api/getTypeuser',(req,res) => {
@@ -557,5 +581,51 @@ router.delete('/api/deleteUser',(req,res) => {
     dao.Delete('users',data,(ret) => {
         res.apiSuccess('OK','success')
     })
+})
+//获取申请列表
+router.get('/api/getApply',(req,res) => {
+    let token = req.query.token;
+    console.log("/api/getApply:token  "+token);
+    dao.selectCustom('select * from applylist where status = 0',(rets) => {
+        let j = 0;
+        if(rets.length === 0){
+            res.apiSuccess('OK','获取申请信息成功',[]);
+        }else{
+            for(let i=0;i<rets.length;++i){
+                dao.select('users',{userId:rets[i].userId},(ret) => {
+                    rets[i].username = ret[0].username;
+                    j++;
+                    if(j===rets.length){
+                        res.apiSuccess('OK','获取申请信息成功',rets);
+                        console.log(rets)
+                    }
+                })
+            }
+        }
+    });
+})
+//同意或拒绝申请
+//type=1是同意 type=0是拒绝
+//index
+router.post('/api/decideApply',(req,res) => {
+    let userId = req.body.userId;
+    let identy_type = req.body.identy_type;
+    let introduction = req.body.introduction;
+    let index = req.body.index;
+    let type = req.body.type;
+    console.log('/api/decideApply:'+type);
+    if(type === '1'){
+        dao.upDate('users',[{identy:1,identy_type:identy_type,introduction:introduction},{userId:userId}],(ret) => {
+            dao.upDate('applylist',[{status:1},{index:index}],(rets) => {
+                res.apiSuccess('OK','同意成功',rets)
+                console.log('同意成功')
+            })
+        })
+    }else{
+        dao.upDate('applylist',[{status:2},{index:index}],(rets) => {
+            res.apiSuccess('OK','拒绝成功',rets)
+            console.log('拒绝成功')
+        })
+    }
 })
 module.exports = router;

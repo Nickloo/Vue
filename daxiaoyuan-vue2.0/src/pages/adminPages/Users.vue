@@ -9,7 +9,7 @@
                 </el-select>
                 <el-button slot="append" icon="search" @click="search()"></el-button>
         </el-input>
-        <el-table :data="usersData" style="width: 60%">
+        <el-table :data="usersData" style="width: 80%">
             <el-table-column type="expand">
                 <template scope="props">
                     <el-form label-position="left" class="userMsg-card">
@@ -18,7 +18,6 @@
                             <div class="user-logo">
                                 <img class="fullscr" :src="props.row.user_logo">
                             </div>
-                            
                         </el-form-item>
                         <el-form-item label="学校">
                             <span>{{ props.row.school }}</span>
@@ -79,7 +78,7 @@ export default {
                 type:'delete',
                 dataType:'json',
                 data:{
-                    token:'',
+                    token:window.localStorage.token,
                     userId:row.userId
                 },
                 success:(data) => {
@@ -99,10 +98,15 @@ export default {
                 type:'get',
                 dataType:'json',
                 data:{
-                    token:''
+                    token:window.localStorage.token
                 },
                 success:(data) => {
-                    this.usersData = data.data;
+                    if(data.status === 'OK'){
+                        this.usersData = data.data;
+                        this.usersData.splice(0, 1);
+                    }else{
+                        this.$router.push('/adlogin')
+                    }
                 },
                 error:(err) => {
                     console.error(err)

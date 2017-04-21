@@ -137,13 +137,15 @@ function selectFans(user_id,callback){
 	pool.getConnection((err,connection) => {
 		try {
 			connection.query('select fans_id from fanslist where ?',user_id,(err,results,fields) => {
+				let j = 0;
 				for(let i=0;i<results.length;++i){
 					// pool.getConnection((err,con) => {
 						connection.query('select * from users where ?',{userId:results[i].fans_id},(err,ret) => {
 							results[i].fans_name = ret[0].username;
 							results[i].fans_logo = ret[0].user_logo;
 							results[i].introduction = ret[0].introduction;
-							if(i === results.length-1){
+							j++;
+							if(j === results.length){
 								callback(results);
 							}
 						});
@@ -253,6 +255,7 @@ function delFans(user_id,fans_id,callback){
     //     connection.end();
     // })
 }
+//获取问题答案
 function selectAns(que_id,callback){
 	pool.getConnection((err,connection) => {
 		connection.query('select * from answers where ?',que_id,(err,results) => {

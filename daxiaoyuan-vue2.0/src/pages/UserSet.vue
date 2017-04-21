@@ -45,7 +45,7 @@ export default {
       type:'get',
       dataType:'json',
       data:{
-        userId:this.$route.params.userId,
+        userId:window.localStorage.userId,
         token:window.localStorage.token,
       },
       cache: true,
@@ -112,6 +112,8 @@ export default {
             if(confirm('保存成功是否返回上一页') === true){
               this.$router.push('/person')
             }
+          }else{
+            alert('该用户名已存在')
           }
           console.log(data)
         }.bind(this),
