@@ -78,7 +78,7 @@ export default {
                   global.userId = data.data;
                   // this.$store.state.userId
                   alert('登陆成功');
-                  this.$socket.emit('login', data.data);
+                  this.$socket.emit('login', data.data.userId);
                   this.$router.push('/home');
                 }else{
                   alert(data.msg)

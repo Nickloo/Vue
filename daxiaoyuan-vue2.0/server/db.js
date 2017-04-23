@@ -95,16 +95,15 @@ function select(table,data,callback){
 		}
 	})
 }
-//自定义查询
-function selectCustom(sql,callback){
+//自定义查询有data
+function selectCustom(sql,data,callback){
 	pool.getConnection(function(err,connection){
 		try {
-			connection.query(sql,(err,results,fields) => {
+			connection.query(sql,data,(err,results,fields) => {
 				if(err) console.log(err);
 				else{
 					callback(results)
 				}
-				
 			})
 		} catch (error) {
 			console.log('出现错误：'+error)
@@ -113,9 +112,25 @@ function selectCustom(sql,callback){
 		connection.release();
 	})
 }
+//自定义查询无data
+// function selectCustom(sql,callback){
+// 	pool.getConnection(function(err,connection){
+// 		try {
+// 			connection.query(sql,(err,results,fields) => {
+// 				if(err) console.log(err);
+// 				else{
+// 					callback(results)
+// 				}
+// 			})
+// 		} catch (error) {
+// 			console.log('出现错误：'+error)
+// 			callback(error)
+// 		}
+// 		connection.release();
+// 	})
+// }
 //查询表中所有数据
 function selectAll(table,callback){
-	
 	pool.getConnection(function(err,connection){
 		try {
 			connection.query('select * from '+table,(err,results,fields) => {
@@ -124,14 +139,12 @@ function selectAll(table,callback){
 					callback(results)
 				}
 			})
+			connection.release();
 		} catch (error) {
 			console.log('出现错误：'+error)
 			callback(error)
 		}
-		
-		connection.release();
-	})
-	
+	});	
 }
 function selectFans(user_id,callback){
 	pool.getConnection((err,connection) => {
@@ -139,17 +152,19 @@ function selectFans(user_id,callback){
 			connection.query('select fans_id from fanslist where ?',user_id,(err,results,fields) => {
 				let j = 0;
 				for(let i=0;i<results.length;++i){
-					// pool.getConnection((err,con) => {
-						connection.query('select * from users where ?',{userId:results[i].fans_id},(err,ret) => {
+					pool.getConnection((err,con) => {
+						con.query('select * from users where ?',{userId:results[i].fans_id},(err,ret) => {
 							results[i].fans_name = ret[0].username;
 							results[i].fans_logo = ret[0].user_logo;
 							results[i].introduction = ret[0].introduction;
-							j++;
-							if(j === results.length){
+							// j++;
+							if(i === results.length-1){
 								callback(results);
 							}
+							j++;
 						});
-					// });
+						con.release();
+					});
 				}
 			});
 		} catch (error) {
@@ -162,7 +177,11 @@ function selectFans(user_id,callback){
 function selectFollow(userId,callback){
 	pool.getConnection((err,connection) => {
 		connection.query('select * from fanslist where ?',{fans_id:userId},(err,result) => {
-			if(err) console.error(err);
+			if(err) {
+				console.error(err);
+			}else if(result.length === 0){
+				callback(result);
+			}
 			else{
 				let sqlStr = 'select username,userId,user_logo,introduction,fans_num from users where ?';
 				for(let i=0;i<result.length;i++){
@@ -297,4 +316,6 @@ function Delete(table,data,callback){
 	})
 }
 // function 
-module.exports = {select,selectAll,selectCustom,selectFans,selectFollow,Insert,upDateFans,upDate,delFans,selectAns,Delete}
+module.exports = {
+	select,selectAll,selectCustom,selectFans,selectFollow,
+	Insert,upDateFans,upDate,delFans,selectAns,Delete}

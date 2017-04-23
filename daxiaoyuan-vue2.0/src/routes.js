@@ -48,6 +48,10 @@ var routes = [
         {
             path:'/admin/userapply',
             component:require('./pages/adminPages/UserApply.vue')
+        },
+        {
+            path:'/admin/allque',
+            component:require('./pages/adminPages/AllQue.vue')
         }
     ]
   },

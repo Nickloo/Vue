@@ -1,5 +1,5 @@
 <template>
-  <div class="body top-bar">
+  <div class="body padding-bodytop">
       <nav-header title="我的回答" :back="true"></nav-header>
       <div v-for="item in ans_msg">
         <que-list :item="item"></que-list>
@@ -22,12 +22,38 @@ export default {
         ans_msg:[]
     }
   },
+  created(){
+    this.getUser();
+  },
   mounted(){
       this.userId = window.localStorage.userId;
-      this.user = JSON.parse(window.localStorage.user);
-      this.getMsg()
+    //   this.user = JSON.parse(window.localStorage.user);
+      this.getMsg();
   },
   methods:{
+      getUser(){
+        $.ajax({
+            url:'/api/getUser',
+            type:'get',
+            dataType:'json',
+            data:{
+                userId:window.localStorage.userId,
+                token:window.localStorage.token,
+            },
+            success:(data) => {
+                if(data.status === 'OK'){
+                    this.user = data.data;
+                    console.log(data.data);
+                }else{
+                    alert(data.msg);
+                }
+                
+            },
+            error:(error) => {
+                console.error(error)
+            }
+        });
+      },
       getMsg(){
         $.ajax({
             url:'/api/getMyAns',

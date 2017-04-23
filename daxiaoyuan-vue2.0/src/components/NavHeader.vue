@@ -3,6 +3,7 @@
     <div class="header ztc wrapper">
       <span class="back" @click="$router.go(-1)" v-if="back">返回</span>
       <span>{{title}}</span>
+      <span class="ask-dr" size="mini" v-if="isAsk">提问</span>
     </div>
   </header>
 </template>
@@ -20,6 +21,12 @@ export default {
   		default:'',
   	},
     back:{
+      type:Boolean,
+      default(){
+        return false
+      }
+    },
+    isAsk:{
       type:Boolean,
       default(){
         return false
@@ -46,9 +53,14 @@ export default {
   z-index: 1000;
   /*margin-bottom: 5rem;*/
 }
-.back{
+.back,.ask-dr{
   position: absolute;
-  left: 1rem;
   font-size:16px
+}
+.back{
+  left: 1rem;
+}
+.ask-dr{
+  right: 1rem;
 }
 </style>

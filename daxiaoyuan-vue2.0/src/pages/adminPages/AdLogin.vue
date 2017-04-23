@@ -48,7 +48,7 @@ export default {
             success:(data) => {
                 if(data.status === 'OK'){
                     this.$router.push('/admin');
-                    window.localStorage.token = data.data.token;
+                    window.localStorage.Adtoken = data.data.token;
                     console.log(data.data.token)
                 }else{
                     alert(data.msg)

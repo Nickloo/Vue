@@ -46,27 +46,41 @@ export default {
 			ans_con:'',
 			ans_userId:'',
 			favColor:'',
-			fav_num:''
+			fav_num:'',
+			clas_id:''
     }
   },
   mounted(){
-  	if(this.is_fav){
-  		this.favColor="red"
-  	}else{
-  		this.favColor="#000"  	
-  	}
 		this.getQue();
 		this.getMsg();
   },
   methods:{
   	fav(){
-  		if (this.favColor=='red') {
-  			this.favColor="#000";
-  			this.fav_num--;
-  		}else{
-  			this.favColor="red";
-  			this.fav_num++;
-  		}
+			$.ajax({
+				url:'/api/setfav',
+				type:'post',
+				dataType:'json',
+				data:{
+					token:window.localStorage.token,
+					clas_id:this.clas_id,
+					fav_type:this.is_fav?0:1,
+					userId:window.localStorage.userId
+				},
+				success: data => {
+					if(this.is_fav == 1){
+						this.fav_num--;
+						this.is_fav = 0;
+						this.favColor="#000";
+					}else{
+						this.fav_num++;
+						this.is_fav = 1;
+						this.favColor="red";
+					}
+				},
+				error: err => {
+					console.error(err);
+				}
+			})
   	},
 		getMsg(){
 			$.ajax({
@@ -76,7 +90,8 @@ export default {
 				cache:'true',
 				crossDomain:true,
 				data:{
-					que_id:this.$route.params.id
+					que_id:this.$route.params.id,
+					userId:window.localStorage.userId
 				},
 				success:(data) => {
 					let datas = data.data;
@@ -87,6 +102,14 @@ export default {
 					this.voice_src = datas.voice_src;
 					this.ans_con = datas.ans_con;
 					this.fav_num = datas.fav_num;
+					this.is_fav = datas.is_fav;
+					this.clas_id = datas.clas_id;
+					if(this.is_fav){
+						this.favColor="red"
+					}else{
+						this.favColor="#000"  	
+					}
+					console.log(datas)
 				}
 			})
 		},

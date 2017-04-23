@@ -28,6 +28,7 @@ export default {
     	favColor:'',
     	anws_time:'1:00',
     	isVoice:true,
+		is_fav:false,
     }
   },
   props:{
@@ -39,14 +40,14 @@ export default {
   			}
   		}
   	},
-  	is_fav:1,
   	isbot:'',
   	isOver:{type:Boolean,default:true},
   },
   created(){
   },
   mounted(){
-  	if(this.is_fav===0){
+	this.is_fav = this.item.is_fav;
+  	if(!this.is_fav){
   		this.favColor="#000"
   	}else{
   		this.favColor="red"  	
@@ -57,15 +58,41 @@ export default {
   		this.play=!this.play
   	},
   	fav(){
-  		if (this.favColor=='red') {
-  			this.favColor="#000"
-  		}else{
-  			this.favColor="red"
-  		}
+		$.ajax({
+			url:'/api/setfav',
+			type:'post',
+			dataType:'json',
+			data:{
+				token:window.localStorage.token,
+				clas_id:this.item.clas_id,
+				fav_type:this.is_fav?0:1,
+				userId:window.localStorage.userId
+			},
+			success: data => {
+				if(this.is_fav){
+					this.item.fav_num--;
+				}else{
+					this.item.fav_num++;
+				}
+				this.is_fav = !this.is_fav;
+			},
+			error: err => {
+				console.error(err);
+			}
+		})
   	},
 	getUser(){
 
 	}
+  },
+  watch:{
+	  is_fav:function(){
+		  if(this.is_fav){
+			  this.favColor='red';
+		  }else{
+			  this.favColor="#000";
+		  }
+	  }
   }
 }
 </script>

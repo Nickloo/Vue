@@ -41,8 +41,8 @@
     	</div>
     </div>
     <!--想我提问模块-->
-    <div class="ask-me" v-for="ask_data in ask_datas" v-if="index === 0 && identy === 1">
-      <ask-me v-if="index == 0" :data="ask_data"></ask-me>
+    <div class="ask-me" v-for="item in askmeData" v-if="index === 0 && identy === 1">
+      <ask-me v-if="index == 0" :data="item"></ask-me>
     </div>
     <div  v-if="index === 0 && identy === 0" >
       <h3 class="text-center">只有答人能接受提问,赶快申请吧</h3>
@@ -80,19 +80,21 @@ export default {
       ask_datas:[
       ],
       my_queData:[
-        
-      ]
+      ],
+      askmeData:[]
     }
   },
   mounted(){
     this.getMymsg();
+    if(this.index == 0){
+      this.getAskme();
+    }else{
+      this.getMyQue();
+    }
   },
   methods:{
   	changPage(id){
   		this.index=id
-      if(this.index === 1){
-        this.getMyQue()
-      }
   	},
     goMsg(){
       this.$router.push({name:'setmsg',params:{userId:window.localStorage.userId}})
@@ -142,11 +144,39 @@ export default {
         error:(err) => {
           console.error(err)
         }
-      })
+      });
+    },
+    getAskme(){
+      $.ajax({
+        url:'/api/getAskDaren',
+        type:'get',
+        dataType:'json',
+        data:{
+          userId:window.localStorage.userId,
+          token:window.localStorage.token
+        },
+        success: data => {
+          if(data.status === 'OK'){
+            this.askmeData = data.data;
+            console.log(data.data)
+          }else{
+            alert(data.msg);
+          }
+        },
+        error: err => {
+          console.error(err);
+        }
+      });
     }
   },
   watch:{
-
+    index:function(){
+      if(this.index == 0){
+        this.getAskme();
+      }else{
+        this.getMyQue();
+      }
+    }
   }
 }
 </script>

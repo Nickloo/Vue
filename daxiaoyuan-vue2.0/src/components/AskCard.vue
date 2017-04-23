@@ -5,7 +5,7 @@
 		<div v-if="is_ask === 1">
 			<!--<input-box placeholder="标题" name = 'title'></input-box>-->
 			<el-input v-model="input" placeholder="请输入标题" style="margin-top:.5rem"></el-input>
-			<div style="margin:.3rem 0">
+			<div style="margin:.3rem 0" v-if="!isDaren">
 				<el-tag type="gray" size="mini">问题类型</el-tag>
 				<el-select v-model="type" clearable placeholder="请选择" size="mini">
 					<el-option
@@ -23,7 +23,7 @@
 				class="text-box">
 			</el-input>
 			<!--<textarea class="text-box" placeholder="问题内容" name = 'content'></textarea>-->
-			<span class="tishi">*注意：此提问为公共问题，可被所有人查看与回答</span>
+			<span class="tishi" v-if="!isDaren">*注意：此提问为公共问题，可被所有人查看与回答</span>
 			<!--<button class="submit" @click="submit">提交</button>-->
 			<el-button class="submit" size="mini" type="primary" @click="submit">提交</el-button>
 		</div>
@@ -47,6 +47,15 @@ export default {
 		input:'',
 		type:''
     }
+  },
+  props:{
+	  isDaren:{
+		  type:Boolean,
+		  default(){
+			  return false
+		  }
+	  },
+	  darenId:''
   },
 	mounted(){
 		$.ajax({
@@ -81,7 +90,7 @@ export default {
 			if(this.input === ''){
 				alert('标题不能为空')
 				return false
-			}else if(this.type === ''){
+			}else if(this.type === '' && !this.isDaren){
 				alert('问题类型不能为空')
 				return false
 			}else if(this.textarea === ''){
@@ -97,10 +106,11 @@ export default {
 					data:{
 						title:this.input,
 						content:this.textarea,
-						que_date:new Date().toLocaleDateString(),
+						// que_date:new Date().toLocaleDateString(),
 						user_id:window.localStorage.userId,
-						is_private:0,
-						type:this.type
+						is_private:this.isDaren?1:0,
+						type:this.type,
+						daren_id:this.darenId,
 					},
 					success: function(data) {
 						console.log(data);
@@ -114,6 +124,8 @@ export default {
 								que_date:new Date().toLocaleDateString(),
 								que_id:data.data.insertId
 							})
+							this.input = '';
+							this.textarea = '';
 							global.getMyque = 0;
 							console.log('********************')
 						}else{

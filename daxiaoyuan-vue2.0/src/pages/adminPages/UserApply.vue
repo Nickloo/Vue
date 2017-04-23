@@ -86,7 +86,7 @@ export default {
               type:'get',
               dataType:'json',
               data:{
-                  token:window.localStorage.token
+                  token:window.localStorage.Adtoken
               },
               success:(data) => {
                   this.applyData = data.data;

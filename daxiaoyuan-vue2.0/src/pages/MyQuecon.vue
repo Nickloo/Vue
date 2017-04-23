@@ -1,5 +1,5 @@
 <template>
-  <div class="body top-bar">
+  <div class="body padding-bodytop">
     <nav-header title="我的提问"  :back="true"></nav-header>
     <!--<selection>asdfasf</selection>-->
     <div class="que-card main wrapper padding-10-10">
@@ -44,9 +44,7 @@ export default {
   created(){
     this.getQue();
   },
-  mounted(){
-    this.user = JSON.parse(window.localStorage.user)
-    
+  mounted(){    
     this.getAns();
   },
   methods:{

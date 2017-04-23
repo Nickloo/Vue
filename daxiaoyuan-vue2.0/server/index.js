@@ -11,8 +11,11 @@ const express = require('express');
 //引入socket
 const socket = require('socket.io');
 const res_api = require('res.api');
+//引入定时模块
+const schedule = require("node-schedule");
+const setTime = require('./utils/setTime');
 const http = require('http')
-const middlewares = require('./middlewares');
+const middlewares = require('./utils/middlewares');
 const socketio = require('./utils/io.js')
 let app = express();
 let server = http.createServer(app);
@@ -37,13 +40,7 @@ let PORT = process.env.PORT || 8088;
 // app.use(express.static(path.join(__dirname, 'public')));
 // app.use(middlewares.extendAPIOutput);
 // 监听8088端口
+// setTime.setIt();
 server.listen(PORT);
 console.log('success listen…………');
 socketio(io);
-// io.on('connection',function(socket){
-//     //接受并处理客户端发送的foo事件
-//     socket.on('login',function(data){
-//         console.log('login userid is '+data);
-//         users.push(data)
-//     });
-// })

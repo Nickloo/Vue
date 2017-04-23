@@ -18,7 +18,6 @@
     <div class="que-list" v-for="itme in queDatasLast" v-if="queIndex===2">
       <que-list :item="itme" :isbot="1"></que-list>
     </div>
-    
 	<!-- <div class="bom"></div> -->
     <!-- <h1>123</h1> -->
     <!-- hello -->
@@ -58,7 +57,9 @@ export default {
     }
   },
   mounted(){
-    this.getDatasNew()
+    if(this.queIndex===1){
+      this.getDatasNew();
+    }
   },
   methods:{
     changeQue(id){
@@ -72,16 +73,23 @@ export default {
         cache:'true',
         crossDomain:'true',
         data:{
-          page:1
+          page:1,
+          userId:window.localStorage.userId
         },
         success:(data) => {
           this.queDatasNew = data.data;
-          console.log(data.data)
         },
         error:(error) => {
-          console.error(error.toString())
+          console.error(error.toString());
         }
       })
+    }
+  },
+  watch:{
+    queIndex:function(){
+      // if(this.queIndex==1){
+        this.getDatasNew();
+      // }
     }
   }
 }

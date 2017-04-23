@@ -9,6 +9,7 @@
     <div class="bom" v-if="is_bom"></div>
     <nav-bottom v-if="is_bom"></nav-bottom>
     <!-- hello -->
+    
   </div>
   
 </template>
@@ -42,6 +43,11 @@ export default {
   methods:{
     
   },
+  computed: {
+    is_back () {
+      return this.$store.state.is_back
+    }
+  },
   mounted(){
     global.test = "55555reradsa"
     let pathname = window.location.pathname
@@ -59,9 +65,16 @@ export default {
     $route:function(){
       if(this.$route.path !='/login' || this.$route.path != '/register'){
         global.userId = window.localStorage.userId;
-        console.log(this.$route.path,global.userId)
+        console.log(this.$route.path,global.userId);
+        // console.log(this.$store.state);
       }
-    }
+    },
+    // $store:function(){
+    //   if(this.$route.path !='/login' || this.$route.path != '/register'){
+    //     global.userId = window.localStorage.userId;
+    //     console.log(this.$route.path,global.userId)
+    //   }
+    // }
   }
 }
 </script>
@@ -75,6 +88,9 @@ div{
 }
 body{
   position: relative;
+}
+.half{
+  width:50%;
 }
 .padding-bodytop{
   padding-top: 2.0rem
@@ -208,6 +224,15 @@ body{
   height: 100%;
   /*padding: -0.5rem*/
 }
+/*.back{
+  position:absolute;
+  top:0;
+  width:100%;
+  height:100%;
+  z-index: 11;
+  background-color: black;
+  opacity:0.5;
+}*/
 a {
     text-decoration: none;
     /** 去除阴影*/

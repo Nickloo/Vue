@@ -28,8 +28,8 @@ export default {
 				url:'/api/getfans',
 				type:'get',
 				dataType:'json',
-				crossDomain: true,
-        cache: true,
+				// crossDomain: true,
+        // cache: true,
 				data:{
 					user_id:window.localStorage.userId
 				},

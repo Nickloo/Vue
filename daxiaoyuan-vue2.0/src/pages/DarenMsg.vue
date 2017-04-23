@@ -7,7 +7,8 @@
 				{{introduction}}
 			</div>
 		</div>
-		<div class="drmsg-tag">他被确认的回答</div>
+		<ask-card :is-daren="true" :darenId="darenId"></ask-card>
+		<div class="drmsg-tag padding-20">他被确认的回答</div>
 		<div class="daren-que main" v-for="item in ans_data">
 			<que-list :isbot="true" :item="item" ></que-list>
 		</div>
@@ -18,47 +19,50 @@
 import NavHeader from '../components/NavHeader'
 import QueList from '../components/QueList'
 import UserLogo from '../components/UserLogo'
+import AskCard from '../components/AskCard'
 export default {
   name: 'darenmsg',
   components:{
-  	NavHeader,QueList,UserLogo
+  	NavHeader,QueList,UserLogo,AskCard
   },
   data () {
     return {
-			fal_btn:'关注',
-      msg: 'Welcome to Your Vue.js App',
-			daren_name:'',
-			introduction:'',
-			user_logo:'',
-      datas:[
+		fal_btn:'关注',
+      	msg: 'Welcome to Your Vue.js App',
+		daren_name:'',
+		introduction:'',
+		user_logo:'',
+      	datas:[
     	],
-			ans_data:[]
+		ans_data:[],
+		darenId:''
     }
   },
   created(){
-  	console.log('************',this.$route.params.userId);
+	  this.darenId = this.$route.params.userId
+  	  console.log('************',this.$route.params.userId,'#####',this.$route.params.userId);
 		$.ajax({
-        url: '/api/getDarenMsg/person',
-        type:'get', 
-        dataType: 'json',
-        cache: true,
-        data:{
-          daren_id: this.$route.params.userId,
-					user_id:JSON.parse(window.localStorage.user).userId
-        },
-        success: function(data) {
-					this.datas = data.data;
-					this.daren_name = data.data.daren_msg.username;
-					this.introduction = data.data.daren_msg.introduction;
-					this.user_logo = data.data.daren_msg.user_logo;
-					if(data.data.is_fav === 1){
-						this.fal_btn = '已关注'
-					}
-					console.log(this.datas)
-        }.bind(this),
-        error: function(xhr, status, err) {
-        }.bind(this)
-    });
+			url: '/api/getDarenMsg/person',
+			type:'get', 
+			dataType: 'json',
+			cache: true,
+			data:{
+			daren_id: this.$route.params.userId,
+			user_id:window.localStorage.userId
+			},
+			success: function(data) {
+				this.datas = data.data;
+				this.daren_name = data.data.daren_msg.username;
+				this.introduction = data.data.daren_msg.introduction;
+				this.user_logo = data.data.daren_msg.user_logo;
+				if(data.data.is_fav === 1){
+					this.fal_btn = '已关注'
+				}
+				console.log(this.datas)
+			}.bind(this),
+			error: function(xhr, status, err) {
+			}.bind(this)
+        });
   },
 	mounted(){
 		this.getAnslist();
@@ -74,9 +78,9 @@ export default {
 						dataType: 'json',
 						cache: true,
 						data:{
-							userId: JSON.parse(window.localStorage.user).userId,
+							token:window.localStorage.token,
+							userId: window.localStorage.userId,
 							fav_id:	this.$route.params.userId,
-							fans_name: JSON.parse(window.localStorage.user).username,
 							fav_name:this.daren_name
 						},
 						success: function(data) {
@@ -99,7 +103,7 @@ export default {
 						dataType: 'json',
 						cache: true,
 						data:{
-							userId: JSON.parse(window.localStorage.user).userId,
+							userId: window.localStorage.userId,
 							fav_id:	this.$route.params.userId
 						},
 						success: function(data) {
@@ -121,10 +125,12 @@ export default {
 				type:'get',
 				dataType:'json',
 				data:{
-					answer_user_id:this.$route.params.userId
+					answer_user_id:this.$route.params.userId,
+					userId:window.localStorage.userId
 				},
 				success:(data) => {
 					this.ans_data = data.data;
+					console.log(this.ans_data)
 				},
 				error:(err) => {
 					console.error(err.toString())

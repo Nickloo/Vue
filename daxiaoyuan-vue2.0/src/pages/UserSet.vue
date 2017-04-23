@@ -3,9 +3,9 @@
   <nav-header title="设置个人资料"></nav-header>
   <form action="post" class="padding-20 main" id="usermsg">
     <div class="per-logo" @click="selImg">
-    		<img class="fullsrc" :src="test_logo" id="user-logo">
+    		<img class="fullsrc" :src="usermsg.user_logo" id="user-logo">
     </div>
-    <input type="file"  id="imgFile" hidden v-on:change="changImg($event)">
+    <input type="file" accept="image/gif,image/jpeg,,image/png,,image/jpg,,image/bmg"  id="imgFile" hidden v-on:change="changImg($event)">
     <input type="hidden" :value="usermsg.userId" name="userId">
   	<input-box title="昵称" title-color="black" name="username" :placeholder="usermsg.username"></input-box>
     <div class="border-2"></div>

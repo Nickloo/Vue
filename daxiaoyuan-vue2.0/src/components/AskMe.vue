@@ -1,18 +1,18 @@
 <template>
   <div class="que-box wrapper">
   <router-link :to="{name:'quecon',params:{que_id:data.que_id}}">
-	  <div class="top-box">
-	  	<div class="user-logo">
+	  <div v-if="data.is_private == 1" class="top-box">
+	  	<!--<div class="user-logo">
 	    	<img class="fullsrc" :src="data.user_logo">
-	    </div>
-	    <span class="user_name title-font">{{data.username}}</span>
+	    </div>-->
+	    <span class="user-name title-font">{{data.username}}的提问</span>
 	  </div>
-	  <div class="con-box over">
+	  <h3 class="con-box over">
 	  	{{data.title}}
-	  </div>
-		<!--<div class="con-box over">
+	  </h3>
+		<div class="con-box over" v-if="data.is_private == 0">
 	  	{{data.content}}
-	  </div>-->
+	  </div>
    </router-link>
 	 <div class="date">{{data.que_date}}</div>
   </div>
@@ -58,8 +58,8 @@ export default {
 	float:left;
 	background: #eee;
 }
-.user_name{
-	margin-left: 1rem;
+.user-name{
+	/*margin-left: 1rem;*/
 	font-weight: 600;
 }
 .con-box{
