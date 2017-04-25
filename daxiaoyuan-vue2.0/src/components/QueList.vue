@@ -9,7 +9,7 @@
 	<ans-list :username="item.ans_username" :user-logo="item.ans_user_logo" :is-voice="item.is_voice"
 				:textCon="item.ans_con"></ans-list>
 	<div class="bottom" v-if="isbot">
-		<span class="fav">{{item.fav_num}}人觉得很赞</span>
+		<span class="fav">{{item.fav_num}} 人觉得很赞</span>
 		<i class="iconfont fav-logo" :style="{color:favColor}" @click="fav">&#xe668;</i>
 	</div>
   </div>
@@ -123,7 +123,7 @@ export default {
 }
 .border-bottom{
 	margin-bottom: 0.5rem;
-	border-color: #2b8ff7
+	border-color: #2b8ff7;
 }
 .voice-ans{
 	margin-top:0.5rem; 
@@ -142,7 +142,8 @@ export default {
 .bottom{
 	width: 100%;
 	/*height: 100%;*/
-	margin-top: 0.5rem
+	margin-top: 0.5rem;
+	color: #919ba6;
 }
 .fav{
 	float:left;

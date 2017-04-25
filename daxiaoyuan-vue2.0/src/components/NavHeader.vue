@@ -43,19 +43,16 @@ export default {
 	width: 100%;
 	height: 2rem;
 	line-height: 2rem;
-	/*background: #2b8ff7;*/
-	font-size: 1.25rem;
 	text-align: center;
   color: #fff;
   position: fixed;
   top:0;
-  /*bottom: 2rem;*/
   z-index: 1000;
-  /*margin-bottom: 5rem;*/
+  font-weight: 500;
 }
 .back,.ask-dr{
   position: absolute;
-  font-size:16px
+  font-size:0.65rem;
 }
 .back{
   left: 1rem;

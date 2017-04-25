@@ -52,7 +52,6 @@ router.post('/api/register',(req,res) => {
 //用户登陆
 router.route('/api/login').post((req,res) => {
     console.log('/api/login')
-    // token.createToken
     let username = req.body.user_name;
     let password = req.body.password;
     let sql = "select password,userId,status from users where ?;"
@@ -65,8 +64,8 @@ router.route('/api/login').post((req,res) => {
             res.json({status:'NO',msg:'该用户已被封停'})
         }else{
             if(results[0].password === password){
-                let token = tokenM.createToken({username:username,userId:results[0].userId},superSecret);
-                res.apiSuccess('OK','登陆成功',{userId:results[0].userId,token:token})
+                let token = tokenM.createToken({username:username,userId:results[0].userId},new Buffer(process.env.GOOGLE_API_KEY, 'base64'));
+                res.apiSuccess('OK','success login',{userId:results[0].userId,token:token});
             }else{
                 res.json({status:'NO',msg:'密码错误'})
             }
@@ -344,11 +343,26 @@ router.get('/api/getMyAns',(req,res) => {
     console.log('/api/getMyAns  '+"page  "+page+"  userId   "+userId)
     let sql = "select * from answers where ? limit "+start+",5";
     if(page&&userId){
-        dao.selectCustom(sql,{user_id:userId},(ret) => {
-            res.apiSuccess('OK','success',ret)
-        })
+        dao.selectCustom(sql,{user_id:userId},(rets) => {
+            if(rets.length == 0){
+                res.apiSuccess('OK','数据空',rets);
+                return false;
+            }else{
+                let j = 0;
+                for(let i=0;i<rets.length;i++){
+                    dao.select('questions',{que_id:rets[i].que_id},(ret) => {
+                        rets[i].que_title = ret[0].title;
+                        rets[i].que_con = ret[0].content;
+                        j++;
+                        if(j==rets.length){
+                            res.apiSuccess('OK','success',rets);
+                        }
+                    });
+                }
+            }
+        });
     }else{
-        console.error('err')
+        console.error('err');
     }
     
 })
@@ -362,15 +376,24 @@ router.post('/api/answer',(req,res) => {
         user_id:req.body.user_id,
         is_voice:req.body.is_voice,
         voice_src:req.body.voice_src,
-        // que_title:req.body.que_title,
-        // que_con:req.body.que_con
     };
     console.log('/api/answer'+data.user_id);
     dao.Insert('answers',data,(result) => {
         dao.upDateFans('update users set answer_num = answer_num+1 where userId = '+data.user_id+'',(ret) => {
-            console.log(result);
-            res.apiSuccess('OK','回答提交成功',{})
+            console.log('insertId is ',result.insertId);
+            res.apiSuccess('OK','回答提交成功',{});
         })
+    });
+    
+    dao.select('questions',{que_id:data.que_id},(ret) => {
+        let msgData = {
+            userId:ret[0].user_id,
+            message:'有人回答了你的提问“'+ret[0].title+'”',
+            date:new Date().toLocaleDateString()
+        };
+        dao.Insert('messages',msgData,(rets)=>{
+            console.log('message save success')
+        });
     });
 })
 // 获取答人准确信息
@@ -619,6 +642,31 @@ router.post('/api/applyDr',(req,res) => {
     dao.Insert('applylist',data,(ret) => {
         res.apiSuccess('OK')
     });
+})
+//获取系统信息
+router.get('/api/getMessage',(req,res) => {
+    let isAll = req.query.isAll;
+    let userId = req.query.userId;
+    console.log('/api/getMessage   userID:'+userId+"   isAll:"+isAll);
+    if(isAll){
+        let sql ='select * from messages where ? order by date desc';
+        dao.select('messages',{userId:userId},(rets)=>{
+            res.apiSuccess('OK','success',rets);
+        });
+    }else{
+        let sql ='select * from messages where status = 0 and ?'
+        dao.selectCustom(sql,{userId:userId},(rets)=>{
+            res.apiSuccess('OK','success',rets);
+        });
+    }
+})
+//设置已读
+router.post('/api/setRead',(req,res) => {
+    let id = req.body.id;
+    console.log('/api/setRead:'+id);
+    dao.upDate('messages',[{status:1},{id:id}],(ret) => {
+        res.apiSuccess('OK','success',{});
+    })
 })
 // api模板
 router.post('',(req,res) => {

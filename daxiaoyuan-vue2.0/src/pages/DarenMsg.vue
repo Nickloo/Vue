@@ -1,13 +1,13 @@
 <template>
   <div class="top-bar">
     <nav-header title="答人详情" :back="true"></nav-header>
-		<div class="daren-box main">
+		<div id="introduct" class="daren-box main">
 			<user-logo :user-name="daren_name" :user-logo="user_logo"></user-logo>
-			<div class="introduct top-10">
+			<p class="introduct top-10">
 				{{introduction}}
-			</div>
+			</p>
 		</div>
-		<ask-card :is-daren="true" :darenId="darenId"></ask-card>
+		<ask-card v-if="userId != darenId" :is-daren="true" :darenId="darenId"></ask-card>
 		<div class="drmsg-tag padding-20">他被确认的回答</div>
 		<div class="daren-que main" v-for="item in ans_data">
 			<que-list :isbot="true" :item="item" ></que-list>
@@ -28,14 +28,14 @@ export default {
   data () {
     return {
 		fal_btn:'关注',
-      	msg: 'Welcome to Your Vue.js App',
+    msg: 'Welcome to Your Vue.js App',
 		daren_name:'',
 		introduction:'',
 		user_logo:'',
-      	datas:[
-    	],
+    datas:[],
 		ans_data:[],
-		darenId:''
+		darenId:'',
+		userId:''
     }
   },
   created(){
@@ -58,13 +58,17 @@ export default {
 				if(data.data.is_fav === 1){
 					this.fal_btn = '已关注'
 				}
-				console.log(this.datas)
+				// console.log(this.datas)
+				// console.log(this.introduction)
+				// let introduct = document.getElementById('introduct');
+				// introduct.innerHTML = "<p>"+this.introduction+"</p>";
 			}.bind(this),
 			error: function(xhr, status, err) {
 			}.bind(this)
         });
   },
 	mounted(){
+    this.userId = window.localStorage.userId;
 		this.getAnslist();
 	},
 	methods:{
@@ -158,5 +162,6 @@ export default {
 	height: 2rem;
 	line-height: 2rem;
 	bottom:0rem;
+	color: #fff
 }
 </style>

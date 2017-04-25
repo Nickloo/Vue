@@ -1,7 +1,7 @@
 <template>
   <div class="body wrapper">
     <nav-header title="问答详情" :back="true"></nav-header>
-    <div class="que-con-box wrapper main top-bar padding-20-20">
+    <div class="que-con-box wrapper main top-bar padding-10-10">
 			<h4>{{que_title}}</h4> 	
 	    <article class="ans_txt">
 	    		{{que_con}}
@@ -135,6 +135,9 @@ export default {
 <style scoped>
 .u-name{
 	margin-left: 1rem
+}
+.que-con-box h4{
+  margin: 0
 }
 .ans-con-box{
 	margin-top: 1.0rem;

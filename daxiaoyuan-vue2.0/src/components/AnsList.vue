@@ -6,8 +6,8 @@
                 <img :src="userLogo" style="height:100%;width:100%">
             </div>
             <div class="ans-uname title-font">{{username}} 的回答</div>
-            <div class="best-ans float-right" v-if = "best === 1 && control" @click="handlClick">最佳答案</div>
-            <div class="best-ans float-right" v-if = "best === 0 && control" @click="handlClick">设为最佳答案</div>
+            <div class="best-ans float-right" v-if = "control" @click="handlClick">{{best==1?'有用答案':'设为有用答案'}}</div>
+            <!--<div class="best-ans float-right" v-if = "!control" @click="handlClick">最佳答案</div>-->
         </div>
     <!--</router-link>-->
 	<!-- 语音回答 -->
@@ -58,13 +58,15 @@ export default {
   methods:{
     handlClick(){
       if(this.best === 0){
-        this.setBest(this.ansId)
+        this.setBest(this.ansId);
+        // this.$store.setStatus(true);
+        // console.log(this.$store.state.setStatus)
       }else{
         // this.delBest(this.ansId)
       }
     },
     setBest(ansId){
-      if(confirm("设置为最佳答案后此问题将不能再被回答，确定设置？") === true){
+      if(confirm("设置有用后此问题将不能再被回答，确定设置？") === true){
         $.ajax({
           url:'/api/setbest',
           type:'post',
@@ -97,7 +99,7 @@ export default {
         }
       });
     }
-  }
+  },
 }
 </script>
 
@@ -122,21 +124,20 @@ div{
 }
 .content{
 	margin-top:0.5rem; 
-	font-size: 0.75rem;
+	font-size: 17px;
 }
 .ans-uname{
 	float:left;
 	margin-left:1rem;
 }
 .best-ans{
-    /*position: absolute;*/
-    border: solid 1px blue;
+    border: solid 1px #2b8ff7;
     border-radius: .5rem;
+    background: #2b8ff7;
+    color:#fff;
     padding: .1rem .5rem;
-    /*display: -webkit-box;*/
-    font-size: .4rem;
+    font-size: .5rem;
     height: 1rem;
     line-height: 1rem
-    /*overflow: hidden;    */
 }
 </style>

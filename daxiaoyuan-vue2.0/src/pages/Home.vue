@@ -4,7 +4,7 @@
     <roll-card :data="roll_datas"></roll-card>
     <div class="sel-btn-box main width-50 wrapper">
       <div class="left-sel float-left width-50 text-center" 
-      :class="{ztc:queIndex===1}" @click="changeQue(1)">
+      :class="{ztc:queIndex===1}"  @click="changeQue(1)">
         最新动态
       </div>
       <div class="right-sel float-left width-50 text-center" 
@@ -103,5 +103,8 @@ export default {
   margin:0 auto;
   border-radius: 0.5rem;
   margin-top: 0.5rem;
+}
+.ztc{
+  color: #fff;
 }
 </style>

@@ -1,25 +1,49 @@
 <template>
   <div class="body-top">
   <nav-header title="设置个人资料"></nav-header>
-  <form action="post" class="padding-20 main" id="usermsg">
+  <form action="post" class="padding-20-20 main" id="usermsg">
     <div class="per-logo" @click="selImg">
     		<img class="fullsrc" :src="usermsg.user_logo" id="user-logo">
     </div>
-    <input type="file" accept="image/gif,image/jpeg,,image/png,,image/jpg,,image/bmg"  id="imgFile" hidden v-on:change="changImg($event)">
+    <input type="file" accept="image/gif,image/jpeg,,image/png,,image/jpg,,image/bmg"  
+        id="imgFile" hidden v-on:change="changImg($event)">
     <input type="hidden" :value="usermsg.userId" name="userId">
-  	<input-box title="昵称" title-color="black" name="username" :placeholder="usermsg.username"></input-box>
-    <div class="border-2"></div>
-    <input-box title="学校" title-color="black" name="school" :placeholder="usermsg.school"></input-box>
-    <div class="border-2"></div>
-    <input-box title="专业" title-color="black" name="profession" :placeholder="usermsg.profession"></input-box>
-    <div class="border-2"></div>
-    <input-box title="爱好" title-color="black" name="interest" :placeholder="usermsg.interest"></input-box>
-    <div class="border-2"></div>
-    <input-box title="擅长" title-color="black" name="good_skill" :placeholder="usermsg.good_skill"></input-box>
-    <div class="border-2"></div>
-    <input-box title="邮箱" type="email" title-color="black" name="email" :placeholder="usermsg.email"></input-box>
+    <ul class="form-box">
+      <li>
+        <input-box title="昵称" title-color="black" name="username" :placeholder="usermsg.username"></input-box>
+      </li>
+      <li style="font-size:0.9rem" v-if="isSelect">
+        <span class="float-left" >学校</span>
+        <search-select style="margin-left:.5rem" class="float-left" name="school" :is-search="true"  :value = 'usermsg.school'></search-select>
+      </li>
+      <li v-if="!isSelect" style="font-size:0.9rem" @click="open">
+        <span class="float-left" >学校</span>
+        <input-box  title-color="black" :value="usermsg.school" ></input-box>
+      </li>
+      <li>
+        <input-box title="专业" title-color="black" name="profession" :value="usermsg.profession"></input-box>
+      </li>
+      <li>
+        <input-box title="爱好" title-color="black" name="interest" :value="usermsg.interest"></input-box>
+      </li>
+      <li>
+        <input-box title="擅长" title-color="black" name="good_skill" :value="usermsg.good_skill"></input-box>
+      </li>
+      <li>
+        <input-box title="邮箱" type="email" title-color="black" name="email" :value="usermsg.email"></input-box>
+      </li>
+      <div style="margin:.5rem 0;font-size:.8rem" v-if="usermsg.identy==1">
+        <span >答人简介</span>
+        <el-input
+          style="padding:.5rem 0"
+          type="textarea"
+          name="introduction"
+          autosize
+          :value="usermsg.introduction">
+        </el-input
+      </div>
+    </ul>
   </form>
-  <div>{{test_logo}}</div>
   <div class="submit text-center ztc" @click="updata()">保存并返回</div>
   </div>
 </template>
@@ -27,16 +51,17 @@
 <script>
 import InputBox from "../components/funComponents/InputBox"
 import NavHeader from '../components/NavHeader'
+import SearchSelect from "../components/SearchSelect"
 export default {
   name: 'user-set',
   components:{
-  	InputBox,NavHeader
+  	InputBox,NavHeader,SearchSelect
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
       usermsg:{},
       test_logo:'',
+      isSelect:false
     }
   },
   mounted(){
@@ -63,6 +88,10 @@ export default {
     })
   },
   methods:{
+    open(){
+      this.isSelect=true;
+      console.log(this.isSelect)
+    },
     changImg(event){
 		    var files = event.target.files, file;
 		    if (files && files.length > 0) {
@@ -85,7 +114,7 @@ export default {
     selImg(){
       console.log('click img');
       let file = document.getElementById('imgFile');
-      file.click()
+      file.click();
     },
     imgClick(){
       this.test_logo = document.getElementById('imgFile').value;
@@ -134,10 +163,11 @@ export default {
 	background: #eee;
 	margin:0 auto;
 }
-.border-2{
-  height: 0.1rem;
-  width: 100%;
-  background: #eee;
+.form-box li{
+  overflow: hidden;
+  height: 2.5rem;
+  line-height: 2.5rem;
+  padding:.1rem 0rem;
 }
 .submit{
   width:100%;
@@ -145,5 +175,6 @@ export default {
 	bottom:0;
   height:2rem;
   line-height:2rem;
+  color:aliceblue
 }
 </style>

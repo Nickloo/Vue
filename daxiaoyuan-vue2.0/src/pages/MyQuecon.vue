@@ -16,10 +16,15 @@
         </li>
       </ul>
     </div>
+    <!--{{$store.state.setStatus}}-->
     <div class="ans-list main wrapper padding-20-20" v-for="item in ansData">
       <ans-list :username="item.username" :user-logo="item.user_logo" :is-voice="item.is_voice"
 				:textCon="item.ans_con" :date="item.ans_date" :is-best="item.is_best" :ans-id="item.ans_id" :control="true"></ans-list>
     </div>
+    <!--<div class="ans-list main wrapper padding-20-20" v-for="item in ansData" v-if="queData.best_id!=0">
+      <ans-list :username="item.username" :user-logo="item.user_logo" :is-voice="item.is_voice"
+				:textCon="item.ans_con" :date="item.ans_date" :is-best="item.is_best" :ans-id="item.ans_id" :control="item.is_best==1?true:false"></ans-list>
+    </div>-->
   </div>
 </template>
 <script>
@@ -41,10 +46,8 @@ export default {
       ansData:[]
     }
   },
-  created(){
-    this.getQue();
-  },
   mounted(){    
+    this.getQue();
     this.getAns();
   },
   methods:{
@@ -70,12 +73,16 @@ export default {
         data:{que_id:this.$route.params.que_id},
         success:(data) => {
           this.ansData = data.data;
-          console.log(this.ansData);
         },
         error:(err) => {
           console.log(err)
         }
-      })
+      });
+    }
+  },
+  watch:{
+    global:function(){
+      console.log('setStatus'+this.$store.state.setStatus)
     }
   }
 }

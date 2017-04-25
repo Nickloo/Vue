@@ -24,7 +24,7 @@ let users = []
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(middlewares.extendAPIOutput);
-app.use(res_api);
+// app.use(res_api);
 app.use(api);
 // app.use(middlewares.extendAPIOutput);
 app.use(middlewares.apiErrorHandle);

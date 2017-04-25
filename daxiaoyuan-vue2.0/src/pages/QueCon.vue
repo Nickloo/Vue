@@ -28,7 +28,7 @@
     <div class="vioce-box main" v-if="this.index==1">
       这里是录音功能
     </div>
-	<button class="sub-btn" @click="submit">提交</button>
+	<el-button class="sub-btn" type="primary" @click="submit">提交</el-button>
   <!--<textarea class="" name="" id="" cols="30" rows="10"></textarea>-->
   </div>
 </template>
@@ -175,11 +175,12 @@ export default {
   padding:1.0rem 0.5rem;
 }
 .sub-btn{
-	font-size: 1rem;
-	width: 3.5rem;
+	font-size: .8rem;
+  padding:.2rem .5rem;
+	/*width: 3.5rem;*/
 	margin-top: 0.5rem;
 	margin-right: 0.5rem;
 	float: right;
-  border-radius:0.25rem;
+  /*border-radius:0.25rem;*/
 }
 </style>

@@ -32,6 +32,7 @@ var routes = [
   {path: '/404', component: require('./pages/404.vue')},//板块页面
   {path: '/wenda/:id',name:'wenda', component: require('./pages/WendaCon.vue')},//问答详情页面
   {path: '/apply',name:'apply', component: require('./pages/ApplyDr.vue')},//申请成为答人
+  {path: '/message',name:'message', component: require('./pages/Message.vue')},//消息页面
   {path: '/adlogin', component: require('./pages/adminPages/AdLogin.vue')},//管理员登陆
   {
     path:'/admin',

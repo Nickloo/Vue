@@ -10,6 +10,7 @@ let options = {
 	database:'blog',
     user: 'root',
     password: '123456',
+	dateStrings: true 
 	// queueLimit:10
 }
 var pool = mysql.createPool(options);
@@ -157,11 +158,11 @@ function selectFans(user_id,callback){
 							results[i].fans_name = ret[0].username;
 							results[i].fans_logo = ret[0].user_logo;
 							results[i].introduction = ret[0].introduction;
-							// j++;
-							if(i === results.length-1){
+							j++;
+							if(j === results.length){
 								callback(results);
 							}
-							j++;
+							// j++;
 						});
 						con.release();
 					});
@@ -277,7 +278,7 @@ function delFans(user_id,fans_id,callback){
 //获取问题答案
 function selectAns(que_id,callback){
 	pool.getConnection((err,connection) => {
-		connection.query('select * from answers where ?',que_id,(err,results) => {
+		connection.query('select * from answers where ? order by is_best desc',que_id,(err,results) => {
 			console.log('select * from answers ');
 			if(err) console.log(err);
 			else{

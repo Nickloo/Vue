@@ -6,7 +6,8 @@
         filterable
         remote
         :placeholder="value"
-        :remote-method="getSchool">
+        :remote-method="getSchool"
+        :name = 'name'>
         <el-option
         v-for="item in options"
             :key="item.name"
@@ -46,7 +47,8 @@ export default {
     isSearch:true,
     column:'',
     placeholder:'',
-    disabled:false
+    disabled:false,
+    name:''
   },
   methods:{
       getSchool(query){

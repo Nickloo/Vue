@@ -3,17 +3,30 @@ const store = {
     connect: false,
     message: null,
     userId:'',
+    message:[],
     user:{
-
     },
     my_queData:[
-
     ],
+    setStatus:false,
+    myqueAns:[],
     is_back:false
+  },
+  setStatus(newValue){
+    console.log('setStatus with', newValue);
+    this.state.setStatus = newValue;
+  },
+  setmyqueAns(newValue){
+    this.debug && console.log('myqueAns with', newValue);
+    this.state.myqueAns = newValue;
   },
   setMyque(newValue){
     this.debug && console.log('my_queData with', newValue);
     this.state.my_queData = newValue;
+  },
+  setMessage(newValue){
+    this.debug && console.log('message with', newValue);
+    this.state.message = newValue;
   },
   setBack(newValue){
     this.debug && console.log('is_back with', newValue);

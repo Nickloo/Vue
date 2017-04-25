@@ -2,9 +2,9 @@
   <div class="body">
   	<nav-header title="注册" :back="true"></nav-header>
   	<form class="top-bar" id="editform">
-  		<input-box titleId="user_name" letter-spacing="0.4rem" name="user_name" padding="0 1rem" title="用户名" title-color="black"></input-box>
-	    <input-box class="top-1" titleId="password"  letter-spacing="1rem" name="password"  padding="0 1rem" type="password" title="密码"  title-color="black"></input-box>
-	    <input-box class="top-1" titleId="psd_check"  name="psd_check"  padding="0 1rem" type="password" title="确认密码"  title-color="black"></input-box>
+  		<input-box titleId="user_name" placeholder="请输入用户名" letter-spacing="0.4rem" name="user_name" padding="0 1rem" title="用户名" title-color="black"></input-box>
+	    <input-box class="top-1" placeholder="请输入最少8位密码" titleId="password"  letter-spacing="1rem" name="password"  padding="0 1rem" type="password" title="密码"  title-color="black"></input-box>
+	    <input-box class="top-1" placeholder="请再次输入" titleId="psd_check"  name="psd_check"  padding="0 1rem" type="password" title="确认密码"  title-color="black"></input-box>
 	    <!-- <input type="text" v-model="password"> -->
   	</form>
     <div>{{password}}</div>
@@ -42,6 +42,10 @@ export default {
       }
       if(psd_check===""){
         alert("请输入确认密码")
+        return false
+      }
+      if(psd_check.length <8){
+        alert("密码过短，请输入最少8位")
         return false
       }
       if(password!=psd_check){
