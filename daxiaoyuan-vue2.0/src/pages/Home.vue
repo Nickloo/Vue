@@ -98,11 +98,13 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .sel-btn-box{
-  height: 2.0rem;
-  line-height: 2.0rem;
+  height: 1.4rem;
+  line-height: 1.4rem;
   margin:0 auto;
-  border-radius: 0.5rem;
+  border-radius: 0.2rem;
   margin-top: 0.5rem;
+  font-size: 14px;
+  color: #2b8ff7;
 }
 .ztc{
   color: #fff;

@@ -54,7 +54,7 @@ export default {
   mounted(){
     global.test = "55555reradsa"
     let pathname = window.location.pathname
-    if(pathname==="/home"||pathname==="/column"||pathname==="/person"){
+    if(pathname==="/home"||pathname==="/person"){
       this.is_bom=true
     }else{
       this.is_bom=false
@@ -65,13 +65,13 @@ export default {
     // global.user = JSON.parse(status.user);
   },
   watch:{
-    $route:function(){
-      if(this.$route.path !='/login' || this.$route.path != '/register'){
-        global.userId = window.localStorage.userId;
-        console.log(this.$route.path,global.userId);
-        // console.log(this.$store.state);
-      }
-    },
+    // $route:function(){
+    //   if(this.$route.path !='/login' || this.$route.path != '/register'){
+    //     global.userId = window.localStorage.userId;
+    //     console.log(this.$route.path,global.userId);
+    //     // console.log(this.$store.state);
+    //   }
+    // },
   }
 }
 </script>
@@ -139,7 +139,7 @@ body{
 }
 /*距离上部NavHeader*/
 .top-bar{
-  margin-top: 3.0rem
+  margin-top: 3.0rem;
 }
 .padding-20{
   padding:0 1.0rem;
@@ -205,11 +205,11 @@ body{
 }
 /*文本溢出省略号*/
 .over{
+  width: 100%;
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2; 
-  /*white-space: nowrap;*/
 }
 /*50%宽度*/
 .width-50{

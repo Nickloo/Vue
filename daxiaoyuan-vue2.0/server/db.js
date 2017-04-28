@@ -158,11 +158,11 @@ function selectFans(user_id,callback){
 							results[i].fans_name = ret[0].username;
 							results[i].fans_logo = ret[0].user_logo;
 							results[i].introduction = ret[0].introduction;
+							results[i].identy = ret[0].identy;
 							j++;
 							if(j === results.length){
 								callback(results);
 							}
-							// j++;
 						});
 						con.release();
 					});

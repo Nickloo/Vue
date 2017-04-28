@@ -43,7 +43,7 @@ export default {
 <style scoped>
 .body{
 	position: relative;
-	height: 5rem;
+	min-height: 5rem;
 	padding:0.5rem 1rem;
 	margin-bottom: 0.25rem
 }

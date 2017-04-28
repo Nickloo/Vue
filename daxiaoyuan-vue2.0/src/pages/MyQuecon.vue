@@ -18,7 +18,7 @@
     </div>
     <!--{{$store.state.setStatus}}-->
     <div class="ans-list main wrapper padding-20-20" v-for="item in ansData">
-      <ans-list :username="item.username" :user-logo="item.user_logo" :is-voice="item.is_voice"
+      <ans-list :is-over="false" :username="item.username" :user-logo="item.user_logo" :is-voice="item.is_voice"
 				:textCon="item.ans_con" :date="item.ans_date" :is-best="item.is_best" :ans-id="item.ans_id" :control="true"></ans-list>
     </div>
     <!--<div class="ans-list main wrapper padding-20-20" v-for="item in ansData" v-if="queData.best_id!=0">

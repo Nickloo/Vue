@@ -58,6 +58,7 @@ export default {
 	  darenId:''
   },
 	mounted(){
+		
 		$.ajax({
 			url: '/api/getColumn',
 			type:'get', 
@@ -86,6 +87,9 @@ export default {
 			}
 		},
 		submit(){
+			if(this.daren_id){
+				this.type = 'private';
+			}
 			console.log('提交问题类型'+this.type)
 			if(this.input === ''){
 				alert('标题不能为空')

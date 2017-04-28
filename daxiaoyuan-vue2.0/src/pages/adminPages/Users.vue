@@ -4,8 +4,9 @@
                 <el-select v-model="searchType" slot="prepend" placeholder="请选择" style="width:6rem">
                     <el-option label="全部用户" value="all"></el-option>
                     <el-option label="用户名" value="username"></el-option>
-                    <el-option label="用户ID" value="userId"></el-option>
-                    <el-option label="用户类型" value="identy"></el-option>
+                    <!--<el-option label="用户ID" value="userId"></el-option>-->
+                    <el-option label="答人用户" value="1"></el-option>
+                    <el-option label="普通用户" value="0"></el-option>
                 </el-select>
                 <el-button slot="append" icon="search" @click="search()"></el-button>
         </el-input>
@@ -233,7 +234,13 @@ export default {
             if(this.searchType === 'all'){
                 this.getUsers();
             }else{
-                data[this.searchType.toString()] = this.searchVal;
+                if(this.searchType==0){
+                    data = {identy:0}
+                }else if(this.searchType==1){
+                    data = {identy:1}
+                }else{
+                    data[this.searchType.toString()] = this.searchVal;
+                }
                 $.ajax({
                     url:'/api/getTypeuser',
                     type:'get',

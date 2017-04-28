@@ -33,7 +33,7 @@ const store = {
     this.state.is_back = newValue;
   },
   PushQue(newValue){
-    this.state.my_queData.push(newValue);
+    this.state.my_queData.unshift(newValue);
   },
   setUserId(newValue){
     this.state.userId=newValue;

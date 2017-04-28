@@ -1,12 +1,12 @@
 <template>
   <div class="que-box wrapper">
   <router-link :to="{name:'quecon',params:{que_id:data.que_id}}">
-	  <div v-if="data.is_private == 1" class="top-box">
-	  	<!--<div class="user-logo">
+	  <!--<div v-if="data.is_private == 1" class="top-box">
+	  	<div class="user-logo">
 	    	<img class="fullsrc" :src="data.user_logo">
-	    </div>-->
+	    </div>
 	    <span class="user-name title-font">{{data.username}}的提问</span>
-	  </div>
+	  </div>-->
 	  <h3 class="con-box over">
 	  	{{data.title}}
 	  </h3>

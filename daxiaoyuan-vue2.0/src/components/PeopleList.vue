@@ -1,19 +1,34 @@
 <template>
-  <div>
-    <router-link to="/person" v-for="data in datas">
-    	<div class="padding-20-20 fans-card main">
-    		<div class="logo-top">
-    			<div class="user-logo">
-    				<img class="fullsrc" :src="data.fans_logo" alt="">
-    			</div>
-    			<span class="fans-name">{{data.fans_name}}</span>
-    		</div>
-    		<!--<div class="profile">
-    			{{data.introduction}}
-    		</div>-->
-    	</div>
-    </router-link>
-  </div>
+	<div>
+		<div v-for="data in datas">
+			<router-link :to="{name:'darenmsg',params:{userId:data.fans_id}}" v-if="data.identy == 1">
+				<div class="padding-20-20 fans-card main">
+					<div class="logo-top">
+						<div class="user-logo">
+							<img class="fullsrc" :src="data.fans_logo" alt="">
+						</div>
+						<span class="fans-name">{{data.fans_name}}</span>
+					</div>
+					<div class="profile">
+						{{data.introduction}}
+					</div>
+				</div>
+			</router-link>
+			<router-link :to="{name:'setmsg',params:{userId:data.fans_id}}" v-if="data.identy == 0">
+				<div class="padding-20-20 fans-card main">
+					<div class="logo-top">
+						<div class="user-logo">
+							<img class="fullsrc" :src="data.fans_logo" alt="">
+						</div>
+						<span class="fans-name">{{data.fans_name}}</span>
+					</div>
+					<div class="profile">
+						{{data.introduction}}
+					</div>
+				</div>
+			</router-link>
+		</div>
+	</div>
 </template>
 
 <script>

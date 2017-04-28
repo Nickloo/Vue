@@ -8,7 +8,7 @@ const session = require('cookie-session');
 const jwt = require('jsonwebtoken');
 const tokenUtil = require('./utils/tokenUtil.js');
 const setTime = require('./utils/setTime')
-let superSecret = "nickloong$#.."
+let superSecret = new Buffer(process.env.GOOGLE_API_KEY, 'base64')
 let tokenM = new tokenUtil();
 router.use(cookieParser());
 router.use(session({
@@ -64,7 +64,7 @@ router.route('/api/login').post((req,res) => {
             res.json({status:'NO',msg:'该用户已被封停'})
         }else{
             if(results[0].password === password){
-                let token = tokenM.createToken({username:username,userId:results[0].userId},new Buffer(process.env.GOOGLE_API_KEY, 'base64'));
+                let token = tokenM.createToken({username:username,userId:results[0].userId},superSecret);
                 res.apiSuccess('OK','success login',{userId:results[0].userId,token:token});
             }else{
                 res.json({status:'NO',msg:'密码错误'})
@@ -223,11 +223,22 @@ router.post('/api/createQue',(req,res) => {
         }
     }else{
         dao.select('users',{userId:req.body.user_id},(ret) => {
-            que_data.username = ret[0].username;
+            // que_data.username = ret[0].username;
+            // que_data.user_logo = ret[0].user_logo;
             dao.Insert('questions',que_data,(results) => {
                 res.json({status:'OK',msg:'问题保存成功',data:results})
             })
-        })
+        });
+        if(que_data.daren_id){
+            let data = {
+                userId:que_data.daren_id,
+                message:'有人向你提问'+'“'+que_data.title+'”',
+                date:new Date().toLocaleDateString()
+            }
+            dao.Insert('messages',data,(ret) => {
+                console.log('success')
+            })
+        }
     }
 })
 //文字回答
@@ -256,21 +267,50 @@ router.post('/api/answer/voice',(req,res) => {
 //获取所有问题
 router.get('/api/getQuestion',(req,res) => {
     let type = req.query.type;
-    // let page = 1;//where type = '"+type+"'
     let page = req.query.page;
-    let start = page*5-5;
-    console.log(start+"#######")
-    console.log('/api/getQuestion')
-    let sql = "select * from questions where ? and ? limit "+start+",5";
-    dao.selectCustom(sql,[{type:type},{best_id:0}],(ret) => {
+    let is_admin = false||req.query.is_admin;
+    // console.log(start+"#######");
+    let data =  req.query.data;
+    console.log('/api/getQuestion:',data);
+    if(is_admin){
+        let start = page*10-10;
+        let sql = "select * from questions inner join users on questions.user_id=users.userId where ? limit "+start+",10";
+        dao.selectCustom(sql,data,(ret) => {
+            if(ret){
+                res.apiSuccess('OK','问题获取成功',ret);
+                console.log(ret.length);
+            }else{
+                res.apiSuccess('ON');
+            }
+        });
+    }else{
+        let start = page*5-5;
+        let sql = "select * from questions where ? and ? limit "+start+",5";
+        dao.selectCustom(sql,[{type:type},{best_id:0}],(ret) => {
+            if(ret){
+                res.apiSuccess('OK','问题获取成功',ret);
+                console.log(ret.length);
+            }else{
+                res.apiSuccess('ON');
+            }
+        });
+    }
+    
+})
+router.get('/api/getAllQuestion',(req,res) => {
+    let token = req.query.token;
+    let page = req.query.page;
+    console.log('/api/getAllQuestion');
+    let start = page*10-10;
+    let sql = "select * from questions inner join users on questions.user_id=users.userId limit "+start+",10";
+    dao.selectCustom(sql,{},(ret) => {
         if(ret){
             res.apiSuccess('OK','问题获取成功',ret);
-            console.log(ret.length)
+            console.log(ret.length);
         }else{
-            res.apiSuccess('ON')
-            // console.log(ret)
+            res.apiSuccess('ON');
         }
-    })
+    });
 })
 //获取向答人提问的问题
 router.get('/api/getAskDaren',(req,res) => {
@@ -319,13 +359,15 @@ router.get('/api/getQuestion/queCon',(req,res) => {
 router.get('/api/getQueAns',(req,res) => {
     console.log('/api/getQueAns')
     let que_id = req.query.que_id;
-    if(que_id)
-    dao.selectAns({que_id:que_id},(ret) => {
-        console.log(ret)
-        res.apiSuccess('OK','信息获取成功',ret)
-    })
+    if(que_id){
+        dao.selectAns({que_id:que_id},(ret) => {
+            console.log(ret)
+            res.apiSuccess('OK','信息获取成功',ret)
+        });
+        let sql = "select * from questions inner "
+    }
     else{
-        res.apiSuccess('ON','que_id空',[])
+        res.apiSuccess('ON','que_id空',[]);
     }
 })
 //获取专栏信息
@@ -366,7 +408,6 @@ router.get('/api/getMyAns',(req,res) => {
     }
     
 })
-
 //提交回答
 router.post('/api/answer',(req,res) => {
     let is_private = req.body.is_private;
@@ -735,6 +776,7 @@ router.get('/api/getApply',(req,res) => {
 //同意或拒绝申请
 //type=1是同意 type=0是拒绝
 //index
+//删除用户信息
 router.post('/api/decideApply',(req,res) => {
     let userId = req.body.userId;
     let identy_type = req.body.identy_type;
@@ -748,13 +790,32 @@ router.post('/api/decideApply',(req,res) => {
                 res.apiSuccess('OK','同意成功',rets)
                 console.log('同意成功')
             })
-        })
+        });
+        // dao.Insert('')
     }else{
         dao.upDate('applylist',[{status:2},{index:index}],(rets) => {
             res.apiSuccess('OK','拒绝成功',rets)
             console.log('拒绝成功')
         })
     }
+})
+//删除问答
+router.post('/api/deleteque',(req,res) => {
+    let que_id = req.body.que_id;
+    let token = req.body.token;
+    console.log('/api/deleteque',que_id);
+    jwt.verify(token, superSecret, function(err, decoded) {
+      if (err) {
+        console.log('token error');
+        res.apiSuccess('NO','token错误',{})
+      } else {
+        // 如果没问题就把解码后的信息保存到请求中，供后面的路由使用
+        dao.Delete('questions',{que_id:que_id},(ret) => {
+            res.apiSuccess('OK','删除信息成功',ret);
+        });
+      }
+    });
+    
 })
 router.get('/api/getschool',(req,res) => {
     let provinceID = req.query.provinceID;

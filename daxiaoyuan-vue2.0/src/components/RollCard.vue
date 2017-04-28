@@ -2,7 +2,7 @@
   <div class="swiper-container part wrapper main">
 		<div class="swiper-wrapper ">
 		    <div class="swiper-slide fullscr" v-for="obj in data">
-		    	<a href="https://www.baidu.com" class="fullscr">
+		    	<a href="https://www.zhihu.com/question/59042267/answer/161296104" class="fullscr">
 			    	<img class="card-img fullscr" :src="obj.imgurl" alt="">
 			    	<div class="cont-title" style="color:black">{{obj.contitle}}</div>
 		    	</a>

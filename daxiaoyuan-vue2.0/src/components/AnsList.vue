@@ -19,7 +19,10 @@
 		{{anwsTime}}</span>
 	</article>
 	<!-- 文字回答 -->
-	<article class="wrapper txt-ans content" v-if="isVoice==0">
+	<article class="wrapper txt-ans content over" v-if="isVoice==0&&isOver==true">
+		{{textCon}}
+	</article>
+  <article class="wrapper txt-ans content" v-if="isVoice==0&&isOver==false">
 		{{textCon}}
 	</article>
   <time v-if="date" style="float:right">{{date}}</time>
@@ -50,7 +53,10 @@ export default {
       return 0
     }},
     date:null,
-    ansId:''
+    ansId:'',
+    isOver:{type:Boolean,default(){
+      return true
+    }},
   },
   mounted(){
     this.best = this.isBest

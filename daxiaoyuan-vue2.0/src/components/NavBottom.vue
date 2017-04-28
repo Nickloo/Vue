@@ -59,7 +59,8 @@ export default {
 	height: 2.5rem;
 	width:100%;
 	line-height: 2.5rem;
-  color: #fff
+  color: #fff;
+  margin-top: 1rem;
 }
 .bottom{
 	overflow: hidden;

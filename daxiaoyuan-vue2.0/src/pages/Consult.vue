@@ -6,7 +6,7 @@
 	  	<div class="select-btn text-center" :class="{active:index==1}" @click="changList(1)">答 主</div>
 	  	<div class="select-btn text-center" :class="{active:index==2}" @click="changList(2)">问 答</div>
 	  </nav>
-	  <div class="daren" v-for="data in darenDatas" v-if="index==1">
+	  <div  v-for="data in darenDatas" v-if="index==1">
 	  	<daren-list :data="data"></daren-list>
 	  </div>
 	  <div class="ask-me" v-for="ask_data in ask_datas"  v-if="index==2">
@@ -139,9 +139,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.body{
-	height: 0.25rem
-}
 .select-box{
 	height: 2rem;
 	line-height: 2rem;

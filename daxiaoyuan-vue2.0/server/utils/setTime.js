@@ -1,5 +1,7 @@
 //引入定时模块
 const schedule = require("node-schedule");
+//引入数据库模卡
+const dao = require('../db.js');
 setInterval(function(){
     // document.write('<p>Hello there.</p>');
 }, 10000);
@@ -30,6 +32,21 @@ module.exports.setIt = function(){
     var c=0;
     var j = schedule.scheduleJob(rule, function(){
         c++;
-        console.log(c);
+        console.log(new Date());
+    });
+}
+module.exports.scheduleRecurrenceRule=function(){
+    var rule = new schedule.RecurrenceRule();
+    // rule.dayOfWeek = 2;
+    // rule.month = 3;
+    // rule.dayOfMonth = 1;
+    // rule.hour = 1;
+    // rule.minute = 42;
+    rule.second = 0;
+    schedule.scheduleJob(rule, function(){
+       console.log('scheduleRecurrenceRule:' + new Date());
+       dao.select('classics',{type:'life'},(ret) => {
+           console.log(ret);
+       })
     });
 }
