@@ -1,12 +1,17 @@
 <template>
   <div class="body-top">
   <nav-header title="设置个人资料"></nav-header>
+  <form id="userimg"  method="post" enctype="multipart/form-data">
+    <input type="file" name="imgFile" accept="image/gif,image/jpeg,,image/png,image/jpg,"  
+        id="imgFile" hidden v-on:change="changImg($event)">
+    <input type="hidden"  name="userId" :value="usermsg.userId">
+    <input type="hidden"  name="type" value="user">
+  </form>
   <form action="post" class="padding-20-20 main" id="usermsg">
     <div class="per-logo" @click="selImg">
     		<img class="fullsrc" :src="usermsg.user_logo" id="user-logo">
     </div>
-    <input type="file" accept="image/gif,image/jpeg,,image/png,,image/jpg,,image/bmg"  
-        id="imgFile" hidden v-on:change="changImg($event)">
+    
     <input type="hidden" :value="usermsg.userId" name="userId">
     <ul class="form-box">
       <li>
@@ -61,7 +66,8 @@ export default {
     return {
       usermsg:{},
       test_logo:'',
-      isSelect:false
+      isSelect:false,
+      imgurl:''
     }
   },
   mounted(){
@@ -128,6 +134,9 @@ export default {
       } 
     },
     updata(){
+      if(document.getElementById('imgFile').value){
+        this.uploadImg();
+      }
       $.ajax({
         url: '/api/setUser',
         type:'POST', 
@@ -150,6 +159,24 @@ export default {
           console.error(xhr, status, err.toString());
         }.bind(this)
       });
+    },
+    uploadImg(){
+      var formData = new FormData($("#userimg")[0]);
+      console.log('img upload',formData);
+      $.ajax({
+        url:'/api/uploadImage',
+        type:'post',
+        dataType:'json',
+        processData: false,
+        contentType: false,
+        data:formData,
+        success: data => {
+          console.log('imgsuccess',data.msg);
+        },
+        error: err => {
+          console.error(err)
+        }
+      })
     }
   }
 }

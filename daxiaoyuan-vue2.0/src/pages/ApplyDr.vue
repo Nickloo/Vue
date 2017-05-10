@@ -26,7 +26,13 @@
             <div class="per-logo" @click="selImg" style="height:9.5rem">
                     <img class="fullsrc" src="../assets/imgs/default.png" id="picture" >
             </div>
-            <input type="file" accept="image/png,image/gif,image/jpg"  id="imgFile" hidden v-on:change="changImg($event)">
+            <form id="userimg"  method="post" enctype="multipart/form-data">
+                <input type="file" name="imgFile" accept="image/gif,image/jpeg,,image/png,image/jpg,"  
+                    id="imgFile" hidden v-on:change="changImg($event)">
+                <input type="hidden"  name="userId" :value="userId">
+                <input type="hidden"  name="type" value="apply">
+            </form>
+            <!--<input type="file" accept="image/gif,image/jpeg,,image/png,image/jpg"  id="imgFile" hidden v-on:change="changImg($event)">-->
         </li>
         <li>
             
@@ -49,7 +55,11 @@ export default {
       introduction: '',
       identy_type:'',
       typeData:[],
+      userId:''
     }
+  },
+  created(){
+    this.userId = window.localStorage.userId
   },
   mounted(){
       this.getDrType();
@@ -87,7 +97,7 @@ export default {
                 success:(data) => {
                     if(data.status === 'OK'){
                         alert('提交成功');
-                        this.$router.push('/person')
+                        this.uploadImg();
                     }
                 },error:(err) => {
                     console.error(err)
@@ -98,20 +108,10 @@ export default {
       changImg(event){
 		    let files = event.target.files, file;
 		    if (files && files.length > 0) {
-		        // 获取目前上传的文件
 		        file = files[0];// 文件大小校验的动作
-		        // if(file.size > 1024 * 1024 * 2) {
-		        //     alert('图片大小不能超过 2MB!');
-		        //     return false;
-		        // }
-		        // 获取 window 的 URL 工具
 		        let URL = window.URL || window.webkitURL;
-		        // 通过 file 生成目标 url
 		        let imgURL = URL.createObjectURL(file);
-		        //用attr将img的src属性改成获得的url
 		        $("#picture").attr("src",imgURL);
-		        // 使用下面这句可以在内存中释放对此 url 的伺服，跑了之后那个 URL 就无效了
-		        // URL.revokeObjectURL(imgURL);
 		    }
 	},
     selImg(){
@@ -122,6 +122,27 @@ export default {
     imgClick(){
       this.test_logo = document.getElementById('imgFile').value;
     },
+    uploadImg(){
+      var formData = new FormData($("#userimg")[0]);
+      console.log('img upload',formData);
+      $.ajax({
+        url:'/api/uploadImage',
+        type:'post',
+        dataType:'json',
+        processData: false,
+        contentType: false,
+        data:formData,
+        success: data => {
+          console.log('imgsuccess',data.msg);
+          if(data.status=='OK'){
+              this.$router.push('/person');
+          }
+        },
+        error: err => {
+          console.error(err)
+        }
+      })
+    }
   }
 }
 </script>

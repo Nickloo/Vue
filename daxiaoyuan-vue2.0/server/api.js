@@ -7,7 +7,10 @@ const cookieParser = require('cookie-parser');
 const session = require('cookie-session');
 const jwt = require('jsonwebtoken');
 const tokenUtil = require('./utils/tokenUtil.js');
-const setTime = require('./utils/setTime')
+const setTime = require('./utils/setTime');
+const multiparty = require('multiparty');
+const formidable = require('formidable');
+const fs = require('fs');
 let superSecret = new Buffer(process.env.GOOGLE_API_KEY, 'base64')
 let tokenM = new tokenUtil();
 router.use(cookieParser());
@@ -95,7 +98,7 @@ router.get('/api/getUser',(req,res) => {
     console.log('userId:'+userId);
     
 });
-//获取答人信息set api header
+//获取答人信息set api header /api/getApply
 router.get('/api/getUser/darenMsg',(req,res) => {
     let daren_id = req.query.daren_id;
     console.log(daren_id);
@@ -199,6 +202,73 @@ router.post('/api/setUser',(req,res) => {
             })
         }
     },100);
+})
+//图片上传
+
+router.post('/api/uploadImage',(req,res,next) => {
+    console.log('/api/uploadImage');
+    // console.log(req.files);
+    let AVATAR_UPLOAD_FOLDER;
+    let type;
+    let userId;
+    let table = '';
+    let data = {};
+    let key = '';
+    let domain = 'http://127.0.0.1:8088';
+    let form = new formidable.IncomingForm();   //创建上传表单
+    form.encoding = 'utf-8';        //设置编辑
+    form.keepExtensions = true;     //保留后缀
+    form.maxFieldsSize = 2 * 1024 * 1024;   //文件大小
+    form.parse(req, function(err, fields, files) {
+        console.log('fields is:',fields);
+        switch(fields.type){
+            case 'user':
+                AVATAR_UPLOAD_FOLDER = '/public/images/user_logos/';
+                key = 'user_logo';
+                table = 'users';
+                break;
+            case 'apply':
+                AVATAR_UPLOAD_FOLDER = '/public/images/apply_imgs/';
+                key = 'picture';
+                table = 'applylist';
+                break;
+        }
+        form.uploadDir = '../dist' + AVATAR_UPLOAD_FOLDER;     //设置上传目录
+        if (err) {
+            res.apiSuccess('NO','error',err)
+            return;
+        }
+        var extName = '';  //后缀名
+        switch (files.imgFile.type) {
+            case 'image/pjpeg':
+                extName = 'jpg';
+                break;
+            case 'image/jpeg':
+                extName = 'jpg';
+                break;
+            case 'image/png':
+                extName = 'png';
+                break;
+            case 'image/x-png':
+                extName = 'png';
+                break;
+            case 'image/gif':
+                extName = 'gif';
+                break;    
+        }
+        var avatarName = Math.random() + '.' + extName;
+        //图片写入地址；
+        var newPath = form.uploadDir + avatarName;
+        //显示地址；
+        var showUrl = domain + AVATAR_UPLOAD_FOLDER + avatarName;
+        console.log("newPath",newPath);
+        fs.renameSync(files.imgFile.path, newPath);  //重命名
+        data[key]=showUrl;
+        console.log('data is ',data);
+        dao.upDate(table,[data,{userId:fields.userId}],(ret) => {
+            res.apiSuccess('OK','save img success',{"newPath":showUrl})
+        });
+    })
 })
 //创建问题
 router.post('/api/createQue',(req,res) => {
@@ -383,24 +453,27 @@ router.get('/api/getMyAns',(req,res) => {
     let userId = req.query.userId;
     let start = page*5-5;
     console.log('/api/getMyAns  '+"page  "+page+"  userId   "+userId)
-    let sql = "select * from answers where ? limit "+start+",5";
+    let sql = "select * from answers inner join questions on answers.que_id = questions.que_id where answers.user_id = ?  limit "+start+",5";
     if(page&&userId){
-        dao.selectCustom(sql,{user_id:userId},(rets) => {
+        dao.selectCustom(sql,[userId],(rets) => {
             if(rets.length == 0){
                 res.apiSuccess('OK','数据空',rets);
+                console.log(rets)
                 return false;
             }else{
-                let j = 0;
-                for(let i=0;i<rets.length;i++){
-                    dao.select('questions',{que_id:rets[i].que_id},(ret) => {
-                        rets[i].que_title = ret[0].title;
-                        rets[i].que_con = ret[0].content;
-                        j++;
-                        if(j==rets.length){
-                            res.apiSuccess('OK','success',rets);
-                        }
-                    });
-                }
+                // let j = 0;
+                // for(let i=0;i<rets.length;i++){
+                //     dao.select('questions',{que_id:rets[i].que_id},(ret) => {
+                //         rets[i].que_title = ret[0].title;
+                //         rets[i].que_con = ret[0].content;
+                //         j++;
+                //         if(j==rets.length){
+                //             res.apiSuccess('OK','success',rets);
+                //         }
+                //     });
+                // }
+                res.apiSuccess('OK','success',rets);
+                console.log(rets)
             }
         });
     }else{
@@ -678,7 +751,6 @@ router.post('/api/applyDr',(req,res) => {
         identy_type:identy_type,
         userId:userId,
         picture:picture
-
     };
     dao.Insert('applylist',data,(ret) => {
         res.apiSuccess('OK')
@@ -763,6 +835,7 @@ router.get('/api/getApply',(req,res) => {
             for(let i=0;i<rets.length;++i){
                 dao.select('users',{userId:rets[i].userId},(ret) => {
                     rets[i].username = ret[0].username;
+                    rets[i].user_logo = ret[0].user_logo;
                     j++;
                     if(j===rets.length){
                         res.apiSuccess('OK','获取申请信息成功',rets);
@@ -835,5 +908,5 @@ router.get('/api/getschoolAll',(req,res) => {
         console.log('/api/getschoolAll',ret)
     });
 })
-// setTime.setIt();
+// setTime.setIt();/api/applyDr
 module.exports = router;

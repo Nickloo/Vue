@@ -6,6 +6,7 @@
                         <el-form-item label="" style="margin-bottom:.5rem">
                             <div class="user-logo">
                                 <img class="fullscr" :src="props.row.user_logo">
+                                {{props.row.user_logo}}
                             </div>
                         </el-form-item>
                         <el-form-item label="申请类型">
@@ -16,7 +17,9 @@
                             <span>{{ props.row.introduction }}</span>
                         </el-form-item>
                         <el-form-item label="证件照">
-                            <img src="../../assets/imgs/default.png" alt="">
+                            <div class="picture wrapper" style="height:10rem">
+                                <img style="height:100%" :src="props.row.picture" alt="">
+                            </div>
                         </el-form-item>
                     </el-form>
                 </template>

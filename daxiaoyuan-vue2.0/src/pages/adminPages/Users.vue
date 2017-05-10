@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-input placeholder="请输入内容" v-model="searchVal" style="width: 50%;margin:0 0 .1rem 0">
+        <el-input :disabled="searchType=='username'?false:true" placeholder="请输入内容" v-model="searchVal" style="width: 50%;margin:0 0 .1rem 0">
                 <el-select v-model="searchType" slot="prepend" placeholder="请选择" style="width:6rem">
                     <el-option label="全部用户" value="all"></el-option>
                     <el-option label="用户名" value="username"></el-option>
