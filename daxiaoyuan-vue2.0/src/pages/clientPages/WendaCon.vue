@@ -2,12 +2,13 @@
   <div class="body wrapper">
     <nav-header title="问答详情" :back="true"></nav-header>
     <div class="que-con-box wrapper main top-bar padding-10-10">
-			<h4>{{que_title}}</h4> 	
+			<h4>{{que_title}}</h4>
 	    <article class="ans_txt">
 	    		{{que_con}}
 	    </article>
     </div>
 		<div class="padding-20" style="margin-top:1rem" v-if="ans_userId">最佳答案</div>
+		<div class="padding-20" style="margin-top:1rem" v-if="!ans_userId">没有最佳答案</div>
     <div class="ans-con-box wrapper main" v-if="ans_userId">
     	<div class="logo-top">
 	    	<router-link :to="{name:'darenmsg',params:{userId:ans_userId}}" class="user-logo">
@@ -15,7 +16,7 @@
 	    	</router-link>
 	    	<div class="u-name float-left">{{ans_username}} 的回答</div>
 	    </div>
-	    <article class="ans_txt" v-if="is_voice===0">
+	    <article class="ans_txt" v-if="!is_voice">
 	    		{{ans_con}}
 	    </article>
 	    <voice-play :ans-time="ans_time" v-if="is_voice===1"></voice-play>
@@ -28,8 +29,8 @@
 </template>
 
 <script>
-import NavHeader from '../components/NavHeader'
-import VoicePlay from '../components/VoicePlay'
+import NavHeader from '../../components/NavHeader'
+import VoicePlay from '../../components/VoicePlay'
 export default {
   name: 'wendacon',
   components:{
@@ -47,7 +48,7 @@ export default {
 			ans_userId:'',
 			favColor:'',
 			fav_num:'',
-			clas_id:''
+			ans_id:''
     }
   },
   mounted(){
@@ -62,7 +63,7 @@ export default {
 				dataType:'json',
 				data:{
 					token:window.localStorage.token,
-					clas_id:this.clas_id,
+					ans_id:this.ans_id,
 					fav_type:this.is_fav?0:1,
 					userId:window.localStorage.userId
 				},
@@ -95,19 +96,19 @@ export default {
 				},
 				success:(data) => {
 					let datas = data.data;
-					this.ans_user_logo = datas.ans_user_logo;
-					this.ans_username = datas.ans_username;
-					this.ans_userId = datas.answer_user_id;
+					this.ans_user_logo = datas.user_logo;
+					this.ans_username = datas.username;
+					this.ans_userId = datas.userId;
 					this.is_voice = datas.is_voice;
 					this.voice_src = datas.voice_src;
 					this.ans_con = datas.ans_con;
 					this.fav_num = datas.fav_num;
 					this.is_fav = datas.is_fav;
-					this.clas_id = datas.clas_id;
+					this.ans_id = datas.ans_id;
 					if(this.is_fav){
 						this.favColor="red"
 					}else{
-						this.favColor="#000"  	
+						this.favColor="#000"
 					}
 					console.log(datas)
 				}

@@ -21,9 +21,9 @@
 </template>
 
 <script>
-import NavHeader from '../components/NavHeader'
-import DarenList from '../components/DarenList'
-import AskMe from '../components/AskMe'
+import NavHeader from '../../components/NavHeader'
+import DarenList from '../../components/DarenList'
+import AskMe from '../../components/AskMe'
 export default {
   name: 'consult',
   components:{
@@ -72,7 +72,7 @@ export default {
       this.btn_msg = "疯狂加载中";
       $.ajax({
         url: '/api/getDarenMsg',
-        type:'get', 
+        type:'get',
         dataType: 'json',
         crossDomain: true,
         cache: true,
@@ -102,7 +102,7 @@ export default {
       this.btn_msg = "疯狂加载中"
       $.ajax({
         url: '/api/getQuestion',
-        type:'get', 
+        type:'get',
         dataType: 'json',
         crossDomain: true,
         cache: true,
@@ -126,7 +126,7 @@ export default {
               console.log(data.msg)
             }
           },0)
-          
+
         },
         error:(err) => {
           console.error(err)

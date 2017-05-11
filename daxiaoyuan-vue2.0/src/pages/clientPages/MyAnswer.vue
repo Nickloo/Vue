@@ -2,14 +2,14 @@
   <div class="body padding-bodytop">
       <nav-header title="我的回答" :back="true"></nav-header>
       <div v-for="item in ans_msg">
-        <que-list :item="item"></que-list>
+        <que-list :item="item" ></que-list>
       </div>
   </div>
 </template>
 
 <script>
-import NavHeader from '../components/NavHeader'
-import QueList from '../components/QueList'
+import NavHeader from '../../components/NavHeader'
+import QueList from '../../components/QueList'
 export default {
   name: 'my-answer',
   components:{
@@ -47,7 +47,7 @@ export default {
                 }else{
                     alert(data.msg);
                 }
-                
+
             },
             error:(error) => {
                 console.error(error)

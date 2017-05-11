@@ -3,14 +3,14 @@ const store = {
     connect: false,
     message: null,
     userId:'',
-    message:[],
     user:{
     },
     my_queData:[
     ],
     setStatus:false,
     myqueAns:[],
-    is_back:false
+    is_back:false,
+    searchMsg:[]
   },
   setStatus(newValue){
     console.log('setStatus with', newValue);
@@ -37,6 +37,9 @@ const store = {
   },
   setUserId(newValue){
     this.state.userId=newValue;
+  },
+  setSearch(newValue){
+    this.state.searchMsg=searchMsg;
   },
   mutations:{
         SET_USERID(state,userId){

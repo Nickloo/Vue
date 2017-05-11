@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import NavHeader from '../components/NavHeader'
-import PeopleList from '../components/PeopleList'
+import NavHeader from '../../components/NavHeader'
+import PeopleList from '../../components/PeopleList'
 export default {
   name: 'fans_list',
   components:{
@@ -40,7 +40,7 @@ export default {
 				error:(Error) => {
 					console.error(Error)
 				},
-				
+
 			})
 		}
 	}
@@ -52,7 +52,7 @@ export default {
 .fans-card{
 	height: 6rem;
 	padding-bottom: 0.5rem;
-	margin-bottom:0.1rem 
+	margin-bottom:0.1rem
 }
 .fans-name{
 	float:left;

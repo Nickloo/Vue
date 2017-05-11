@@ -8,8 +8,6 @@ import VueResource from 'vue-resource'
 import Vuex from 'vuex'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-default/index.css'
-// import $ from 'jquery'
-// import * as io from 'socket.io-client'
 import VueSocketio from 'vue-socket.io'
 import store from './store.js'
 // Vue.use(VueSocketio, store);
@@ -27,29 +25,14 @@ new Vue({
   el:  '#app',
   router,
   store,
-  sockets:{
-    connect: function(){
-      console.log('socket connected');
-    },
-    customEmit: function(val){
-      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
-    }
-  },
+  // sockets:{
+  //   connect: function(){
+  //     console.log('socket connected');
+  //   },
+  //   customEmit: function(val){
+  //     console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+  //   }
+  // },
   template: '<App/>',
   components: { App }
 })
-// var router = new Router()
-
-// router.map(routes)
-
-// router.beforeEach(function () {
-//   window.scrollTo(0, 0)
-// })
-// router.start(App, '#app')
-// new Vue({
-//   el: '#body',
-//   // router:router,
-//   template: '<App/>',
-//   components: { App }
-  
-// })

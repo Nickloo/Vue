@@ -2,6 +2,8 @@
 const schedule = require("node-schedule");
 //引入数据库模卡
 const dao = require('../db.js');
+//引入Moment.js 
+const moment = require("moment")
 setInterval(function(){
     // document.write('<p>Hello there.</p>');
 }, 10000);
@@ -37,16 +39,28 @@ module.exports.setIt = function(){
 }
 module.exports.scheduleRecurrenceRule=function(){
     var rule = new schedule.RecurrenceRule();
-    // rule.dayOfWeek = 2;
-    // rule.month = 3;
+    rule.dayOfWeek = 1;
+    // rule.month = 1;
     // rule.dayOfMonth = 1;
     // rule.hour = 1;
-    // rule.minute = 42;
-    rule.second = 0;
+    // rule.minute = 52;
+    let times = [];
+    for(let i=1;i<=24;i++){
+        times.push(i);
+    }
+    // rule.second = times;
+    // rule.hour = 0;
     schedule.scheduleJob(rule, function(){
        console.log('scheduleRecurrenceRule:' + new Date());
-       dao.select('classics',{type:'life'},(ret) => {
-           console.log(ret);
+       let sql = "select ans_con,answers.fav_num,answers.date,answers.ans_id,title,questions.que_id,users.username,users.user_logo"+
+            " from answers,questions,users where answers.que_id = questions.que_id and answers.user_id = users.userId and answers.is_best=1"+
+            " order by fav_num desc limit 0,10";
+       dao.selectCustom(sql,[],ret=>{
+           ret.forEach(function(value,index){
+               dao.Insert('classics',value,rets=>{
+                   console.log(index);
+               })
+           })
        })
     });
 }

@@ -36,7 +36,6 @@ export default {
   },
   methods:{
     login(){
-        console.log(this.username+'      :'+this.password)
         $.ajax({
             url:'/api/login',
             type:'post',
@@ -46,12 +45,16 @@ export default {
                 password:hex_md5(this.password)
             },
             success:(data) => {
-                if(data.status === 'OK'){
+                if(data.status === 'OK' && data.data.identy=="admin"){
                     this.$router.push('/admin');
                     window.localStorage.Adtoken = data.data.token;
-                    console.log(data.data.token)
+                    window.localStorage.userId = data.data.userId;
                 }else{
-                    alert(data.msg)
+                    if(data.data.identy!=="admin"){
+                        alert('不是管理员用户');
+                    }else{
+                        alert(data.msg);
+                    }
                 }
             },error:(err) => {
                 console.error(err)

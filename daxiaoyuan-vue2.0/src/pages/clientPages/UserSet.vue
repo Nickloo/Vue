@@ -1,8 +1,8 @@
 <template>
   <div class="body-top">
-  <nav-header title="设置个人资料"></nav-header>
+  <nav-header title="设置个人资料" :password="true"></nav-header>
   <form id="userimg"  method="post" enctype="multipart/form-data">
-    <input type="file" name="imgFile" accept="image/gif,image/jpeg,,image/png,image/jpg,"  
+    <input type="file" name="imgFile" accept="image/gif,image/jpeg,,image/png,image/jpg,"
         id="imgFile" hidden v-on:change="changImg($event)">
     <input type="hidden"  name="userId" :value="usermsg.userId">
     <input type="hidden"  name="type" value="user">
@@ -11,7 +11,7 @@
     <div class="per-logo" @click="selImg">
     		<img class="fullsrc" :src="usermsg.user_logo" id="user-logo">
     </div>
-    
+
     <input type="hidden" :value="usermsg.userId" name="userId">
     <ul class="form-box">
       <li>
@@ -54,9 +54,9 @@
 </template>
 
 <script>
-import InputBox from "../components/funComponents/InputBox"
-import NavHeader from '../components/NavHeader'
-import SearchSelect from "../components/SearchSelect"
+import InputBox from "../../components/InputBox"
+import NavHeader from '../../components/NavHeader'
+import SearchSelect from "../../components/SearchSelect"
 export default {
   name: 'user-set',
   components:{
@@ -86,7 +86,7 @@ export default {
         }else{
           this.$router.push('/login')
         }
-        
+
       },
       error:(xhr, status, err)=>{
         console.error(xhr, status, err.toString())
@@ -125,13 +125,13 @@ export default {
     imgClick(){
       this.test_logo = document.getElementById('imgFile').value;
     },
-    del() { 
-      var msg = "信息保存成功是否返回？ \n\n请确认！"; 
-      if (confirm(msg)==true){ 
-        return true; 
-      }else{ 
-        return false; 
-      } 
+    del() {
+      var msg = "信息保存成功是否返回？ \n\n请确认！";
+      if (confirm(msg)==true){
+        return true;
+      }else{
+        return false;
+      }
     },
     updata(){
       if(document.getElementById('imgFile').value){
@@ -139,7 +139,7 @@ export default {
       }
       $.ajax({
         url: '/api/setUser',
-        type:'POST', 
+        type:'POST',
         dataType: 'json',
         cache: true,
         data:$('#usermsg').serialize(),

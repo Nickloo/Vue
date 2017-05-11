@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import InputBox from './funComponents/InputBox'
+import InputBox from './InputBox'
 export default {
   name: 'ask-card',
   components:{
@@ -58,10 +58,10 @@ export default {
 	  darenId:''
   },
 	mounted(){
-		
+
 		$.ajax({
 			url: '/api/getColumn',
-			type:'get', 
+			type:'get',
 			dataType: 'json',
 			crossDomain: true,
 			cache: true,
@@ -103,7 +103,7 @@ export default {
 			}else{
 				$.ajax({
 					url: '/api/createQue',
-					type:'post', 
+					type:'post',
 					dataType: 'json',
 					crossDomain: true,
 					cache: true,

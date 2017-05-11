@@ -9,7 +9,8 @@
     </header>
     <div class="con-body container">
         <nav class="nav-menu">
-          <el-menu default-active="2" class="el-menu-vertical-demo" theme="dark" router>
+          <el-menu default-active="3" class="el-menu-vertical-demo" theme="dark" router>
+            <el-menu-item index="/admin/function">功能模块管理</el-menu-item>
             <el-submenu index="1">
               <template slot="title" id="usermsg">用户管理</template>
                 <el-menu-item index="/admin/users" >用户信息管理</el-menu-item>
@@ -22,10 +23,8 @@
           <router-view></router-view>
         </div>
     </div>
-    <!--修改管理密码-->
-    <div >
-
-    </div>
+    <!--功能模块管理-->
+    
     <el-card class="box-card" v-if="is_revise">
       <div slot="header" class="clearfix">
         <span style="line-height: 36px;">卡片名称</span>
@@ -33,10 +32,6 @@
         <el-button style="float: right;margin-right:.2rem" type="primary" @click="exit()">取消</el-button>
       </div>
       <ul>
-        <li>
-          <h4 class="float-left">用户名</h4>
-          <el-input class="admin-input" v-model="admin" placeholder="请输入内容"></el-input>
-        </li>
         <li>
           <h4 class="float-left">原密码</h4>
           <el-input class="admin-input" type="password" v-model="old_psd" placeholder="请输入内容"></el-input>
@@ -47,7 +42,7 @@
         </li>
         <li>
           <h4 class="float-left">再次输入</h4>
-          <el-input class="admin-input" type="password" v-model="new_psd" placeholder="请输入内容"></el-input>
+          <el-input class="admin-input" type="password" v-model="check_psd" placeholder="请输入内容"></el-input>
         </li>
       </ul>
     </el-card>
@@ -67,6 +62,7 @@ export default {
       admin: '',
       new_psd:'',
       old_psd:'',
+      check_psd:'',
       is_revise:0
     }
   },
@@ -87,7 +83,29 @@ export default {
         console.log(this.$store.state.is_back);
       },
       save(){
-
+        let parms ={
+          oldpwd:hex_md5(this.old_psd),
+          newpwd:hex_md5(this.new_psd),
+          userId:localStorage.userId,
+          token:localStorage.Adtoken
+        }
+        $.ajax({
+          url:'/api/revisePsd',
+          type:'post',
+          dataType:'json',
+          data:parms,
+          success: data => {
+            if(data.status == 'OK'){
+              alert('修改成功');
+              this.is_revise = 0;
+            }else{
+              alert(data.msg)
+            }
+          },
+          error: err => {
+            console.error(err);
+          }
+        })
       },
       exit(){
         this.is_revise = 0;
@@ -99,15 +117,34 @@ export default {
     document.title = '答校园用户管理系统'
   },
   mounted(){
-    // document.getElementsById('usermsg').click()
+      this.checkToken();
+  },
+  methods:{
+    checkToken(){
+      $.ajax({
+          url:'/api/chack_token',
+          type:'post',
+          dataType:'json',
+          data:{
+            token:window.localStorage.Adtoken
+          },
+          success: data => {
+            if(data.status=='NO'){
+                this.$router.push('/Adlogin');
+                console.log('token error')
+            }
+            console.log(data.msg)
+          },
+          error: err => {
+            console.error(err)
+          }
+      });
+    }
   },
   watch:{
-    // is_revise:function(){
-    //   console.log("is_revise is changed "+this.is_revise);
-    //   if(this.is_revise === 1){
-        
-    //   }
-    // }
+    router:function(){
+      this.chack_token();
+    }
   }
 }
 </script>
@@ -176,5 +213,8 @@ export default {
   top: 0;
   left: 0;
   z-index: 100;
+}
+.function-box{
+  margin-left: 
 }
 </style>

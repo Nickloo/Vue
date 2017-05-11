@@ -1,10 +1,10 @@
 <template>
   <div class="swiper-container part wrapper main">
 		<div class="swiper-wrapper ">
-		    <div class="swiper-slide fullscr" v-for="obj in data">
-		    	<a href="https://www.zhihu.com/question/59042267/answer/161296104" class="fullscr">
-			    	<img class="card-img fullscr" :src="obj.imgurl" alt="">
-			    	<div class="cont-title" style="color:black">{{obj.contitle}}</div>
+		    <div class="swiper-slide fullscr" v-for="obj in roll_datas">
+		    	<a :href="obj.link" class="fullscr">
+			    	<img class="card-img fullscr" :src="obj.picture" alt="">
+			    	<div class="cont-title" style="color:black">{{obj.title}}</div>
 		    	</a>
 		    </div>
 		</div>
@@ -18,6 +18,7 @@ export default {
   name: 'roll-card',
   data () {
     return {
+		roll_datas:[]
     }
   },
   props:{
@@ -29,6 +30,17 @@ export default {
   			]
   		}
   	}
+  },
+  created(){
+	   $.ajax({
+        url:'/api/getNews',
+        type:'get',
+        dataType:'json',
+        success: data => {
+          this.roll_datas = data.data;
+          console.log('news is',data.data)
+        }
+      })
   },
   mounted(){
   	var mySwiper = new Swiper ('.swiper-container', {
@@ -59,15 +71,6 @@ export default {
 	height: 8rem;
 	padding-bottom: 0;
 	text-align: center;
-}
-.swiper-wrapper{
-
-}
-.swiper-slide{
-
-}
-.card-img{
-
 }
 .cont-title{
 	position: absolute;

@@ -306,12 +306,21 @@ function Delete(table,data,callback){
 	pool.getConnection(function(err,connection){
 		if(err) throw err;
 		else{
-			connection.query('delete from '+table+' where ?',data,function(err,results,field){
+			if(typeof data.length== Array){
+				connection.query('delete from '+table+' where ? and ?',data,function(err,results,field){
+					if(err) throw err;
+					else{
+						callback(field);
+					}
+				})
+			}else{
+				connection.query('delete from '+table+' where ?',data,function(err,results,field){
 				if(err) throw err;
 				else{
-					callback(field)
-				}
-			})
+						callback(field);
+					}
+				})
+			}
 			connection.release();
 		}
 	})

@@ -19,10 +19,10 @@
 		{{anwsTime}}</span>
 	</article>
 	<!-- 文字回答 -->
-	<article class="wrapper txt-ans content over" v-if="isVoice==0&&isOver==true">
+	<article class="wrapper txt-ans content over" v-if="!isVoice&&isOver==true">
 		{{textCon}}
 	</article>
-  <article class="wrapper txt-ans content" v-if="isVoice==0&&isOver==false">
+  <article class="wrapper txt-ans content" v-if="!isVoice&&isOver==false">
 		{{textCon}}
 	</article>
   <time v-if="date" style="float:right">{{date}}</time>

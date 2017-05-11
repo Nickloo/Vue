@@ -7,7 +7,7 @@
     </div>
     <!--问题的回答-->
     <div class="ans-list">
-      
+
     </div>
     <!--选择回答类型-->
     <div class="sel width-50">
@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import NavHeader from '../components/NavHeader'
+import NavHeader from '../../components/NavHeader'
 export default {
   name: 'que-con',
   components:{
@@ -55,12 +55,12 @@ export default {
     }
   },
   mounted(){
-    
+
     this.que_id = this.$route.params.que_id
     console.log(this.$route.params.que_id+"###############")
     $.ajax({
         url: '/api/getQuestion/queCon',
-        type:'get', 
+        type:'get',
         dataType: 'json',
         crossDomain: true,
         cache: true,
@@ -85,7 +85,7 @@ export default {
             console.log(err)
         }.bind(this)
     });
-   
+
   },
   methods:{
     changIndex(id){
@@ -105,7 +105,7 @@ export default {
       }else{
         $.ajax({
           url: '/api/answer',
-          type:'post', 
+          type:'post',
           dataType: 'json',
           crossDomain: true,
           cache: true,
@@ -162,7 +162,7 @@ export default {
 .active{
   color: #fff;
   font-weight: 600;
-  background: #2b8ff7; 
+  background: #2b8ff7;
 }
 .answ-box{
 	/*height: 4.0rem;*/

@@ -18,7 +18,7 @@
           <router-link to="/fans_list">
     			  <div>{{user.fans_num}}</div>
             <div class="sel-box-text">粉丝</div>
-          </router-link>    			
+          </router-link>
     		</div>
     		<div class="sel-box">
           <router-link to="/follows">
@@ -26,10 +26,10 @@
     			<div class="sel-box-text">关注</div>
           </router-link>
     		</div>
-    		<div class="sel-box">
+    		<!--<div class="sel-box">
     			<div>{{user.listened_num}}</div>
     			<div class="sel-box-text">听过</div>
-    		</div>
+    		</div>-->
     		<div class="sel-box">
           <router-link to="/my_answer">
             <div>{{user.answer_num}}</div>
@@ -69,10 +69,10 @@
 </template>
 
 <script>
-import NavHeader from '../components/NavHeader'
-import AskCard from '../components/AskCard'
-import AskMe from '../components/AskMe'
-import QueList from '../components/QueList'
+import NavHeader from '../../components/NavHeader'
+import AskCard from '../../components/AskCard'
+import AskMe from '../../components/AskMe'
+import QueList from '../../components/QueList'
 export default {
   name: 'person',
   components:{
@@ -113,7 +113,7 @@ export default {
     getMyQue(){
       $.ajax({
 						url: '/api/getQuestion/queCon',
-						type:'get', 
+						type:'get',
 						dataType: 'json',
 						cache: true,
 						data:{
@@ -147,7 +147,7 @@ export default {
           }else{
             this.$router.push('/login')
           }
-          
+
         },
         error:(err) => {
           console.error(err)
@@ -250,7 +250,7 @@ export default {
 }
 .sel-box{
 	float: left;
-	width: 25%;
+	width: 33.3%;
 	text-align:center;
 	font-size: 0.9rem;
 	/*background: red*/
@@ -271,7 +271,7 @@ export default {
 .sel-page{
 	float:left;
 	height: 100%;
-	width:50%;	
+	width:50%;
   color: #919ba6;
 }
 .active{
@@ -293,6 +293,6 @@ export default {
   padding: .1rem .5rem ;
 }
 /*.my-que time{
-  
+
 }*/
 </style>

@@ -4,20 +4,20 @@
     <!-- <keep-alive> -->
       <router-view></router-view>
     <!-- </keep-alive> -->
-    
+
     <!-- <hello></hello> -->
     <div class="bom" v-if="is_bom"></div>
     <nav-bottom v-if="is_bom"></nav-bottom>
     <!-- hello -->
-    
+
   </div>
-  
+
 </template>
 
 <script>
 import Hello from './components/Hello'
-import Home from './pages/Home'
-import Login from './pages/Login'
+import Home from './pages/clientPages/Home'
+import Login from './pages/clientPages/Login'
 import NavBottom from './components/NavBottom'
 export default {
   name: 'app',
@@ -30,7 +30,7 @@ export default {
     }
   },
   beforeUpdate(){
-    
+
   },
   updated(){
     let pathname = window.location.pathname
@@ -41,7 +41,7 @@ export default {
     }
   },
   methods:{
-    
+
   },
   computed: {
     // is_back () {
@@ -49,7 +49,7 @@ export default {
     // }
   },
   created(){
-    
+
   },
   mounted(){
     global.test = "55555reradsa"
@@ -65,13 +65,9 @@ export default {
     // global.user = JSON.parse(status.user);
   },
   watch:{
-    // $route:function(){
-    //   if(this.$route.path !='/login' || this.$route.path != '/register'){
-    //     global.userId = window.localStorage.userId;
-    //     console.log(this.$route.path,global.userId);
-    //     // console.log(this.$store.state);
-    //   }
-    // },
+    $route:function(){
+      console.log(this.$route.path)
+    },
   }
 }
 </script>
@@ -166,7 +162,7 @@ body{
   margin-top: 2rem;
 }
 .wrapper{
-  overflow:hidden; 
+  overflow:hidden;
   /*display :relative;*/
 }
 .title-font{
@@ -209,7 +205,7 @@ body{
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2; 
+  -webkit-line-clamp: 2;
 }
 /*50%宽度*/
 .width-50{

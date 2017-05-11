@@ -28,9 +28,9 @@
   </div>
 </template>
 <script>
-import NavHeader from '../components/NavHeader'
-import UserLogo from '../components/UserLogo'
-import AnsList from '../components/AnsList'
+import NavHeader from '../../components/NavHeader'
+import UserLogo from '../../components/UserLogo'
+import AnsList from '../../components/AnsList'
 export default {
   name: 'my-quecon',
   components:{
@@ -46,7 +46,7 @@ export default {
       ansData:[]
     }
   },
-  mounted(){    
+  mounted(){
     this.getQue();
     this.getAns();
   },
@@ -61,7 +61,7 @@ export default {
           this.queData = data.data
         },
         error:(err) => {
-          console.log(err) 
+          console.log(err)
         }
       })
     },
@@ -91,7 +91,7 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .que-card{
-    margin-bottom:1rem 
+    margin-bottom:1rem
   }
 .ans-list{
   margin-bottom: .5rem

@@ -4,14 +4,14 @@
     <div class="daren wrapper" v-for="item in datas">
       <daren-list :data="item"></daren-list>
     </div>
-    
+
   </div>
 </template>
 
 <script>
-import NavHeader from '../components/NavHeader'
-import PeopleList from '../components/PeopleList'
-import DarenList from '../components/DarenList'
+import NavHeader from '../../components/NavHeader'
+import PeopleList from '../../components/PeopleList'
+import DarenList from '../../components/DarenList'
 export default {
   name: 'follow',
   components:{

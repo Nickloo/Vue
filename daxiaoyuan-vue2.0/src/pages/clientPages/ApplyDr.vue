@@ -9,7 +9,7 @@
                 :autosize="{ minRows: 2, maxRows: 4}"
                 placeholder="请输入内容"
                 v-model="introduction">
-            </el-input
+            </el-input>
         </li>
         <li>
             <h4>答人类型</h4>
@@ -24,10 +24,10 @@
         <li>
             <h4>来张图片证明自己<span style="font-size:.5rem">(可选，添加可以提高通过率)</span></h4>
             <div class="per-logo" @click="selImg" style="height:9.5rem">
-                    <img class="fullsrc" src="../assets/imgs/default.png" id="picture" >
+                    <img class="fullsrc" src="../../assets/imgs/default.png" id="picture" >
             </div>
             <form id="userimg"  method="post" enctype="multipart/form-data">
-                <input type="file" name="imgFile" accept="image/gif,image/jpeg,,image/png,image/jpg,"  
+                <input type="file" name="imgFile" accept="image/gif,image/jpeg,,image/png,image/jpg,"
                     id="imgFile" hidden v-on:change="changImg($event)">
                 <input type="hidden"  name="userId" :value="userId">
                 <input type="hidden"  name="type" value="apply">
@@ -35,7 +35,7 @@
             <!--<input type="file" accept="image/gif,image/jpeg,,image/png,image/jpg"  id="imgFile" hidden v-on:change="changImg($event)">-->
         </li>
         <li>
-            
+
         </li>
     </ul>
     <el-button type="primary" class="float-right" @click="submit()">提交</el-button>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import NavHeader from '../components/NavHeader';
+import NavHeader from '../../components/NavHeader';
 export default {
   name: 'apply-dr',
   components:{

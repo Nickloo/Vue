@@ -7,12 +7,12 @@
         <time class="float-right">{{item.date}}</time>
       </li>
     </ul>
-    
+
   </div>
 </template>
 
 <script>
-import NavHeader from '../components/NavHeader'
+import NavHeader from '../../components/NavHeader'
 export default {
   name: 'home',
   components:{
@@ -41,7 +41,7 @@ export default {
       })
       for(let i=0;i<this.$store.state.message.length;i++){
         this.setRead(this.$store.state.message[i].id);
-        
+
         console.log(this.$store.state.message[i].id)
       }
   },

@@ -2,8 +2,8 @@
   <div class="body">
     <nav-header title="专栏"></nav-header>
     <div class="top-bar"></div>
-    <router-link :to="{name:'consult',params:{type:item.type,title:item.title}}" 
-    id="column-box" class="width-25 column-box float-left wrapper" 
+    <router-link :to="{name:'consult',params:{type:item.type,title:item.title}}"
+    id="column-box" class="width-25 column-box float-left wrapper"
     :style="{height:box_height}" v-for="item in datas">
     	<div class="column-card">
     		<div class="fullsrc room">
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import NavHeader from '../components/NavHeader'
+import NavHeader from '../../components/NavHeader'
 import { Loading } from 'element-ui';
 export default {
   name: 'column',
@@ -39,11 +39,11 @@ export default {
       text:'疯狂加载中。。。'
     });
     setTimeout(() => {
-      
+
     })
 		$.ajax({
         url: '/api/getColumn',
-        type:'get', 
+        type:'get',
         dataType: 'json',
         crossDomain: true,
         cache: true,

@@ -40,7 +40,7 @@ let PORT = process.env.PORT || 8088;
 // app.use(express.static(path.join(__dirname, 'public')));
 // app.use(middlewares.extendAPIOutput);
 // 监听8088端口
-// setTime.scheduleRecurrenceRule();
+setTime.scheduleRecurrenceRule();
 server.listen(PORT);
 console.log('success listen…………');
-socketio(io);
+// socketio(io);

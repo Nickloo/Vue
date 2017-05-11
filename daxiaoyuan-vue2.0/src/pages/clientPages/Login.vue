@@ -13,13 +13,13 @@
 	    <div class="float-left" style="width:50%">
 	    	<div class="div-center button ztc" @click="loginN">登陆</div>
 	    </div>
-    </div>    
+    </div>
   </div>
 </template>
 
 <script>
-import NavHeader from '../components/NavHeader'
-import InputBox from '../components/funComponents/InputBox'
+import NavHeader from '../../components/NavHeader'
+import InputBox from '../../components/InputBox'
 export default {
   name: 'login',
   components:{
@@ -66,7 +66,7 @@ export default {
           // this.$http.post('/api/login',params);
           $.ajax({
               url: '/api/login',
-              type:'post', 
+              type:'post',
               dataType: 'json',
               crossDomain: true,
               cache: true,
@@ -89,8 +89,8 @@ export default {
               }.bind(this)
             });
         }
-        
-    }      
+
+    }
 
   }
 }

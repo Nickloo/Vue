@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import InputBox from '../components/funComponents/InputBox'
-import NavHeader from '../components/NavHeader'
+import InputBox from '../../components/InputBox'
+import NavHeader from '../../components/NavHeader'
 export default {
   name: 'register',
   components:{
@@ -55,7 +55,7 @@ export default {
   		if(password===psd_check){
         $.ajax({
             url: '/api/register',
-            type:'post', 
+            type:'post',
             dataType: 'json',
             crossDomain: true,
             cache: true,
@@ -87,14 +87,14 @@ export default {
               console.log(err)
             }.bind(this)
           });
-  		} 		
+  		}
   	},
     submit(){
-      
+
     }
   },
   mounted(){
-    
+
   }
 }
 </script>

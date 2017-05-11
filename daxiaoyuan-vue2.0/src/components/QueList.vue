@@ -3,11 +3,12 @@
   <router-link :to="{name:'wenda',params:{id:item.que_id}}">
 	<h3 class="content padding-10" :class="{over:isOver}">
 	    	{{item.que_title}}
+			{{item.title}}
 	</h3>
 	<div class="border-bottom" style="margin-top:0.5rem"></div>
 	</router-link>
-	<ans-list :username="item.ans_username" :user-logo="item.ans_user_logo" :is-voice="item.is_voice"
-				:textCon="item.ans_con"></ans-list>
+	<ans-list :username="item.ans_username||item.username" :user-logo="item.ans_user_logo||item.user_logo" :is-voice="item.is_voice"
+				:text-con="item.ans_con"></ans-list>
 	<div class="bottom" v-if="isbot">
 		<span class="fav">{{item.fav_num}} 人觉得很赞</span>
 		<i class="iconfont fav-logo" :style="{color:favColor}" @click="fav">&#xe668;</i>
@@ -64,7 +65,8 @@ export default {
 			dataType:'json',
 			data:{
 				token:window.localStorage.token,
-				clas_id:this.item.clas_id,
+				clas_id:this.item.clas_id||this.item.ans_id,
+				ans_id:this.item.ans_id,
 				fav_type:this.is_fav?0:1,
 				userId:window.localStorage.userId
 			},

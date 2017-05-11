@@ -12,14 +12,15 @@
 		<div class="daren-que main" v-for="item in ans_data">
 			<que-list :isbot="true" :item="item" ></que-list>
 		</div>
+		<div class="bom"></div>
 		<div class="fallows text-center ztc" @click="fallow">{{fal_btn}}</div>
   </div>
 </template>
 <script>
-import NavHeader from '../components/NavHeader'
-import QueList from '../components/QueList'
-import UserLogo from '../components/UserLogo'
-import AskCard from '../components/AskCard'
+import NavHeader from '../../components/NavHeader'
+import QueList from '../../components/QueList'
+import UserLogo from '../../components/UserLogo'
+import AskCard from '../../components/AskCard'
 export default {
   name: 'darenmsg',
   components:{
@@ -43,7 +44,7 @@ export default {
   	  console.log('************',this.$route.params.userId,'#####',this.$route.params.userId);
 		$.ajax({
 			url: '/api/getDarenMsg/person',
-			type:'get', 
+			type:'get',
 			dataType: 'json',
 			cache: true,
 			data:{
@@ -55,10 +56,11 @@ export default {
 				this.daren_name = data.data.daren_msg.username;
 				this.introduction = data.data.daren_msg.introduction;
 				this.user_logo = data.data.daren_msg.user_logo;
+				this.ans_data = data.data.question;
 				if(data.data.is_fav === 1){
 					this.fal_btn = '已关注'
 				}
-				// console.log(this.datas)
+				console.log("答人信息",this.datas)
 				// console.log(this.introduction)
 				// let introduct = document.getElementById('introduct');
 				// introduct.innerHTML = "<p>"+this.introduction+"</p>";
@@ -69,7 +71,7 @@ export default {
   },
 	mounted(){
     this.userId = window.localStorage.userId;
-		this.getAnslist();
+		// this.getAnslist();
 	},
 	methods:{
 		fallow(){
@@ -78,7 +80,7 @@ export default {
 				if(confirm('确认取消关注？') === true){
 					$.ajax({
 						url: '/api/delFav',
-						type:'post', 
+						type:'post',
 						dataType: 'json',
 						cache: true,
 						data:{
@@ -98,12 +100,12 @@ export default {
 						}.bind(this)
 					});
 				}
-				
+
 			}else{
 				if(confirm('确认关注该答人？')){
 					$.ajax({
 						url: '/api/follows',
-						type:'post', 
+						type:'post',
 						dataType: 'json',
 						cache: true,
 						data:{
