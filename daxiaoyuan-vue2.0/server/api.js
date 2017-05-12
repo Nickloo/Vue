@@ -76,7 +76,7 @@ router.route('/api/login').post((req,res) => {
         
     })
 });
-//获取用户信息
+//获取用户信息/api/getClassics
 router.get('/api/getUser',(req,res) => {
     console.log('/api/getUser');
     let userId = req.query.userId;
@@ -313,7 +313,7 @@ router.post('/api/uploadImage',(req,res,next) => {
 router.post('/api/createQue',(req,res) => {
     console.log('######接口/api/createQue')
     let que_data = {
-        username:req.body.username,
+        // username:req.body.username,
         title:req.body.title,
         content:req.body.content,
         que_date:new Date(),
@@ -678,14 +678,15 @@ router.get('/api/getClassics',(req,res) => {
         if(length){
             sql = "select ans_con,answers.fav_num,answers.ans_id,title,questions.que_id,users.username,users.user_logo"+
               " from answers,questions,users"+
-              " where answers.que_id = questions.que_id and answers.user_id = users.userId and answers.is_best=1 and "+
+              " where answers.que_id = questions.que_id and answers.user_id = users.userId and answers.is_best=1 "+
               userStr+
-              " order by date desc limit "+limit+",5";
+              " order by answers.date desc limit "+limit+",5";
         }else{
             sql = "select ans_con,answers.fav_num,answers.ans_id,title,questions.que_id,users.username,users.user_logo"+
               " from answers,questions,users"+
-              " where answers.que_id = questions.que_id and answers.user_id = users.userId and answers.is_best=1 and"+
-              " order by date desc limit "+limit+",5";
+              " where answers.que_id = questions.que_id and answers.user_id = users.userId and answers.is_best=1"+
+              " order by answers.date desc limit "+limit+",5";
+              console.log(sql)
         }
         dao.selectCustom(sql,{},ret => {
             let j = 0;
@@ -750,22 +751,22 @@ router.post('/api/setbest',(req,res) => {
                     que_id = rets[0].que_id;
                     dao.upDate('questions',[{best_id:ans_id},{que_id:que_id}],() => {
                         dao.select('questions',{que_id:que_id},(result) => {
-                            let clas_data = {
-                                ans_id:ans_id,
-                                que_id:que_id,
-                                que_title:result[0].title,
-                                ans_con:rets[0].ans_con,
-                                answer_user_id:rets[0].user_id,
-                                que_user_id:result[0].user_id,
-                                is_voice:rets[0].is_voice,
-                                voice_src:rets[0].voice_src,
-                                type:result[0].type,
-                                date:new Date().toLocaleDateString()
-                            };
+                            // let clas_data = {
+                            //     ans_id:ans_id,
+                            //     que_id:que_id,
+                            //     que_title:result[0].title,
+                            //     ans_con:rets[0].ans_con,
+                            //     answer_user_id:rets[0].user_id,
+                            //     que_user_id:result[0].user_id,
+                            //     is_voice:rets[0].is_voice,
+                            //     voice_src:rets[0].voice_src,
+                            //     type:result[0].type,
+                            //     date:new Date().toLocaleDateString()
+                            // };
                             res.apiSuccess('OK','设置成功',clas_data);
-                            dao.Insert('classics',clas_data,(re) => {
-                                console.log(clas_data);
-                            });
+                            // dao.Insert('classics',clas_data,(re) => {
+                            //     console.log(clas_data);
+                            // });
                         });
                     });
                 });

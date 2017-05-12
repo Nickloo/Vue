@@ -64,7 +64,7 @@
             <time class="float-right">{{item.que_date}}</time>
         </router-link>
     </div>
-    <h2 class="text-center main" v-if="index === 1 && my_queData.length === 0">你还没有进行过提问...</h2>
+    <!--<h2 class="text-center main" v-if="index === 1 && my_queData.length === 0">你还没有进行过提问...</h2>-->
   </div>
 </template>
 

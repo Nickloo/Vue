@@ -42,5 +42,5 @@ let PORT = process.env.PORT || 8088;
 // 监听8088端口
 setTime.scheduleRecurrenceRule();
 server.listen(PORT);
-console.log('success listen…………');
+console.log('success listen…………',PORT);
 // socketio(io);
