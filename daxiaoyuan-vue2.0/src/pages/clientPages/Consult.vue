@@ -13,7 +13,7 @@
       <ask-me :data="ask_data"></ask-me>
     </div>
     <div class="get-more">
-      <el-button type="primary" :loading="isload" size="mini" class="que-loading"  @click="getQue()">
+      <el-button type="primary" :loading="isload" size="mini" class="width-max"  @click="getQue()">
         {{btn_msg}}
       </el-button>
     </div>
@@ -159,15 +159,5 @@ export default {
 	color: #fff;
 	font-weight: 600;
 	background: #2b8ff7;
-}
-.get-more{
-  width:50%;
-  /*position: relative;*/
-  margin:0 auto;
-}
-.que-loading{
-  width: 100%;
-  /*margin:auto 0;*/
-  /*margin-left: 50%;*/
 }
 </style>

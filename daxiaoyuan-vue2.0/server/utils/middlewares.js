@@ -1,10 +1,5 @@
 var path = require('path');
 var parseUrl = require('url').parse;
-var bodyParser = require('body-parser');
-var connect = require('connect');
-var multipart = require('connect-multiparty');
-var js2xmlparser = require('js2xmlparser');
-var jwt = require('jsonwebtoken');//用来创建和确认用户信息摘要
 exports.extendAPIOutput = function (req, res, next) {
   // 输出数据
   function output (data) {

@@ -10,9 +10,6 @@ const bodyParser = require('body-parser');
 const express = require('express');
 //引入socket
 const socket = require('socket.io');
-const res_api = require('res.api');
-//引入定时模块
-const schedule = require("node-schedule");
 const setTime = require('./utils/setTime');
 const http = require('http');
 const middlewares = require('./utils/middlewares');
@@ -24,7 +21,6 @@ let users = [];
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(middlewares.extendAPIOutput);
-// app.use(res_api);
 app.use(api);
 // app.use(middlewares.extendAPIOutput);
 app.use(middlewares.apiErrorHandle);
@@ -37,10 +33,7 @@ app.get('*', function(req, res) {
     res.send(html);
 });
 let PORT = process.env.PORT || 8088;
-// app.use(express.static(path.join(__dirname, 'public')));
-// app.use(middlewares.extendAPIOutput);
-// 监听8088端口
 setTime.scheduleRecurrenceRule();
 server.listen(PORT);
 console.log('success listen…………',PORT);
-// socketio(io);
+socketio(io);

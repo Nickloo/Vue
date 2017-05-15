@@ -7,7 +7,6 @@
             </div>
             <div class="ans-uname title-font">{{username}} 的回答</div>
             <div class="best-ans float-right" v-if = "control" @click="handlClick">{{best==1?'有用答案':'设为有用答案'}}</div>
-            <!--<div class="best-ans float-right" v-if = "!control" @click="handlClick">最佳答案</div>-->
         </div>
     <!--</router-link>-->
 	<!-- 语音回答 -->
@@ -65,8 +64,7 @@ export default {
     handlClick(){
       if(this.best === 0){
         this.setBest(this.ansId);
-        // this.$store.setStatus(true);
-        // console.log(this.$store.state.setStatus)
+        this.best = 1;
       }else{
         // this.delBest(this.ansId)
       }

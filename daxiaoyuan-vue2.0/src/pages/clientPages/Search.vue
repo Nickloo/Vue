@@ -1,15 +1,20 @@
 <template>
   <div class="wrapper body-top">
     <nav-header :back="true" :is-input="true" :search="search"></nav-header>
+    
     <router-link :to="{name:'wenda',params:{id:item.que_id}}" v-for="item in searchMsg">
-        <div class="que-con-box wrapper main padding-10-10">
-			<h4>{{item.title}}</h4>
+        <div class="que-con-box wrapper main padding-10-10" style="margin-bottom:0.1rem">
+			      <h4>{{item.title}}</h4>
             <article class="ans_txt over">
                 {{item.content}}
             </article>
         </div>
     </router-link>
-    
+    <div class="get-more">
+      <el-button type="primary" :loading="false" size="mini" class="width-max" >
+        {{btn_msg}}
+      </el-button>
+    </div>
   </div>
 </template>
 
@@ -24,7 +29,8 @@ export default {
   },
   data () {
     return {
-        searchMsg:[]
+        searchMsg:[],
+        btn_msg:'没有更多了',
     }
   },
   mounted(){

@@ -1,9 +1,5 @@
 const mysql = require('mysql');
 const express = require('express');
-const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
-const session = require('cookie-session');
-
 let options = {
     host: 'localhost',
 	port:'3306',
@@ -14,52 +10,6 @@ let options = {
 	// queueLimit:10
 }
 var pool = mysql.createPool(options);
-function objectSize(the_object) {
- var object_size = 0;
- for (key in the_object){
-  if (the_object.hasOwnProperty(key)) {
-   object_size++;
-  }
- }
- return object_size;
-}
-// function select(sql) {
-//     var promise = new Promise(function(resolve,reject) {
-//         var result = null;
-//         // var mysql = require('mysql');
-//         var connection = mysql.createConnection(options);
-//         connection.connect();
-//         // connection.query("USE test");
-//         connection.query(sql, function (err, results, fields) { 
-//             if (err) { 
-//                 console.log("err");
-//                 reject(err); 
-//             }else {
-//                 console.log("yessssssss");
-//                 if(results.length > 0) {
-//                     resolve({status: 'OK'});
-//                 }else {
-//                     resolve({status: 'NO'});
-//                 }           
-//             }
-// 			// callback(results) 
-//           } 
-//         );
-//         connection.end(); 
-//     })
-
-//     return promise; 
-// }
-// function select(){
-//     var connection = mysql.createConnection(options);
-// 	connection.connect();
-//     connection.query('select * from ',data,(err,results,fields) => {
-//         if(err) console.log(err);
-//         else{
-//             callback(results)
-//         }
-//     })
-// }
 function Insert(table,data,callback){
 	pool.getConnection(function(err,connection){
 		try {
@@ -113,23 +63,6 @@ function selectCustom(sql,data,callback){
 		connection.release();
 	})
 }
-//自定义查询无data
-// function selectCustom(sql,callback){
-// 	pool.getConnection(function(err,connection){
-// 		try {
-// 			connection.query(sql,(err,results,fields) => {
-// 				if(err) console.log(err);
-// 				else{
-// 					callback(results)
-// 				}
-// 			})
-// 		} catch (error) {
-// 			console.log('出现错误：'+error)
-// 			callback(error)
-// 		}
-// 		connection.release();
-// 	})
-// }
 //查询表中所有数据
 function selectAll(table,callback){
 	pool.getConnection(function(err,connection){
@@ -202,18 +135,6 @@ function selectFollow(userId,callback){
 		connection.release();
 	});
 }
-//查询表中对应的数据两个字段
-// function selectAll(table,callback){
-// 	var connection = mysql.createConnection(options);
-// 	connection.connect();
-// 	connection.query('select * from '+table,(err,results,fields) => {
-// 		if(err) console.log(err);
-// 		else{
-// 			callback(results);
-// 			connection.end();
-// 		}
-// 	})
-// }
 //关注更新
 function upDateFans(sql,callback){
 	var connection = mysql.createConnection(options);
@@ -224,15 +145,12 @@ function upDateFans(sql,callback){
 			else{
 				callback(results)
 			}
-			
 		})
 	} catch (error) {
 		console.log('出现错误：'+error)
 		callback(error)
 	}
-	connection.end();
-    
-}
+	connection.end();}
 //用户信息更新
 function upDate(table,data,callback){
 	var connection = mysql.createConnection(options);
@@ -253,7 +171,6 @@ function upDate(table,data,callback){
 }
 //删除信息
 function delFans(user_id,fans_id,callback){
-	// var connection = mysql.createConnection(options);
 	pool.getConnection(function(err,connection){
 		if(err) throw err;
 		else{
@@ -266,14 +183,6 @@ function delFans(user_id,fans_id,callback){
 			})
 		}
 	})
-	// connection.connect();
-    // connection.query('delete from fanslist where user_id = "'+user_id+'" and fans_id= "'+fans_id+'";',function(err,results,field){
-    //     if(err) console.log(err);
-    //     else{
-    //         callback(field)
-    //     }
-    //     connection.end();
-    // })
 }
 //获取问题答案
 function selectAns(que_id,callback){
@@ -325,7 +234,6 @@ function Delete(table,data,callback){
 		}
 	})
 }
-// function 
 module.exports = {
 	select,selectAll,selectCustom,selectFans,selectFollow,
 	Insert,upDateFans,upDate,delFans,selectAns,Delete}

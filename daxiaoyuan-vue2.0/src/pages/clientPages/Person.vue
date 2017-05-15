@@ -58,7 +58,7 @@
     </div>
     <!--提问模块-->
     <ask-card v-if="index === 1" ></ask-card>
-    <div class="my-que main wrapper" v-if="index === 1" v-for = "item in $store.state.my_queData">
+    <div class="my-que main wrapper" v-if="index === 1" v-for = "item in my_queData">
         <router-link :to="{name:'my_quecon',params:{que_id:item.que_id}}">
             <h3>{{item.title}}</h3>
             <time class="float-right">{{item.que_date}}</time>
@@ -102,7 +102,10 @@ export default {
   },
   methods:{
   	changPage(id){
-  		this.index=id
+  		this.index=id;
+      if(id===1){
+        this.getMyQue();
+      }
   	},
     goMsg(){
       this.$router.push({name:'setmsg',params:{userId:window.localStorage.userId}})
@@ -122,8 +125,8 @@ export default {
 						success: function(data) {
 							if(data.status === 'OK'){
                 this.my_queData = data.data;
-                this.$store.setMyque(data.data)
-                global.getMyque = 1
+                // this.$store.setMyque(data.data)
+                // global.getMyque = 1
 							}
 						}.bind(this),
 						error: function(xhr, status, err) {

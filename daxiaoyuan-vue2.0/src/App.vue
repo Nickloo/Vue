@@ -95,6 +95,11 @@ body{
 .top-10{
   margin-top: 0.5rem
 }
+/*获取更多*/
+.get-more{
+  width:50%;
+  margin:0 auto;
+}
 /*.top-bar{li
   margin-top: 3rem
 }*/

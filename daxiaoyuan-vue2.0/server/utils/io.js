@@ -1,7 +1,5 @@
 const socket = require('socket.io')
-let users = []
-// const http = require('http')
-// let io = socket.listen(server);//引入socket.io模块并绑定到服务器
+let users = [];
 function io(io){
     io.on('connection',function(socket){
         //接受并处理客户端发送的foo事件

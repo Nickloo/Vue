@@ -69,7 +69,6 @@ export default {
     if(this.queIndex===1){
       this.getDatasNew();
     }
-    
   },
   methods:{
     changeQue(id){

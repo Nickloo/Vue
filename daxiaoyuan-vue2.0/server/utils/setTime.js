@@ -2,11 +2,6 @@
 const schedule = require("node-schedule");
 //引入数据库模卡
 const dao = require('../db.js');
-//引入Moment.js 
-const moment = require("moment")
-setInterval(function(){
-    // document.write('<p>Hello there.</p>');
-}, 10000);
 module.exports.getNowFormatDate=function() {
     let date = new Date();
     let seperator1 = "-";
@@ -23,19 +18,6 @@ module.exports.getNowFormatDate=function() {
             + " " + date.getHours() + seperator2 + date.getMinutes()
             + seperator2 + date.getSeconds();
     return currentdate;
-}
-module.exports.setIt = function(){
-    var rule = new schedule.RecurrenceRule();
-    var times = [];
-    for(var i=1; i<60; i++){
-    　　times.push(i);
-    }
-    rule.second = times;
-    var c=0;
-    var j = schedule.scheduleJob(rule, function(){
-        c++;
-        console.log(new Date());
-    });
 }
 module.exports.scheduleRecurrenceRule=function(){
     var rule = new schedule.RecurrenceRule();

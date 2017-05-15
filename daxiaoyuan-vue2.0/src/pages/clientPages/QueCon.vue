@@ -10,10 +10,10 @@
 
     </div>
     <!--选择回答类型-->
-    <div class="sel width-50">
+    <!--<div class="sel width-50">
       <div class="sel-text width-50 text-center" :class="{active:index===0}" @click="changIndex(0)">文字回答</div>
       <div class="sel-voice width-50 text-center" :class="{active:index===1}" @click="changIndex(1)">语音回答</div>
-    </div>
+    </div>-->
     <!--文字回答-->
     <div class="answ-box main" v-if="this.index==0">
     	<el-input
