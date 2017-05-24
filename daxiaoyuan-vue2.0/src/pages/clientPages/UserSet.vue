@@ -99,7 +99,8 @@ export default {
       console.log(this.isSelect)
     },
     changImg(event){
-		    var files = event.target.files, file;
+		    var files = event.target.files, 
+            file;
 		    if (files && files.length > 0) {
 		        // 获取目前上传的文件
 		        file = files[0];// 文件大小校验的动作
@@ -134,8 +135,16 @@ export default {
       }
     },
     updata(){
+      var ret = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
       if(document.getElementById('imgFile').value){
         this.uploadImg();
+      }
+      if($("input[name='email']").val()!==''){
+        let isEmail = ret.test($("input[name='email']").val());
+        if(isEmail==false){
+          alert('请输入正确的邮箱地址',$("input[name='email']").val());
+          return false;
+        }
       }
       $.ajax({
         url: '/api/setUser',

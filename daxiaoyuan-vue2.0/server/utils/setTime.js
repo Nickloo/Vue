@@ -1,7 +1,7 @@
 //引入定时模块
 const schedule = require("node-schedule");
 //引入数据库模卡
-const dao = require('../db.js');
+const dao = require('./db.js');
 module.exports.getNowFormatDate=function() {
     let date = new Date();
     let seperator1 = "-";
@@ -30,8 +30,6 @@ module.exports.scheduleRecurrenceRule=function(){
     for(let i=1;i<=24;i++){
         times.push(i);
     }
-    // rule.second = times;
-    // rule.hour = 0;
     schedule.scheduleJob(rule, function(){
        console.log('scheduleRecurrenceRule:' + new Date());
        let sql = "select ans_con,answers.fav_num,answers.date,answers.ans_id,title,questions.que_id,users.username,users.user_logo"+
@@ -41,8 +39,15 @@ module.exports.scheduleRecurrenceRule=function(){
            ret.forEach(function(value,index){
                dao.Insert('classics',value,rets=>{
                    console.log(index);
-               })
-           })
-       })
+               });
+           });
+       });
+    //    dao.selectCustom('select * from answers order by (date and fav_num) desc limit 0,10',ret => {
+    //        ret.forEach(function(value,index){
+    //            dao.upDate('answers',[{is_classics:1},{ans_id:value.ans_id}],rets=>{
+    //                console.log('每周最佳更新完成。');
+    //            });
+    //        });
+    //    });
     });
 }

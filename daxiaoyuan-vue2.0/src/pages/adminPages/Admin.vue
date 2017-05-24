@@ -5,7 +5,7 @@
         <h3 style="color:aliceblue" class="float-left">答校园用户管理</h3>
       </router-link>
       <el-button type="primary" size='mini' class="float-right" style="margin-top:.6rem" @click="logout()">登出</el-button>
-      <el-button type="primary" size='mini' class="float-right" style="margin-top:.6rem;margin-right:.5rem" @click="revise()">修改</el-button>
+      <el-button type="primary" size='mini' class="float-right" style="margin-top:.6rem;margin-right:.5rem" @click="revise">修改</el-button>
     </header>
     <div class="con-body container">
         <nav class="nav-menu">
@@ -78,11 +78,21 @@ export default {
         this.$router.push('/adlogin');
       },
       revise(){
-        this.is_revise = 1;        
+        this.is_revise = 1;//revise        
         this.$store.setBack(true);
         console.log(this.$store.state.is_back);
       },
       save(){
+        if(this.old_psd.trim()==''){
+          alert('原密码不能为空');
+          return false;
+        }else if(this.new_psd.trim()==''){
+          alert('新密码不能为空');
+          return false;
+        }else if(this.new_psd !== check_psd){
+          alert('两次输入不同');
+          return false;
+        }
         let parms ={
           oldpwd:hex_md5(this.old_psd),
           newpwd:hex_md5(this.new_psd),
@@ -111,6 +121,26 @@ export default {
         this.is_revise = 0;
         this.$store.setBack(false);
         console.log(this.$store.state.is_back);
+      },
+      checkToken(){
+        $.ajax({
+            url:'/api/chack_token',
+            type:'post',
+            dataType:'json',
+            data:{
+              token:window.localStorage.Adtoken
+            },
+            success: data => {
+              if(data.status=='NO'){
+                  this.$router.push('/Adlogin');
+                  console.log('token error')
+              }
+              console.log(data.msg)
+            },
+            error: err => {
+              console.error(err)
+            }
+        });
       }
   },
   created(){
@@ -118,28 +148,6 @@ export default {
   },
   mounted(){
       this.checkToken();
-  },
-  methods:{
-    checkToken(){
-      $.ajax({
-          url:'/api/chack_token',
-          type:'post',
-          dataType:'json',
-          data:{
-            token:window.localStorage.Adtoken
-          },
-          success: data => {
-            if(data.status=='NO'){
-                this.$router.push('/Adlogin');
-                console.log('token error')
-            }
-            console.log(data.msg)
-          },
-          error: err => {
-            console.error(err)
-          }
-      });
-    }
   },
   watch:{
     router:function(){

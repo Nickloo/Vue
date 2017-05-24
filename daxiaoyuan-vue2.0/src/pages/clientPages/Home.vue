@@ -27,6 +27,11 @@
     <div class="que-list" v-for="itme in queDatasLast" v-if="queIndex===2">
       <que-list :item="itme" :isbot="1"></que-list>
     </div>
+    <div class="get-more" v-if="queIndex==1" style="margin-top:.5rem">
+      <el-button type="primary" :loading="isload" size="mini" class="width-max"  @click="getDatasNew()">
+        {{btn_msg}}
+      </el-button>
+    </div>
 	<!-- <div class="bom"></div> -->
     <!-- <h1>123</h1> -->
     <!-- hello -->
@@ -51,7 +56,10 @@ export default {
       ],
       roll_datas:[
         
-      ]
+      ],
+      btn_msg:'加载更多',
+      isload:true,
+      page:0
     }
   },
   beforeCreate(){
@@ -76,6 +84,7 @@ export default {
       
     },
     getDatasNew(){
+      this.page++;
       $.ajax({
         url:'/api/getClassics',
         type:'get',
@@ -83,11 +92,15 @@ export default {
         cache:'true',
         crossDomain:'true',
         data:{
-          page:1,
+          page:this.page,
           userId:window.localStorage.userId
         },
         success:(data) => {
-          this.queDatasNew = data.data;
+          this.queDatasNew = this.queDatasNew.concat(data.data);
+          if(data.data.length<5){
+            this.btn_msg = '没有更多了'
+          }
+          this.isload = false;
           console.log(data.data)
         },
         error:(error) => {

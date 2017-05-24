@@ -1,5 +1,5 @@
 // 引入编写好的api
-const api = require('./api'); 
+const api = require('./routes/api');
 // 引入文件模块
 const fs = require('fs');
 // 引入处理路径的模块

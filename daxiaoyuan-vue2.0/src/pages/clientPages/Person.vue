@@ -197,10 +197,9 @@ export default {
             this.$notify({
               title: '消息',
               message: '你有'+data.data.length+'条新消息等待查看',
-              // type: 'success'
             });
           }
-          console.log('message:',this.$store.state.message)
+          // console.log('message:',this.$store.state.message)
         },
         error:(err) => {
           console.error(err);

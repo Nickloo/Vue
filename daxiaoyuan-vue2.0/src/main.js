@@ -25,14 +25,14 @@ new Vue({
   el:  '#app',
   router,
   store,
-  sockets:{
-    connect: function(){
-      console.log('socket connected');
-    },
-    customEmit: function(val){
-      console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
-    }
-  },
+  // sockets:{
+  //   connect: function(){
+  //     console.log('socket connected');
+  //   },
+  //   customEmit: function(val){
+  //     console.log('this method was fired by the socket server. eg: io.emit("customEmit", data)')
+  //   }
+  // },
   template: '<App/>',
   components: { App }
 })
