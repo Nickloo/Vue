@@ -21,33 +21,41 @@ module.exports.getNowFormatDate=function() {
 }
 module.exports.scheduleRecurrenceRule=function(){
     var rule = new schedule.RecurrenceRule();
-    rule.dayOfWeek = 1;
+    rule.dayOfWeek = 2;
     // rule.month = 1;
     // rule.dayOfMonth = 1;
     // rule.hour = 1;
-    // rule.minute = 52;
+    // rule.minute = 20;
     let times = [];
-    for(let i=1;i<=24;i++){
+    for(let i=1;i<=60;i++){
         times.push(i);
     }
+    // rule = times;
     schedule.scheduleJob(rule, function(){
        console.log('scheduleRecurrenceRule:' + new Date());
-       let sql = "select ans_con,answers.fav_num,answers.date,answers.ans_id,title,questions.que_id,users.username,users.user_logo"+
-            " from answers,questions,users where answers.que_id = questions.que_id and answers.user_id = users.userId and answers.is_best=1"+
-            " order by fav_num desc limit 0,10";
-       dao.selectCustom(sql,[],ret=>{
-           ret.forEach(function(value,index){
-               dao.Insert('classics',value,rets=>{
-                   console.log(index);
-               });
-           });
-       });
-    //    dao.selectCustom('select * from answers order by (date and fav_num) desc limit 0,10',ret => {
+    //    let sql = "select ans_con,answers.fav_num,answers.date,answers.ans_id,title,questions.que_id,users.username,users.user_logo"+
+    //         " from answers,questions,users where answers.que_id = questions.que_id and answers.user_id = users.userId and answers.is_best=1"+
+    //         " order by fav_num desc limit 0,10";
+    //    dao.selectCustom(sql,[],ret=>{
     //        ret.forEach(function(value,index){
-    //            dao.upDate('answers',[{is_classics:1},{ans_id:value.ans_id}],rets=>{
-    //                console.log('每周最佳更新完成。');
+    //            dao.Insert('classics',value,rets=>{
+    //                console.log(index);
     //            });
     //        });
     //    });
+    dao.selectCustom('select date,ans_id,date_best from answers where "'+new Date().getTime()+'"-date_best<=604800000 and "'+new Date().getTime()+'"-date_best>=86400000 order by fav_num desc limit 0,10',[],ret => {
+        if(ret.length===0){
+            console.log('保存上周经典失败');
+        }else{
+            console.log(new Date().getTime-ret[0].date_best,":*************");
+            let date = new Date().getTime();
+            ret.forEach(function(value,index){
+                dao.Insert('classics_list',{ans_id:value.ans_id,date:date},rets=>{
+                    console.log('保存上周经典成功');
+                })
+            })
+        }
+        console.log("date is ........",ret);
+       });
     });
 }

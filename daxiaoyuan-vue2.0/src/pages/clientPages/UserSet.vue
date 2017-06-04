@@ -49,7 +49,7 @@
       </div>
     </ul>
   </form>
-  <div class="submit text-center ztc" @click="updata()">保存并返回</div>
+  <div class="submit text-center ztc" @click="update()">保存并返回</div>
   </div>
 </template>
 
@@ -134,7 +134,7 @@ export default {
         return false;
       }
     },
-    updata(){
+    update(){
       var ret = /^[A-Za-z\d]+([-_.][A-Za-z\d]+)*@([A-Za-z\d]+[-.])+[A-Za-z\d]{2,4}$/;
       if(document.getElementById('imgFile').value){
         this.uploadImg();

@@ -11,7 +11,7 @@
 	    	<div class="div-center button ztc" @click="register">注册</div>
 	    </div>
 	    <div class="float-left" style="width:50%">
-	    	<div class="div-center button ztc" @click="loginN">登陆</div>
+	    	<div class="div-center button ztc" @click="login">登陆</div>
 	    </div>
     </div>
   </div>
@@ -47,7 +47,7 @@ export default {
   	register(){
   		this.$router.push('/register')
   	},
-    loginN() {
+    login() {
         let user_name = $("input[name='user_name']").val();
         let password = $("input[name='password']").val();
         if(user_name===""){

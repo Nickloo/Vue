@@ -2,15 +2,16 @@
   <div class="wrapper body-top">
     <nav-header title="首页" :is-search="true"></nav-header>
     <div class="block">
-    <el-carousel :interval="2000" height="7.5rem">
-      <el-carousel-item v-for="item in roll_datas" class="text-center" :key="item">
-        <a :href="item.link">
-          <img :src="item.picture" class="fullsrc" >
-          <div class="cont-title" style="color:black">{{item.title}}</div>
-        </a>
-      </el-carousel-item>
-    </el-carousel>
-  </div>
+      <el-carousel :interval="2000" height="7.5rem">
+        <el-carousel-item v-for="item in roll_datas" class="text-center" :key="item">
+          <a :href="item.link">
+            <img :src="item.picture" class="fullsrc" >
+            <div class="cont-title" style="color:black">{{item.title}}</div>
+          </a>
+        </el-carousel-item>
+      </el-carousel>
+    </div>
+    <!--选择按钮-->
     <div class="sel-btn-box main width-50 wrapper">
       <div class="left-sel float-left width-50 text-center"
       :class="{ztc:queIndex===1}"  @click="changeQue(1)">
@@ -21,20 +22,20 @@
         往日经典
       </div>
     </div>
+    <!--最新动态-->
     <div class="que-list" v-for="itme in queDatasNew" v-if="queIndex===1">
     	<que-list :item="itme" :isbot="1"></que-list>
     </div>
+    <!--往日经典-->
     <div class="que-list" v-for="itme in queDatasLast" v-if="queIndex===2">
       <que-list :item="itme" :isbot="1"></que-list>
     </div>
+    <!--获取更多-->
     <div class="get-more" v-if="queIndex==1" style="margin-top:.5rem">
       <el-button type="primary" :loading="isload" size="mini" class="width-max"  @click="getDatasNew()">
         {{btn_msg}}
       </el-button>
     </div>
-	<!-- <div class="bom"></div> -->
-    <!-- <h1>123</h1> -->
-    <!-- hello -->
   </div>
 </template>
 
@@ -55,11 +56,11 @@ export default {
       queDatasLast:[
       ],
       roll_datas:[
-        
       ],
       btn_msg:'加载更多',
       isload:true,
-      page:0
+      page:0,
+      isfav:1
     }
   },
   beforeCreate(){
@@ -79,12 +80,15 @@ export default {
     }
   },
   methods:{
+    //选择浏览类型
     changeQue(id){
       this.queIndex=id;
       
     },
+    //请求最新问答
     getDatasNew(){
       this.page++;
+      console.log(this.page)
       $.ajax({
         url:'/api/getClassics',
         type:'get',
@@ -93,12 +97,20 @@ export default {
         crossDomain:'true',
         data:{
           page:this.page,
-          userId:window.localStorage.userId
+          userId:window.localStorage.userId,
+          isfav:this.isfav
         },
         success:(data) => {
           this.queDatasNew = this.queDatasNew.concat(data.data);
-          if(data.data.length<5){
-            this.btn_msg = '没有更多了'
+          if(data.data.length===0){
+            this.btn_msg = '没有更多了';
+            console.log('没有更多了');
+          }
+          //判断收藏用户问答是否浏览结束
+          if(this.isfav&&data.data[0].page===0){
+            this.page=0;
+            this.isfav=0;
+            console.log('isfav0');
           }
           this.isload = false;
           console.log(data.data)
@@ -108,6 +120,7 @@ export default {
         }
       })
     },
+    //请求经典回答
     getOldque(){
       $.ajax({
         url:'/api/getOldque',
@@ -126,6 +139,7 @@ export default {
         }
       })
     },
+    //请求首页推荐
     getNews(){
       $.ajax({
         url:'/api/getNews',
@@ -139,6 +153,7 @@ export default {
     }
   },
   watch:{
+    // 通过监视queIndex是否变化判断请求类型
     queIndex:function(){
       if(this.queIndex==1){
         this.getDatasNew();

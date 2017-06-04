@@ -40,7 +40,7 @@ export default {
     });
     setTimeout(() => {
 
-    })
+    });
 		$.ajax({
         url: '/api/getColumn',
         type:'get',

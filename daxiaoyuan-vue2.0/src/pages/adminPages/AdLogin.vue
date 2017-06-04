@@ -42,7 +42,7 @@ export default {
             dataType:'json',
             data:{
                 user_name:this.username,
-                password:hex_md5(this.password)
+                password:hex_md5(password)
             },
             success:(data) => {
                 if(data.status === 'OK'){
@@ -50,11 +50,11 @@ export default {
                     window.localStorage.Adtoken = data.data.token;
                     window.localStorage.userId = data.data.userId;
                 }else{
-                    // if(data.data.identy!=="2"){
-                        // alert('不是管理员用户');
-                    // }else{
+                    if(data.data.identy!=="2"){
+                        alert('不是管理员用户');
+                    }else{
                         alert(data.msg);
-                    // }
+                    }
                 }
             },error:(err) => {
                 console.error(err)
