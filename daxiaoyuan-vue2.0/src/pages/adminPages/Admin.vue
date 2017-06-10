@@ -89,7 +89,7 @@ export default {
         }else if(this.new_psd.trim()==''){
           alert('新密码不能为空');
           return false;
-        }else if(this.new_psd !== check_psd){
+        }else if(this.new_psd !== this.check_psd){
           alert('两次输入不同');
           return false;
         }

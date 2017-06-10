@@ -25,7 +25,8 @@ var routes = [
   {path: '/quecon/:que_id',name:'quecon', component: require('./pages/clientPages/QueCon.vue')},//问题详情页面
   {path: '/my_quecon/:que_id',name:'my_quecon', component: require('./pages/clientPages/MyQuecon.vue')},//我的问题详情页面
   {path: '/register', component: require('./pages/clientPages/Register.vue')},//注册页面
-  {path: '/fans_list', component: require('./pages/clientPages/FansList.vue')},//粉丝页面
+  {path: '/fans_list', component: require('./pages/clientPages/FansList.vue')},//粉丝列表页面
+  {path: '/fans_msg/:user_id',name:'fans_msg', component: require('./pages/clientPages/FansMsg.vue')},//粉丝信息页面
   {path: '/follows', component: require('./pages/clientPages/Follow.vue')},//关注页面
   {path: '/my_answer',name:'my_answer', component: require('./pages/clientPages/MyAnswer.vue')},//我的回答
   {path: '/consult/darenmsg/:userId',name:'darenmsg',component: require('./pages/clientPages/DarenMsg.vue')},//答人信息页面
@@ -35,6 +36,7 @@ var routes = [
   {path: '/wenda/:id',name:'wenda', component: require('./pages/clientPages/WendaCon.vue')},//问答详情页面
   {path: '/apply',name:'apply', component: require('./pages/clientPages/ApplyDr.vue')},//申请成为答人
   {path: '/message',name:'message', component: require('./pages/clientPages/Message.vue')},//消息页面
+  {path: '/ask',name:'ask', component: require('./pages/clientPages/AskPage.vue')},//消息页面
   {path: '/adlogin', component: require('./pages/adminPages/AdLogin.vue')},//管理员登陆
   {
     path:'/admin',

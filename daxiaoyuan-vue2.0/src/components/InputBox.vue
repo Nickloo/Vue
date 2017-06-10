@@ -3,9 +3,9 @@
 	<div class="inputbox-body wrapper">
   		<div :id="titleId" class="inputbox-title" :style="{color:TitleColor}">{{title}}</div>
 	  	<div class="item-input">
-	  		<input v-if="type==='text'" type="text" :value="value" class="inputbox-text" :placeholder="placeholder" :name="name" :style="{color:TextColor}"></input>
-	  		<input v-if="type==='password'" type="password" :value="value" class="inputbox-text" :placeholder="placeholder" :name="name" :style="{color:TextColor}"></input>
-			<input v-if="type==='email'" type="email" :value="value" class="inputbox-text" :placeholder="placeholder" :name="name" :style="{color:TextColor}"></input>
+	  		<input v-if="type==='text'" type="text" :value="value" class="inputbox-text" :placeholder="placeholder" :name="name" :style="{color:TextColor}" :readonly="readonly"></input>
+	  		<input v-if="type==='password'" type="password" :value="value" class="inputbox-text" :placeholder="placeholder" :name="name" :style="{color:TextColor}" :readonly="readonly"></input>
+			<input v-if="type==='email'" type="email" :value="value" class="inputbox-text" :placeholder="placeholder" :name="name" :style="{color:TextColor}" :readonly="readonly"></input>
 	  	</div>	
   </div>
 </div>
@@ -34,6 +34,7 @@ export default {
 		type:{type:String,default:'text'},//输入框类型
 		padding:{type:String,default:'0'},//输入框padding
 		letterSpacing:{type:String,default:'0rem'},//字间距
+		readonly:{type:Boolean,default:false}
 	},
 	mounted(){
 		

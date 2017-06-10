@@ -45,7 +45,7 @@
           name="introduction"
           autosize
           :value="usermsg.introduction">
-        </el-input
+        </el-input>
       </div>
     </ul>
   </form>

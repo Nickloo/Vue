@@ -42,19 +42,25 @@ export default {
             dataType:'json',
             data:{
                 user_name:this.username,
-                password:hex_md5(password)
+                password:hex_md5(this.password),
+                type:'admin'
             },
             success:(data) => {
                 if(data.status === 'OK'){
-                    this.$router.push('/admin');
-                    window.localStorage.Adtoken = data.data.token;
-                    window.localStorage.userId = data.data.userId;
-                }else{
-                    if(data.data.identy!=="2"){
-                        alert('不是管理员用户');
+                    console.log(data.data)
+                    if(data.data.identy===2){
+                        this.$router.push('/admin/function');
+                        window.localStorage.Adtoken = data.data.token;
+                        window.localStorage.userId = data.data.userId;
                     }else{
-                        alert(data.msg);
+                        alert('该管理员用户不存在')
                     }
+                }else{
+                    // if(data.data.identy!=="2"){
+                        // alert('不是管理员用户');
+                    // }else{
+                        alert(data.msg);
+                    // }
                 }
             },error:(err) => {
                 console.error(err)

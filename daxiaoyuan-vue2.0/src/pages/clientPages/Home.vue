@@ -1,6 +1,7 @@
 <template>
   <div class="wrapper body-top">
-    <nav-header title="首页" :is-search="true"></nav-header>
+    <nav-header title="首页" :is-search="true" :ask="true" :ask-card="askCard"></nav-header>
+    
     <div class="block">
       <el-carousel :interval="2000" height="7.5rem">
         <el-carousel-item v-for="item in roll_datas" class="text-center" :key="item">
@@ -43,10 +44,11 @@
 import NavHeader from '../../components/NavHeader'
 import RollCard from '../../components/RollCard'
 import QueList from '../../components/QueList'
+import AskCard from '../../components/AskCard'
 export default {
   name: 'home',
   components: {
-    NavHeader,RollCard,QueList
+    NavHeader,RollCard,QueList,AskCard
   },
   data () {
     return {
@@ -60,7 +62,8 @@ export default {
       btn_msg:'加载更多',
       isload:true,
       page:0,
-      isfav:1
+      isfav:1,
+      is_card:false
     }
   },
   beforeCreate(){
@@ -75,9 +78,26 @@ export default {
       })
   },
   mounted(){
-    if(this.queIndex===1){
-      this.getDatasNew();
-    }
+    $.ajax({
+      url:'/api/getFollows',
+      type:'get',
+      dataType:'json',
+      crossDomain:'true',
+      data:{
+        userId:window.localStorage.userId
+      },
+      success:(data) => {
+        if(data.data.length>0){
+          this.isfav=1
+        }else{
+          this.isfav=0
+        }
+        this.getDatasNew();
+      },
+      error:(Error) => {
+        console.log(Error.toString())
+      }
+    })
   },
   methods:{
     //选择浏览类型
@@ -105,6 +125,8 @@ export default {
           if(data.data.length===0){
             this.btn_msg = '没有更多了';
             console.log('没有更多了');
+            this.isload = false;
+            console.log(data.data)
           }
           //判断收藏用户问答是否浏览结束
           if(this.isfav&&data.data[0].page===0){
@@ -150,6 +172,11 @@ export default {
           console.log('news is',data.data)
         }
       })
+    },
+    askCard(){
+      console.log('提问');
+      // this.is_card=true;
+      this.$router.push('/ask')
     }
   },
   watch:{
@@ -200,5 +227,15 @@ export default {
 	top: 0rem;
 	font-weight: 700;
 	color: #fff;
+}
+.back-disable{
+  position: absolute;
+  background: black;
+  opacity: 0.5;
+  width:100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
 }
 </style>

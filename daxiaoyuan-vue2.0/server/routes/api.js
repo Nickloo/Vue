@@ -60,7 +60,8 @@ router.route('/api/login').post((req,res) => {
         }else{
             if(results[0].password === password){
                 let token = tokenM.createToken({username:username,userId:results[0].userId},superSecret);
-                res.apiSuccess('OK','success login',{userId:results[0].userId,token:token});
+                results[0].token = token;
+                res.apiSuccess('OK','success login',results[0]);
             }else{
                 res.json({status:'NO',msg:'密码错误'})
             }
@@ -361,7 +362,7 @@ router.get('/api/getQuestion',(req,res) => {
     console.log('/api/getQuestion:',data);
     if(is_admin){
         let start = page*10-10;
-        let sql = "select * from questions inner join users on questions.user_id=users.userId where ? limit "+start+",10";
+        let sql = "select * from questions inner join users on questions.user_id=users.userId where ? order by que_date desc limit "+start+",10";
         dao.selectCustom(sql,data,(ret) => {
             if(ret){
                 res.apiSuccess('OK','问题获取成功',ret);
@@ -372,7 +373,7 @@ router.get('/api/getQuestion',(req,res) => {
         });
     }else{
         let start = page*5-5;
-        let sql = "select * from questions where ? and ? limit "+start+",5";
+        let sql = "select * from questions where ? and ? order by que_date desc limit "+start+",5";
         dao.selectCustom(sql,[{type:type},{best_id:0}],(ret) => {
             if(ret){
                 res.apiSuccess('OK','问题获取成功',ret);
@@ -389,14 +390,17 @@ router.get('/api/getAllQuestion',(req,res) => {
     let page = req.query.page;
     console.log('/api/getAllQuestion');
     let start = page*10-10;
-    let sql = "select * from questions inner join users on questions.user_id=users.userId limit "+start+",10";
+    let sql = "select * from questions inner join users on questions.user_id=users.userId ORDER BY que_date desc limit "+start+",10";
     dao.selectCustom(sql,{},(ret) => {
-        if(ret){
-            res.apiSuccess('OK','问题获取成功',ret);
-            console.log(ret.length);
-        }else{
-            res.apiSuccess('ON');
-        }
+        dao.selectCustom('select * from questions',[],rets=>{
+            if(ret){
+                ret[0].data_len = rets.length;
+                res.apiSuccess('OK','问题获取成功',ret);
+                console.log(ret.length);
+            }else{
+                res.apiSuccess('ON');
+            }
+        })
     });
 })
 //获取向答人提问的问题
@@ -632,17 +636,20 @@ router.get('/api/getClassics',(req,res) => {
     let limit = page*5-5;
     let userId = req.query.userId;
     let isfav = req.query.isfav;
-    let drSql = 'select user_id from fanslist,users where fanslist.user_id = users.userId  order by fans_num desc'
+    let drSql = 'select user_id from fanslist,users where fanslist.user_id = users.userId and fanslist.fans_id='+userId+'  order by fans_num desc'
     dao.selectCustom(drSql,[],result => {
-        console.log("results",result,isfav);
+        console.log("results:",result,';isFav:',isfav,';page is:',page);
         let length = result.length;
         let sql="";
         let userStr = '';
+        let unuserStr = '';
         result.forEach(function(value,index){
             if(index!=length-1){
                 userStr += "answers.user_id="+value.user_id+" or ";
+                unuserStr  += "answers.user_id!="+value.user_id+" or ";
             }else{
                 userStr += "answers.user_id="+value.user_id;
+                unuserStr += "answers.user_id!="+value.user_id;
             }
         });
         userStr = "("+userStr+")";
@@ -652,21 +659,37 @@ router.get('/api/getClassics',(req,res) => {
               " from answers,questions,users"+
               " where answers.que_id = questions.que_id and answers.user_id = users.userId and answers.is_best=1 and "+
               userStr+
+              " and "+new Date().getTime()+"-answers.date_best<=172800000"+
               " order by answers.date desc limit "+limit+",5";
+            console.log('sql string is ',sql)
         }else{
             isfav=0;
-            sql = "select ans_con,answers.fav_num,answers.ans_id,title,questions.que_id,users.username,users.user_logo"+
+            if(unuserStr){
+                sql = "select ans_con,answers.fav_num,answers.ans_id,title,questions.que_id,users.username,users.user_logo"+
               " from answers,questions,users"+
-              " where answers.que_id = questions.que_id and answers.user_id = users.userId and answers.is_best=1"+
+              " where answers.que_id = questions.que_id and answers.user_id = users.userId and answers.is_best=1 and "+
+              unuserStr+
               " order by answers.date desc limit "+limit+",5";
+            }else{
+                sql = "select ans_con,answers.fav_num,answers.ans_id,title,questions.que_id,users.username,users.user_logo"+
+              " from answers,questions,users"+
+              " where answers.que_id = questions.que_id and answers.user_id = users.userId and answers.is_best=1 "+
+              " order by answers.date desc limit "+limit+",5";
+            }
+            
+              console.log('sql is:',sql);
         }
         dao.selectCustom(sql,{},ret => {
             let j = 0;
-            //判断是否已经收藏点赞
-            console.log('000*************',ret.length);
+            //判断是否已经收藏点赞/api/revisePsd
+            console.log('返回数组长度*************',ret.length);
             if(ret.length===0){
                 // ret=[0];
-                console.log('返回为空*************',ret[0]);
+                if(isfav===1){
+                    console.log('返回为空*************',ret[{page:0}]);
+                }else{
+                    console.log('返回为空*************',ret[{page:1}]);
+                }
                 res.apiSuccess('OK','获取信息成功',ret);
             }else{
                 for(let i=0;i<ret.length;i++){
@@ -875,12 +898,15 @@ router.get('/api/getMessage',(req,res) => {
     let userId = req.query.userId;
     console.log('/api/getMessage   userID:'+userId+"   isAll:"+isAll);
     if(isAll){
-        let sql ='select * from messages where ? order by date desc';
-        dao.select('messages',{userId:userId},(rets)=>{
+        let sql ='select * from messages where ? order by id desc';
+        console.log('sql is :',sql)
+        dao.selectCustom(sql,{userId:userId},(rets)=>{
             res.apiSuccess('OK','success',rets);
+            console.log(rets);
         });
     }else{
         let sql ='select * from messages where status = 0 and ?'
+        console.log('sql is :',sql)
         dao.selectCustom(sql,{userId:userId},(rets)=>{
             res.apiSuccess('OK','success',rets);
         });
@@ -897,15 +923,21 @@ router.post('/api/setRead',(req,res) => {
 //获取全部用户信息；
 router.get('/api/getAllUsers',(req,res) => {
     let token = req.query.token;
+    let page = req.query.page;
+    let start = page*10-10;
     console.log('/api/getAllUsers:'+token)
     jwt.verify(token, superSecret, function(err, decoded) {
       if (err) {
         console.log('token error');
         res.apiSuccess('NO','token错误',{})
       } else {
-        let sql = "select * from users where identy != 2 ";
+        let sql = "select * from users where identy != 2 limit "+start+",10";
         dao.selectCustom(sql,{},(ret) => {
-            res.apiSuccess('OK','success',ret);
+            // res.apiSuccess('OK','success',ret);
+            dao.selectCustom("select * from users where identy != 2",{},(rets) => {
+                ret[0].pages=rets.length
+                res.apiSuccess('OK','success',ret);
+            })
         })
       }
     });
@@ -914,9 +946,19 @@ router.get('/api/getAllUsers',(req,res) => {
 router.get('/api/getTypeuser',(req,res) => {
     let token = req.query.token;
     let data = req.query.data;
+    let page = req.query.page;
+    let limit = page*10-10;
     console.log('/api/getTypeuser:',data)
-    dao.select('users',data,(ret) => {
-        res.apiSuccess('OK','success',ret)
+    dao.selectCustom('select * from users where ?',data,(ret) => {
+        // ret[0].pages = ret.length;
+        dao.selectCustom('select * from users where ? limit '+limit+',10',data,(rets) => {
+            // rets[0].pages = ret.length;
+            let result = {
+                rets,
+                pages:ret.length
+            }
+            res.apiSuccess('OK','success',result);
+        })
     })
 })
 //删除用户
@@ -1059,6 +1101,15 @@ router.post('/api/insertCol',(req,res) => {
       }
     });
 
+})
+router.post('/api/addusers',(req,res)=>{
+    let username = req.body.username;
+    let password = req.body.password;
+    let user_logo = req.body.user_logo;
+    console.log(req.body)
+    dao.Insert('users',req.body,(ret)=>{
+            res.apiSuccess('OK','success');
+    })
 })
 // setTime.setIt();/api/applyDr
 module.exports = router;

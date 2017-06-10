@@ -34,16 +34,16 @@ export default {
         },
         success:(data) => {
           this.msgData = data.data;
+          console.log(this.msgData)
         },
         error:(err) => {
           console.error(err);
         }
       })
-      for(let i=0;i<this.$store.state.message.length;i++){
-        this.setRead(this.$store.state.message[i].id);
-
-        console.log(this.$store.state.message[i].id)
-      }
+      // for(let i=0;i<this.$store.state.message.length;i++){
+      //   this.setRead(this.$store.state.message[i].id);
+      //   console.log(this.$store.state.message[i].id)
+      // }
   },
   methods:{
     setRead(id){

@@ -1,13 +1,13 @@
 <template>
   <div class="card-body wrapper">
 		<!--<button class="ask-btn text-center ztc" @click="open()">{{askBtnText}}</button>-->
-		<el-button class="ask-btn text-center ztc" size="mini" type="primary" @click="open()">{{askBtnText}}</el-button>
-		<div v-if="is_ask === 1">
+		<el-button v-if="!home" class="ask-btn text-center ztc" size="mini" type="primary" @click="open()">{{askBtnText}}</el-button>
+		<div v-if="is_ask === 1 || home">
 			<!--<input-box placeholder="标题" name = 'title'></input-box>-->
 			<el-input v-model="input" placeholder="请输入标题" style="margin-top:.5rem"></el-input>
-			<div style="margin:.3rem 0" v-if="!isDaren">
-				<el-tag type="gray" size="mini">问题类型</el-tag>
-				<el-select v-model="type" clearable placeholder="请选择" size="mini">
+			<div class="que-type" style="margin:.3rem 0;height:1.5rem;line-height:1.5rem" v-if="!isDaren">
+				<el-tag class="float-left" type="gray" size="mini">问题类型</el-tag>
+				<el-select class="float-left" style="margin-left:.5rem" v-model="type" clearable placeholder="请选择" size="mini">
 					<el-option
 					v-for="item in datas"
 					:label="item.title"
@@ -55,7 +55,8 @@ export default {
 			  return false
 		  }
 	  },
-	  darenId:''
+	  darenId:'',
+	  home:false
   },
 	mounted(){
 

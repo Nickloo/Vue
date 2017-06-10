@@ -1,23 +1,27 @@
 <template>
     <div>
-        <el-input placeholder="请输入内容" v-model="searchVal" style="width: 50%;margin:0 0 .1rem 0">
+        <!--<el-input placeholder="请输入内容" v-model="searchVal" style="width: 50%;margin:0 0 .1rem 0">
                 <el-select v-model="searchType" slot="prepend" placeholder="请选择" style="width:6rem">
                     <el-option label="全部" value="all"></el-option>
                     <el-option label="问题标题" value="title"></el-option>
                     <el-option label="问题类型" value="type"></el-option>
                 </el-select>
                 <el-button slot="append" icon="search" @click="search()"></el-button>
-        </el-input>
+        </el-input>-->
         <el-table :data="quesData" style="width: 80%">
             <el-table-column type="expand">
                 <template scope="props">
-                    <el-form label-position="left" class="userMsg-card">
+                    <!--<el-form label-position="left" class="userMsg-card">
                       <el-form-item class="item-style" label="内容">
                             <div class="float-left half">
                                 {{props.row.content}}
                             </div>
                         </el-form-item>
-                    </el-form>
+                    </el-form>-->
+                    <h4>标题</h4>
+                    <p>{{props.row.title}}</p>
+                    <h4>内容</h4>
+                    <p>{{props.row.content}}</p>
                 </template>
             </el-table-column>
             <el-table-column prop="user_id" label="问题ID" width="180">
@@ -28,12 +32,21 @@
             </el-table-column>
             <el-table-column prop="username" label="提问用户" width="180">
             </el-table-column>
+            <el-table-column prop="que_date" label="时间" width="180">
+            </el-table-column>
             <el-table-column label="操作" align="right">
                 <template scope="scope">
                     <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
                 </template>
             </el-table-column>
         </el-table>
+        <div class="block">
+            <el-pagination
+                layout="prev, pager, next"
+                :total="pages"
+                @current-change="handleCurrentChange">
+            </el-pagination>
+        </div>
     </div>
 </template>
 <script>
@@ -50,13 +63,11 @@ export default {
           page:1,
           searchVal:'all',
           searchType:'',
-          searchData:{}
+          searchData:{},
+          pages:0
         }
     },
     methods: {
-      test(){
-        console.log('click test')
-      },
       handleDelete(index,row){
         console.log('删除问题',row.que_id);
         if(confirm('确认删除该问题？')){
@@ -85,11 +96,11 @@ export default {
         
       },
       search(){
-        this.page=1;
-        let data={};
-        data[this.searchType.toString()] = this.searchVal;
-        console.log(data);
-        if(this.searchVal=='all'){
+        // this.page=1;
+        // let data={};
+        // data[this.searchType.toString()] = this.searchVal;
+        // console.log(data);
+        // if(this.searchVal=='all'){
           $.ajax({
             url:'/api/getAllQuestion',
             type:'get',
@@ -101,32 +112,40 @@ export default {
             success: (data) => {
               this.quesData = data.data;
               this.page++;
+              this.pages = data.data[0].data_len;
+              console.log('pages is',this.pages)
               console.log(this.quesData)
             }
           })
-        }else{
-          this.getQue(data);
-        }
+        // }else{
+        //   this.getQue(data);
+        // }
       },
-      getQue(data){
-        $.ajax({
-          url:'/api/getQuestion',
-          type:'get',
-          dataType:'json',
-          data:{
-            data:data,
-            page:this.page,
-            is_admin:true,
-          },
-          success:(data) => {
-            this.quesData = data.data;
-            this.page++;
-            console.log(this.quesData)
-          },
-          error:(err) => {
-            console.error(err);
-          }
-        })
+    //   getQue(data){
+    //     $.ajax({
+    //       url:'/api/getQuestion',
+    //       type:'get',
+    //       dataType:'json',
+    //       data:{
+    //         data:data,
+    //         page:this.page,
+    //         is_admin:true,
+    //       },
+    //       success:(data) => {
+    //         this.quesData = data.data;
+    //         this.page++;
+    //         console.log(this.quesData)
+    //       },
+    //       error:(err) => {
+    //         console.error(err);
+    //       }
+    //     })
+    //   },
+      handleCurrentChange(val){
+        // alert(val)
+        this.page = val;
+        console.log('page is',this.page)
+        this.search();
       }
     },
     mounted(){

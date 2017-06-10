@@ -79,7 +79,7 @@
                             </div>
                         </el-form-item>
                         <el-form-item style="height:6.6rem" label="答人简介" >
-                            <div class="half">
+                            <div class="half"> 
                                 <el-input :rows="4" type="textarea" 
                                 v-model="introduction" :placeholder="props.row.introduction"
                                 :disabled="props.row.identy == 1?false:true"></el-input>
@@ -99,10 +99,17 @@
                 <template scope="scope">
                     <el-button size="small" type="primary" @click="handleSave(scope.$index, scope.row)">保存</el-button>
                     <el-button size="small" type="danger" @click="handleStop(scope.$index, scope.row)">{{scope.row.status?'封停':'解封'}}</el-button>
-                    <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                    <!--<el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>-->
                 </template>
             </el-table-column>
         </el-table>
+        <div class="block">
+            <el-pagination
+                layout="prev, pager, next"
+                :total="pages"
+                @current-change="handleCurrentChange">
+            </el-pagination>
+        </div>
     </div>
 </template>
 <script>
@@ -116,7 +123,7 @@ export default {
         return {
           usersData:[],
           searchVal:'',
-          searchType:'',
+          searchType:'all',
           username:'',
           identy_type:'',
           school:'',
@@ -127,6 +134,8 @@ export default {
           introduction:'',
           options:[],
           column:[],
+          page:1,
+          pages:0
         //   identys:[
         //       {label:'答人',value:'1'}
         //       {label:'答人',value:'1'}
@@ -214,11 +223,13 @@ export default {
                 type:'get',
                 dataType:'json',
                 data:{
-                    token:window.localStorage.Adtoken
+                    token:window.localStorage.Adtoken,
+                    page:this.page
                 },
                 success:(data) => {
                     if(data.status === 'OK'){
                         this.usersData = data.data;
+                        this.pages = data.data[0].pages
                     }else{
                         this.$router.push('/adlogin')
                     }
@@ -228,7 +239,7 @@ export default {
                 }
             });
         },
-        search(){
+        search:function(){
             let data={
             };
             if(this.searchType === 'all'){
@@ -245,12 +256,13 @@ export default {
                     url:'/api/getTypeuser',
                     type:'get',
                     dataType:'json',
-                    data:{token:window.localStorage.Adtoken,data},
+                    data:{token:window.localStorage.Adtoken,data,page:this.page},
                     success:(data) => {
-                        this.usersData = data.data;
+                        this.usersData = data.data.rets;
+                        this.pages = data.data.pages;
                     },
                     error:(err) => {
-                        console.error(err)
+                        console.error(err);
                     }
                 });
             }
@@ -274,16 +286,31 @@ export default {
                     console.log(err)
                 }.bind(this)
             });
-        }
-        
+        },
+        handleCurrentChange(val){
+            this.page = val;
+            this.search();
+        },
+        // window.addEventLis
+        // keydown(){
+        //     window.addEventListener('keydown', function(e){
+        //         if(e.keyCode=='13'){
+        //             search();
+        //             // alert(111)
+        //             // pll();
+        //         }
+        //     });
+        // }
     },
     created(){
         this.getCol();
     },
     mounted(){
         this.getUsers();
+        this.keydown()
+    },
+    updated(){
         
-        // this.getSchool();
     }
 }
 </script>

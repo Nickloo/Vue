@@ -2,6 +2,7 @@
   <header>
     <div class="header ztc wrapper">
       <span class="back" @click="$router.go(-1)" v-if="back">返回</span>
+      <span class="back" @click="askCard()" v-if="ask">提问</span>
       <span>{{title}}</span>
       <span class="ask-dr" v-if="isSearch"><i class="el-icon-search"  @click="gosearch"></i></span>
       <input type="text" class="padding-10" style="height:1.3rem;width:60%;border:0;border-radius: 0.3rem" v-if="isInput" v-model="search_val">
@@ -30,6 +31,11 @@ export default {
         return false
       }
     },
+    ask:{type:Boolean,
+      default(){
+        return false
+      }
+    },
     isSearch:{
       type:Boolean,
       default(){
@@ -45,6 +51,7 @@ export default {
     search:{
       type:Function
     },
+    askCard:{type:Function},
     password:{
       type:Boolean,
       default(){

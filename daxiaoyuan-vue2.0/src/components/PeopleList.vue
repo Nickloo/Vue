@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div v-for="data in datas">
-			<router-link :to="{name:'darenmsg',params:{userId:data.fans_id}}" v-if="data.identy == 1">
+			<router-link :to="{name:'fans_msg',params:{user_id:data.fans_id}}">
 				<div class="padding-20-20 fans-card main">
 					<div class="logo-top">
 						<div class="user-logo">
@@ -14,7 +14,7 @@
 					</div>
 				</div>
 			</router-link>
-			<router-link :to="{name:'setmsg',params:{userId:data.fans_id}}" v-if="data.identy == 0">
+			<!--<router-link :to="{name:'setmsg',params:{userId:data.fans_id}}" v-if="data.identy == 0">
 				<div class="padding-20-20 fans-card main">
 					<div class="logo-top">
 						<div class="user-logo">
@@ -26,7 +26,7 @@
 						{{data.introduction}}
 					</div>
 				</div>
-			</router-link>
+			</router-link>-->
 		</div>
 	</div>
 </template>

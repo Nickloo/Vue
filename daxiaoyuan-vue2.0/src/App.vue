@@ -220,6 +220,16 @@ body{
 .width-25{
   width: 25%
 }
+/*.back-disable{
+  position: absolute;
+  background: black;
+  opacity: 0.5;
+  width:100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}*/
 /*App样式*/
 #app{
   width:100%;
