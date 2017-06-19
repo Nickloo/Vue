@@ -24,7 +24,7 @@
                     <p>{{props.row.content}}</p>
                 </template>
             </el-table-column>
-            <el-table-column prop="user_id" label="问题ID" width="180">
+            <el-table-column prop="que_id" label="问题ID" width="180">
             </el-table-column>
             <el-table-column prop="title" label="问题标题" width="180">
             </el-table-column>

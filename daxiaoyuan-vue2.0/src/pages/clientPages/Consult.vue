@@ -13,7 +13,7 @@
       <ask-me :data="ask_data"></ask-me>
     </div>
     <div class="get-more">
-      <el-button type="primary" :loading="isload" size="mini" class="width-max"  @click="getQue()">
+      <el-button type="primary" :loading="isload" size="mini" class="width-max"  @click="getdata()">
         {{btn_msg}}
       </el-button>
     </div>
@@ -48,9 +48,10 @@ export default {
     // this.index = window.localStorage.consult_sta;
     this.type = this.$route.params.type;
     if(this.index === 1){
+      this.darenDatas=[];
       this.getDarenMsg()
     }else{
-      this.ask_datas=[]
+      this.ask_datas=[];
       this.getQue();
     }
   },
@@ -59,14 +60,24 @@ export default {
   		this.index=id;
       this.page = 1;
       this.ask_datas=[];
+      this.darenDatas=[];
       window.localStorage.consult_sta=id;
       if(this.index === 1){
-        this.getDarenMsg()
+        this.page = 1;
+        this.getDarenMsg();
       }else{
         this.page = 1;
         this.getQue();
       }
   	},
+    getdata(){
+      if(this.index === 1){
+        this.getDarenMsg()
+      }else{
+        // this.page = 1;
+        this.getQue();
+      }
+    },
     getDarenMsg(){
       this.isload = true;
       this.btn_msg = "疯狂加载中";
@@ -76,10 +87,10 @@ export default {
         dataType: 'json',
         crossDomain: true,
         cache: true,
-        data: {type:this.type},
+        data: {type:this.type,page:this.page},
         success: (data) => {
           console.log(data);
-          this.darenDatas = data.data
+          this.darenDatas = this.darenDatas.concat(data.data);
 					console.log('********************')
 					console.log(this.darenDatas);
           if(data.data.length < 5){

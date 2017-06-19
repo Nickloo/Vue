@@ -3,7 +3,7 @@ const express = require('express');
 let options = {
     host: 'localhost',
 	port:'3306',
-	database:'blog',
+	database:'daxiaoyuan',
     user: 'root',
     password: '123456',
 	dateStrings: true 

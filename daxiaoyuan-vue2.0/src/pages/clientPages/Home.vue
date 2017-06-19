@@ -121,21 +121,22 @@ export default {
           isfav:this.isfav
         },
         success:(data) => {
-          this.queDatasNew = this.queDatasNew.concat(data.data);
-          if(data.data.length===0){
+          this.queDatasNew = this.queDatasNew.concat(data.data.ret);
+          console.log('new data is',data.data)
+          if(data.data.ret.length===0){
             this.btn_msg = '没有更多了';
             console.log('没有更多了');
             this.isload = false;
             console.log(data.data)
           }
           //判断收藏用户问答是否浏览结束
-          if(this.isfav&&data.data[0].page===0){
+          if(this.isfav&&data.data.page===0){
             this.page=0;
             this.isfav=0;
             console.log('isfav0');
           }
           this.isload = false;
-          console.log(data.data)
+          console.log(data.data);
         },
         error:(error) => {
           console.error(error.toString());

@@ -1,11 +1,13 @@
 <template>
   <div class="top-bar">
     <nav-header title="系统消息" :back="true"></nav-header>
-    <ul class="main padding-20-20" style="margin-bottom:.1rem" v-for="item in msgData">
-      <li>{{item.message}}</li>
-      <li style="margin-top:.5rem">
-        <time class="float-right">{{item.date}}</time>
-      </li>
+    <ul class="main padding-20-20" :class="{noread:item.status==0}" style="margin-bottom:.1rem" v-for="item in msgData" @click="goQue(item.message,item.que_id)">
+      <!--<router-link :to="{name:'my_quecon',params:{que_id:item.que_id}}">-->
+        <li>{{item.message}}</li>
+        <li style="margin-top:.5rem">
+          <time class="float-right">{{item.date}}</time>
+        </li>
+      <!--</router-link>-->
     </ul>
 
   </div>
@@ -24,6 +26,7 @@ export default {
     }
   },
   mounted(){
+
       $.ajax({
         url:'/api/getMessage',
         type:'get',
@@ -40,10 +43,13 @@ export default {
           console.error(err);
         }
       })
-      // for(let i=0;i<this.$store.state.message.length;i++){
-      //   this.setRead(this.$store.state.message[i].id);
-      //   console.log(this.$store.state.message[i].id)
-      // }
+      if(this.$store.state.message.length){
+        for(let i=0;i<this.$store.state.message.length;i++){
+          this.setRead(this.$store.state.message[i].id);
+          console.log(this.$store.state.message[i].id)
+        }
+      }
+      
   },
   methods:{
     setRead(id){
@@ -61,6 +67,14 @@ export default {
           console.error(err);
         }
       })
+    },
+    goQue(msg,que_id){
+      console.log(msg[2]);
+      if(msg[2]==="回"){
+        this.$router.push({name:'my_quecon',params:{que_id}});
+      }else{
+        this.$router.push({name:'quecon',params:{que_id}});
+      }
     }
   }
 }
@@ -68,5 +82,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.noread{
+  background: #b3d9f6
+}
 </style>

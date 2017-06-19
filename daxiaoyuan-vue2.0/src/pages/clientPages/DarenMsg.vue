@@ -10,7 +10,7 @@
 		<ask-card v-if="userId != darenId" :is-daren="true" :darenId="darenId"></ask-card>
 		<div class="drmsg-tag padding-20">他被确认的回答</div>
 		<div class="daren-que main" v-for="item in ans_data">
-			<que-list :isbot="true" :item="item" ></que-list>
+			<que-list :isbot="false" :item="item" ></que-list>
 		</div>
 		<div class="bom"></div>
 		<div class="fallows text-center ztc" @click="fallow">{{fal_btn}}</div>

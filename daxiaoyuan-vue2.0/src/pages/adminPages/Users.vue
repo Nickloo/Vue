@@ -307,7 +307,7 @@ export default {
     },
     mounted(){
         this.getUsers();
-        this.keydown()
+        // this.keydown()
     },
     updated(){
         

@@ -8,10 +8,11 @@
 							<img class="fullsrc" :src="data.fans_logo" alt="">
 						</div>
 						<span class="fans-name">{{data.fans_name}}</span>
+						<!--<span class="float-right">河北科技</span>-->
 					</div>
-					<div class="profile">
+					<!--<div class="profile">
 						{{data.introduction}}
-					</div>
+					</div>-->
 				</div>
 			</router-link>
 			<!--<router-link :to="{name:'setmsg',params:{userId:data.fans_id}}" v-if="data.identy == 0">

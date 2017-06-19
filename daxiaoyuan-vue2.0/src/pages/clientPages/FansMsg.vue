@@ -25,16 +25,9 @@
       <li>
         <input-box title="邮箱" type="email" title-color="black" name="email" :value="usermsg.email" :readonly="true"></input-box>
       </li>
-      <!--<div style="margin:.5rem 0;font-size:.8rem" v-if="usermsg.identy==1">
-        <span >答人简介</span>
-        <el-input
-          style="padding:.5rem 0"
-          type="textarea"
-          name="introduction"
-          autosize
-          :value="usermsg.introduction">
-        </el-input>
-      </div>-->
+      <textarea id="introduction" rows="8" :value="usermsg.introduction" style="margin:.5rem 0;font-size:.8rem;width:100%" v-if="usermsg.identy==1" readonly="true">
+        <!--{{}}-->
+      </textarea>
     </ul>
   </form>
   <!--<div class="submit text-center ztc" @click="update()">保存并返回</div>-->
@@ -59,6 +52,8 @@ export default {
     }
   },
   mounted(){
+    // var box= document.getElementById("introduction"); 
+    // box.posHeight=box.scrollHeight;
     $.ajax({
       url:'/api/getUser',
       type:'get',
