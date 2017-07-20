@@ -49,7 +49,7 @@ export default {
 		    slidesPerView:1,
 		    autoplay: 3000,
 		    pagination: '.swiper-pagination',
-	})
+		})
   }
 }
 </script>

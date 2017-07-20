@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="./public/vue.js"></script>
+    <title>watcher</title>
+</head>
+<body>
+    <div id="root">
+        <h4>watch</h4>
+        <div>{{watchData}}</div>
+        <button @click="handldClick">watch测试</button>
+
+    </div>
+    <script>
+        var vm = new Vue({
+            el:'#root',
+            data:{
+                watchData:'firstVal'
+            },
+            computed:{
+                reversedMessage:function() {
+                    return this.watchData.split('').reverse().join('');
+                }
+            },
+            methods:{
+                handldClick(){
+                    this.watchData = 'lastVal'
+                }
+            },
+            watch:{
+                watchData:function(){
+                    console.log('watchData 被改变为：',this.watchData);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
