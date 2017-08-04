@@ -24,7 +24,7 @@
         <h3>计算属性</h3>
         <div>{{reversedMessage}}</div>
         <h3>methods</h3>
-        <div>{{reversedMessage}}</div>
+        <div>{{reversedMessageMethods()}}</div>
     </div>
     <script>
         var vm = new Vue({
@@ -49,7 +49,7 @@
                 }
             },
             methods:{
-                reversedMessageMethods(){
+                reversedMessageMethods:function(){
                     return this.title.split('').reverse().join('');
                 }
             }

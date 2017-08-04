@@ -10,7 +10,7 @@
 <body>
     <div id="root">
         <h4>组件</h4>
-        <my-component message="今天是个好天气"></my-component>
+        <my-component :message="aaa"></my-component>
         <h4>动态prop</h4>
         <input type="text" v-model="parentMsg">
         <div><span>parent dom</span>{{parentMsg}}</div>
@@ -22,12 +22,21 @@
         //首先对组件进行注册
         Vue.component('my-component',{
             template:'<span>{{message||childMsg}}</span>',
-            props:['childMsg','message']
+            props:{
+                childMsg:'',
+                message:''
+            },
+            data(){
+                return{
+                    
+                }
+            }
         });
         var vm = new Vue({
             el:'#root',
             data:{
-                parentMsg:''
+                parentMsg:'',
+                aaa:'456'
             }
         })
     </script>

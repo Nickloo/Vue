@@ -26,7 +26,6 @@ export default {
     }
   },
   mounted(){
-
       $.ajax({
         url:'/api/getMessage',
         type:'get',

@@ -29,11 +29,11 @@ export default {
   data () {
     return {
 		fal_btn:'关注',
-    msg: 'Welcome to Your Vue.js App',
+    	msg: 'Welcome to Your Vue.js App',
 		daren_name:'',
 		introduction:'',
 		user_logo:'',
-    datas:[],
+    	datas:[],
 		ans_data:[],
 		darenId:'',
 		userId:''
