@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "start": "node server/server.js"
   },
   "dependencies": {
     "element-ui": "^1.2.8",

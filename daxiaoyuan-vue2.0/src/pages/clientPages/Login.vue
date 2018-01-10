@@ -13,6 +13,9 @@
 	    <div class="float-left" style="width:50%">
 	    	<div class="div-center button ztc" @click="login">登陆</div>
 	    </div>
+      <div class="float-left" style="width:50%">
+        <div class="div-center button ztc" @click="test">test</div>
+      </div>
     </div>
   </div>
 </template>
@@ -47,6 +50,22 @@ export default {
   	register(){
   		this.$router.push('/register')
   	},
+    test(){
+      $.ajax({
+        url:'/api/testJson',
+        type:'post',
+        data:{
+          data:{
+            base:{
+              username:'nickname'
+            },
+            class:{
+              name:'123'
+            }
+          }
+        }
+      })
+    },
     login() {
         let user_name = $("input[name='user_name']").val();
         let password = $("input[name='password']").val();

@@ -1258,5 +1258,11 @@ router.post('/api/addusers',(req,res)=>{
             res.apiSuccess('OK','success');
     })
 })
+router.post('/api/testJson',(req,res)=>{
+    let data = req.body.data;
+    console.log('data is:\n')
+    console.log(data);
+    res.send(data);
+})
 // setTime.setIt();/api/applyDr
 module.exports = router;

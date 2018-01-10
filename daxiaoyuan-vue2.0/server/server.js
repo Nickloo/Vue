@@ -29,7 +29,7 @@ app.use(express.static(path.resolve(__dirname, '../dist')));
 app.use(express.static(path.join(__dirname, '../dist')));
 // 因为是单页应用 所有请求都走/dist/index.html
 app.get('*', function(req, res) {
-    const html = fs.readFileSync(path.resolve(__dirname, '../dist/TenHtml.html'), 'utf-8');
+    const html = fs.readFileSync(path.resolve(__dirname, '../dist/echarts-master/index.html'), 'utf-8');
     res.send(html);
 });
 let PORT = process.env.PORT || 8088;
